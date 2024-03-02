@@ -1,0 +1,26 @@
+@import "../../styles.scss";
+
+.card {
+    font-size: large;
+    height: 70px;
+    box-shadow: 0 0 10px 2px $dark-grey;
+    border-radius: 25px;
+    font-size: medium;
+}
+
+mat-divider {
+    height:100%;
+    border-color: $dark-grey !important;
+}
+
+.side-icon {
+    transform: rotate(22.5deg) scale(0.9);
+}
+
+.learn-button-label {
+    color: $primary-color
+}
+
+.learn-button {
+    height: 100%;
+}

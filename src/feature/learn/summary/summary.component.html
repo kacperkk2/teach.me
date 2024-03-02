@@ -1,0 +1,44 @@
+<div class="wrapper">
+    <div fxLayout="column" fxFlexFill fxLayoutGap="15px">
+
+        <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center">
+            <div fxFlexFill fxFlex="50" fxLayout="row" fxLayoutAlign="center center">
+                <mat-icon fxFlex="10" (click)="abort()"> close </mat-icon>
+                <div fxFlex="80"></div>
+            </div>
+            <div fxFlex="50" class="large-font" fxLayout="column" fxLayoutAlign="start center">
+                <span> Po {{ summaries[summaries.length - 1].roundNum }} rundach </span>
+                <span class="main-percent"> {{ 100*(summaries[summaries.length - 1].correctFromBeggining.length / allCardsNum) }}% </span>
+            </div>
+        </div>
+
+    <!-- todo: tutaj mozna dac komponenty i w zaleznosci jaki tryb nauki, ten wyswietlac, one by braly przez inputy
+    tylko biezaca karte ktora trzeba pokazac
+    -->
+        <div fxFlex="65" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <ng-container *ngFor="let roundSummary of summaries; let i = index">
+                <div class="card" fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex="25" fxLayoutAlign="center center">
+                        <span class="text-light-grey"> Runda {{ roundSummary.roundNum }} </span>
+                    </div>
+                    <div fxFlex="50">
+                        <mat-progress-bar mode="determinate" [value]="100*(roundSummary.correctFromBeggining.length / allCardsNum)"></mat-progress-bar>
+                    </div>
+                    <div fxFlex="25" fxLayoutAlign="center center">
+                        <span class="text-light-grey"> {{ roundSummary.correctFromBeggining.length }} / {{ allCardsNum }} </span>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+        <div fxFlex="15" fxLayoutAlign="center center">
+            <div fxFlex="90" *ngIf="summaries[summaries.length-1].wrongInRound.length > 0" fxLayout="row" fxLayoutAlign="center center">
+                <button mat-flat-button (click)="endSummary()"> Dalej </button>
+            </div>
+            <div fxFlex="90" *ngIf="summaries[summaries.length-1].wrongInRound.length == 0" fxLayout="row" fxLayoutAlign="center center">
+                <button mat-flat-button (click)="abort()"> Zakończ </button>
+            </div>
+        </div>
+    </div>
+
+</div>

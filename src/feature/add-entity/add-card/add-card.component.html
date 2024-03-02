@@ -1,0 +1,46 @@
+<app-add-header [title]="headerTitle"></app-add-header>
+    
+<button mat-stroked-button (click)="toggleMode()"> Zmień tryb </button>
+
+<div *ngIf="mode == AddMode.CARD">
+    <form [formGroup]="addCardsForm">
+        <!-- <mat-form-field style="width: 100%;">
+            <input matInput #input formControlName="name" autocomplete="off">
+            <button *ngIf="input.value" matSuffix mat-icon-button (click)="clear()">
+                <mat-icon>close</mat-icon>
+              </button>
+            <mat-hint align="end"> {{ input.value.length }}/{{ maxLength }} </mat-hint>
+        </mat-form-field> -->
+    
+        <ng-container formArrayName="cards">
+            <ng-container *ngFor="let cardForm of cardsFormArray.controls; let i = index">
+                <div [formGroupName]="i">
+                    <mat-form-field appearance="fill">
+                        <input matInput formControlName="question">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <input matInput formControlName="answer">
+                    </mat-form-field>
+                    <mat-icon *ngIf="cardsFormArray.controls.length > 1"
+                        class="delete-btn" (click)="deleteCard(i)"> delete_forever </mat-icon>
+                </div>
+            </ng-container>
+    
+            <button mat-mini-fab (click)="addEmptyCard()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </ng-container>
+    </form>
+    
+    <button mat-stroked-button color="primary" [disabled]="!addCardsForm.valid" (click)="save()"> Stwórz </button>
+</div>
+
+<div *ngIf="mode == AddMode.BULK">
+    <form [formGroup]="addCardsBulkForm">    
+        <mat-form-field class="bulk-area">
+            <textarea matInput rows="20" formControlName="cards"></textarea>
+        </mat-form-field>
+    </form>
+    
+    <button mat-stroked-button color="primary" [disabled]="!addCardsBulkForm.valid" (click)="toggleMode()"> Konwertuj na karty </button>
+</div>

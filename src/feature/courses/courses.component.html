@@ -1,0 +1,14 @@
+<app-courses-header></app-courses-header>
+
+<mat-list #coursesList>
+    <!-- <div *ngIf="(courses | async).length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div> -->
+    <div *ngFor="let course of courses$ | async; let lastItem = last;">
+        <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="['/courses', course.id, 'lessons']">
+            <div> {{ course.name }} </div>
+        </mat-card>
+        <!-- <mat-divider *ngIf="!lastItem" class="divider"></mat-divider> -->
+    </div>
+
+</mat-list>
+
+<app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>

@@ -1,0 +1,18 @@
+<div class="card" fxLayout="row" fxLayoutAlign="end center">
+    <div fxFlex="13" fxLayoutAlign="center center">
+        <mat-icon class="side-icon text-light-grey"> {{ icon }} </mat-icon>
+    </div>
+    <div fxFlex="60" fxLayoutAlign="start center">
+        <span class="category"> {{ label }} </span>
+    </div>
+    <mat-divider vertical></mat-divider>
+
+
+
+    <button fxFlex="25" mat-button (click)="emitActionClicked()"> Poprawnie </button>
+
+
+    <!-- <div fxFlex="25" class="learn-button" fxLayoutAlign="center center" (click)="emitActionClicked()">
+        <span class="learn-button-label"> {{ buttonLabel }} </span>
+    </div> -->
+</div>

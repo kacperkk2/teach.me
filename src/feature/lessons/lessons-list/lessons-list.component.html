@@ -1,0 +1,9 @@
+<mat-list #lessonsList>
+    <!-- <div *ngIf="(courses | async).length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div> -->
+    <div *ngFor="let lesson of lessons$ | async; let lastItem = last;">
+        <mat-card fxLayout="column" fxLayoutAlign="center center" [routerLink]="[lesson.id, 'cards']">
+            <div> {{ lesson.name }} </div>
+        </mat-card>
+        <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
+    </div>
+</mat-list>

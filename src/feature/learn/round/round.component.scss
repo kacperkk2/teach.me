@@ -1,0 +1,36 @@
+
+@import "../../../styles.scss";
+
+.wrapper {
+    height: 100vh; 
+}
+
+mat-progress-bar {
+    transform: scaleY(1.2);
+}
+
+.card {
+    font-size: large;
+    width: 90%;
+    box-shadow: 0 0 10px 2px $dark-grey;
+    border-radius: 25px;
+}
+
+button {
+    width: 100% !important;
+    height: 50px;
+    border-radius: 25px !important;
+}
+
+.turn-card-icon {
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.status-holder {
+    margin-bottom: 10px;
+}
+
+.success {
+    background-color: $success;
+}

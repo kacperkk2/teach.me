@@ -1,0 +1,6 @@
+<button class="add-button" mat-fab color="primary" [routerLink]="[redirectTo]" fxLayout="column" fxLayoutAlign="center center">
+    <div>
+        <mat-icon [ngClass]="label ? 'lower' : ''"> add </mat-icon>
+        <div> {{ label | titlecase }} </div>
+    </div>
+</button>

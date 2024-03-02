@@ -1,0 +1,11 @@
+<app-lessons-header></app-lessons-header>
+
+<mat-tab-group dynamicHeight>
+    <mat-tab [label]="teachTabLabel | titlecase"> 
+    </mat-tab>
+    <mat-tab [label]="lessonsTabLabel | titlecase"> 
+        <app-lessons-list></app-lessons-list>
+    </mat-tab>
+</mat-tab-group>
+
+<app-add-round-button redirectTo="new" [label]="lessonLabel"></app-add-round-button>

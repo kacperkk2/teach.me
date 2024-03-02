@@ -1,0 +1,42 @@
+<div class="wrapper">
+    <div fxLayout="column" fxFlexFill fxLayoutGap="15px">
+
+        <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+            <mat-icon fxFlex="10" (click)="abortRound()"> close </mat-icon>
+            <div fxFlex="80" fxLayout="column">
+                <div class="status-holder" fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="text-light-grey"> {{ title }} </span>
+                    <span class="text-light-grey"> {{ index }} / {{ cards.length }} </span>
+                </div>
+                <mat-progress-bar mode="determinate" [value]="100*((index-1)/cards.length)"></mat-progress-bar>
+                <!-- todo zmienic na customowy 2 kolorowy bar -->
+            </div>
+        </div>
+
+    <!-- todo: tutaj mozna dac komponenty i w zaleznosci jaki tryb nauki, ten wyswietlac, one by braly przez inputy
+    tylko biezaca karte ktora trzeba pokazac
+    -->
+        <div fxFlex="75" fxLayout="column" fxLayoutAlign="center center">
+            <div fxFlex="100" class="card" fxLayout="column" fxLayoutAlign="center center">
+                <div fxFlex="90" fxLayoutAlign="center center">
+                    <div *ngIf="cardState == CardState.QUESTION"> {{ cards[index-1].question }} </div>
+                    <div *ngIf="cardState == CardState.ANSWER"> {{ cards[index-1].answer }} </div>
+                </div>
+                <div fxFlexFill fxFlex="10" class="turn-card-icon" fxLayoutAlign="end end">
+                    <mat-icon *ngIf="answerState == AnswerState.AFTER_SHOW" (click)="toggleCardSide()"> reply </mat-icon>
+                </div>
+            </div>
+        </div>
+
+        <div fxFlex="15" fxLayoutAlign="center center">
+            <div fxFlex="90" *ngIf="answerState == AnswerState.BEFORE_SHOW" fxLayout="row" fxLayoutAlign="center center">
+                <button mat-flat-button color="primary" (click)="showAnswer()"> Pokaż odpowiedź </button>
+            </div>
+            <div fxFlex="90" *ngIf="answerState == AnswerState.AFTER_SHOW" fxLayout="row" fxLayoutAlign="space-between center">
+                <button fxFlex="48" mat-flat-button (click)="wrongAnswer()"> Błędnie </button>
+                <button class="success" fxFlex="48" mat-button (click)="correctAnswer()"> Poprawnie </button>
+            </div>
+        </div>
+    </div>
+
+</div>

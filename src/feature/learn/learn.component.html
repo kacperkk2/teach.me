@@ -1,0 +1,7 @@
+
+<div *ngIf="gameState == GameState.ROUND">
+    <app-round [cards]="cardsLeft" [title]="label" (roundSummary)="endRound($any($event))"></app-round>
+</div>
+<div *ngIf="gameState == GameState.SUMMARY">
+    <app-summary [summaries]="fullRoundsSummaries" [allCardsNum]="cards.length" (action)="endSummary($any($event))"></app-summary>
+</div>

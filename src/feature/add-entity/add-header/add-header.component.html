@@ -1,0 +1,20 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-icon class="back" (click)="close()"> close </mat-icon>
+        <span> {{ title | uppercase }} </span>
+    </div>
+
+    <div>
+        <button mat-icon-button [matMenuTriggerFor]="lessonsMenu">
+            <mat-icon> more_vert </mat-icon>
+        </button>
+
+        <mat-menu #lessonsMenu="matMenu" xPosition="before">
+            <button mat-menu-item>
+                <span> kurs opcja </span>
+            </button>
+        </mat-menu>
+
+    </div>
+</mat-toolbar>

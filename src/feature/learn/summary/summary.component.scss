@@ -1,0 +1,28 @@
+@import "../../../styles.scss";
+
+.wrapper {
+    height: 100vh; 
+}
+
+button {
+    width: 100% !important;
+    height: 50px;
+    border-radius: 25px !important;
+}
+
+.card {
+    font-size: large;
+    height: 40px;
+    width: 90%;
+    box-shadow: 0 0 10px 2px $dark-grey;
+    border-radius: 25px;
+    font-size: medium;
+}
+
+.large-font {
+    font-size: x-large;
+}
+
+.main-percent {
+    color: $primary-color
+}

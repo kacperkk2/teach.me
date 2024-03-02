@@ -1,0 +1,84 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Available color palettes: https://material.io/design/color/
+$teachme-primary: mat.define-palette(mat.$purple-palette, 200);
+$teachme-accent: mat.define-palette(mat.$teal-palette, 200);
+$teachme-warn: mat.define-palette(mat.$red-palette, 300);
+$teachme-success: mat.define-palette(mat.$green-palette, 300);
+
+$teachme-theme: mat.define-dark-theme((
+  color: (
+    primary: $teachme-primary,
+    accent: $teachme-accent,
+    warn: $teachme-warn
+  )
+));
+
+@include mat.all-component-themes($teachme-theme);
+// @include header.theme($teachme-theme);
+
+$light-grey: #C0C0C0;
+$dark-grey: #202020;
+$success: map-get($teachme-success, 800);
+$primary-color: map-get($teachme-primary, 200);
+
+
+html, body { 
+  height: 100%; 
+}
+
+body { 
+  margin: 0; 
+  font-family: Lato, sans-serif;
+}
+
+.main-screen {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+mat-list {
+  height: calc(100dvh - 130px);
+  overflow: auto;
+}
+
+// mat-list::after {
+//   display: block;
+//   content: "";
+//   position: absolute;
+//   width: 100%;
+//   margin: 0 auto;
+//   height: 12px;
+//   border: 0;
+//   box-shadow: inset 0 -22px 22px -22px rgba(0,0,0,0.5);
+//   bottom: -2px;
+// }
+
+mat-card {
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.add-button {
+  position: absolute !important;
+  top: calc(100dvh - 80px) !important;
+  right: 10px !important;
+  z-index: 1 !important;
+}
+
+.back {
+  margin-right: 25px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-light-grey {
+  color: $light-grey;
+}
