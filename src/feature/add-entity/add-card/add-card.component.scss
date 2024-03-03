@@ -1,3 +1,80 @@
+@import "../../../styles.scss";
+
+.wrapper {
+    height: 100vh; 
+}
+
+.bottom-button {
+    width: 100% !important;
+    height: 50px;
+    border-radius: 25px !important;
+}
+
 .bulk-area {
+    height: 100%;
+    overflow: auto;
+}
+
+mat-form-field {
+    // todo naprawic zeby tekst i guzik byl wycentrowany pionowo wzgl form fielda
+    height: 60px;
     width: 100%;
+}
+
+.mat-input-element {
+    position: relative;
+    top:  -0.3em;
+  }
+
+.form-field-holder {
+    width: 90%;
+}
+
+.summary-holder {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+mat-label {
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.card {
+    box-shadow: 0 0 10px 2px $dark-grey;
+    border-radius: 25px;
+    font-size: medium;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.main-list {
+    height: calc(100vh - 50px - 150px - 5px);
+    overflow: auto;
+}
+
+.add-card-button {
+    margin-bottom: 30px
+}
+
+.delete-card-icon {
+    margin-right: 20px;
+}
+
+.mode-right {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.mode-left {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.active-mode {
+    color: $primary-color;
 }

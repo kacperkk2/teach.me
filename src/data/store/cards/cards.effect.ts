@@ -3,8 +3,8 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { Observable, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
-import { updateLessonWithCardsIds } from "../lessons/lessons.action";
-import { addCards, loadCardsState, removeCards } from "./cards.action";
+import { removeCardIdFromLesson, updateLessonWithCardsIds } from "../lessons/lessons.action";
+import { addCards, loadCardsState, removeCard, removeCards, updateCard } from "./cards.action";
 import { IdGeneratorService } from "../../../services/id-generator/id-generator.service";
 import { selectCardsList } from "./cards.selector";
 import { saveAppState } from "../app/app.action";
@@ -38,10 +38,17 @@ export class CardsEffects {
         )
     )
 
-    removeCards$: Observable<Action> = createEffect(() =>
+    saveAppState$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
-            ofType(removeCards),
+            ofType(removeCards, updateCard),
             switchMap(() => of(saveAppState()))
+        )
+    );
+
+    removeCard$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(removeCard),
+            switchMap((payload) => of(removeCardIdFromLesson({cardId: payload.cardId, lesson: payload.lesson})))
         )
     );
 }

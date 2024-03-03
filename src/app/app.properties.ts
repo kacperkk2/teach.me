@@ -4,6 +4,10 @@ export const CONFIG = {
         nameMaxLength: 40
     },
 
+    LESSONS: {
+        nameMaxLength: 40
+    },
+
     CARDS: {
         phraseMaxLength: 20,
 
@@ -22,11 +26,24 @@ export const CONFIG = {
         addLesson: 'nowa lekcja',
         addCards: 'nowe karty',
 
+        editCard: 'edytuj kartę',
+        editLesson: 'edytuj lekcję',
+        editCourse: 'edytuj kurs',
+
+        question: 'pytanie',
+        answer: 'odpowiedź',
+        lessonName: 'nazwa lekcji',
+        courseName: 'nazwa kursu',
+
         removeCourse: 'usuń kurs',
         removeLesson: 'usuń lekcję',
 
         teachTab: 'nauka',
         lessonsTab: 'lekcje',
         cardsTab: 'karty',
+
+        deleteCardConfirmation: 'Czy na pewno chcesz usunąć kartę?',
+        deleteLessonConfirmation: 'Czy na pewno chcesz usunąć lekcję?',
+        deleteCourseConfirmation: 'Czy na pewno chcesz usunąć kurs?',
     }
 }

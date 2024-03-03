@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { Course } from '../../data/model/course';
 import { selectCourse } from '../../data/store/courses/courses.selector';
 import { CONFIG } from '../../app/app.properties';
+import { Lesson } from '../../data/model/lesson';
+import { selectLessonsByCourseId } from '../../data/store/lessons/lessons.selector';
 
 @Component({
   selector: 'app-lessons',
@@ -14,14 +16,16 @@ import { CONFIG } from '../../app/app.properties';
 export class LessonsComponent implements OnInit {
 
   course$: Observable<Course>;
+  lessons$: Observable<Lesson[]>;
 
   constructor(private route: ActivatedRoute, private store: Store) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const courseId = params['courseId']
+      const courseId = params['courseId'];
       this.course$ = this.store.select(selectCourse(courseId));
+      this.lessons$ = this.store.select(selectLessonsByCourseId(courseId));
    });
   }
 

@@ -1,7 +1,9 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { AppFeatureState } from "..";
 import { CardsState } from "./cards.state";
-import { selectLesson } from "../lessons/lessons.selector";
+import { selectLesson, selectLessonsByIds } from "../lessons/lessons.selector";
+import { selectCourse } from "../courses/courses.selector";
+import { Card } from "../../model/card";
 
 const stateSelector = createFeatureSelector<AppFeatureState>('appFeatureKey');
 export const selectCardsState = createSelector(
@@ -33,4 +35,16 @@ export const selectCardsByLessonId = (id: number) => createSelector(
     selectLesson(id),
     selectCards,
     (lesson, cards) => lesson.cardIds.map(id => cards[id])
+);
+
+export const selectCardsByLessonIds = (ids: number[]) => createSelector(
+    selectLessonsByIds(ids),
+    selectCards,
+    (lessons, cards) => {
+        let allCards: Card[] = [];
+        lessons.forEach(lesson => {
+            allCards = [...allCards, ...lesson.cardIds.map(id => cards[id])]
+        })
+        return allCards;
+    }
 );

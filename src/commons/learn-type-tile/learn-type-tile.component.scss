@@ -17,10 +17,8 @@ mat-divider {
     transform: rotate(22.5deg) scale(0.9);
 }
 
-.learn-button-label {
-    color: $primary-color
-}
-
-.learn-button {
+button {
     height: 100%;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
 }

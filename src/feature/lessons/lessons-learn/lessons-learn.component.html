@@ -1,0 +1,32 @@
+
+<div fxLayout="row" fxLayoutAlign="center center">
+    <div class="learn-header" fxFlex="60" fxLayout="column">
+        <span class="section-name"> {{ course.name }} </span>
+    </div>
+</div>
+
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div class="learn-types" fxLayoutGap="20px">
+        <app-learn-type-tile 
+            label="Wszystkie po kolei" 
+            icon="redo"
+            buttonLabel="Ucz się"
+            (actionClicked)="startAllInOrderGame()">
+        </app-learn-type-tile>
+
+        <app-learn-type-tile 
+            label="Wszystkie losowo" 
+            icon="casino"
+            buttonLabel="Ucz się"
+            (actionClicked)="startAllRandomGame()">
+        </app-learn-type-tile>
+
+        <app-learn-type-tile 
+            label="Błędne poprzednim razem" 
+            icon="repeat"
+            buttonLabel="Ucz się"
+            [buttonDisabled]="true"
+            (actionClicked)="startPreviouslyFailedGame()">
+        </app-learn-type-tile>
+    </div>
+</div>

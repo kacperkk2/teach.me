@@ -1,0 +1,25 @@
+<div class="wrapper" fxLayout="column">
+
+    <app-edit-header [title]="headerTitle" (actionClicked)="removeLesson()"></app-edit-header>
+
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
+        <div fxFlex="100" style="width: 90%;" fxLayout="column">
+        
+            <form fxFlex="85" [formGroup]="editLessonForm">    
+                <mat-label> {{ nameLabel | titlecase }} </mat-label> 
+                <mat-form-field>
+                    <input matInput #name formControlName="name" autocomplete="off">
+                    <button *ngIf="name.value" matSuffix mat-icon-button (click)="clearName()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-hint align="end"> {{ name.value.length }}/{{ maxLength }} </mat-hint>
+                </mat-form-field>
+            </form>
+
+            <div fxFlex="15" fxLayoutAlign="center center">
+                <button mat-flat-button color="primary" [disabled]="!editLessonForm.valid" (click)="saveLesson()"> Zapisz </button>
+            </div>
+
+        </div>
+    </div>
+</div>

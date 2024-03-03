@@ -7,6 +7,7 @@ import { selectCards, selectCardsByIds, selectCardsByLessonId, selectCardsList }
 import { Lesson } from '../../../data/model/lesson';
 import { Course } from '../../../data/model/course';
 import { LearnDataProviderService } from '../../../services/learn-data-provider/learn-data-provider.service';
+import { shuffle } from '../../../commons/utils';
 
 @Component({
   selector: 'app-cards-learn',
@@ -41,13 +42,3 @@ export class CardsLearnComponent implements OnInit {
     console.log("previously failed started")
   }
 }
-
-export function shuffle<T>(array: T[]): T[] {
-  let currentIndex = array.length;
-  while (currentIndex != 0) {
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-  }
-  return array;
-};

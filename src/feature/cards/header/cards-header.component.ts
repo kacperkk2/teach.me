@@ -1,14 +1,15 @@
 import { Location } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
-import { MatMenu } from '@angular/material/menu';
-import { CONFIG } from '../../../app/app.properties';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { removeLesson, removeLessons } from '../../../data/store/lessons/lessons.action';
-import { selectLesson } from '../../../data/store/lessons/lessons.selector';
+import { CONFIG } from '../../../app/app.properties';
+import { Course } from '../../../data/model/course';
 import { Lesson } from '../../../data/model/lesson';
 import { selectCourse } from '../../../data/store/courses/courses.selector';
-import { Course } from '../../../data/model/course';
+import { removeLesson } from '../../../data/store/lessons/lessons.action';
+import { selectLesson } from '../../../data/store/lessons/lessons.selector';
+import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cards-header',
@@ -19,8 +20,9 @@ export class CardsHeaderComponent {
   lesson: Lesson;
   course: Course;
 
+  // todo zrobic dumb component z tego, menu klikniecia zwracane jako akcje wyzej
   constructor(private location: Location, private router: Router, 
-    private route: ActivatedRoute, private store: Store) {
+    private route: ActivatedRoute, private store: Store, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -41,11 +43,21 @@ export class CardsHeaderComponent {
   }
 
   removeLessonClicked() {
-    this.store.dispatch(removeLesson({lesson: this.lesson, cardIds: this.lesson.cardIds, course: this.course}));
-    this.location.back();
-    // todo confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {data: this.deleteLessonText, width: '90%', maxWidth: '600px', autoFocus: false});
+    dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.store.dispatch(removeLesson({lesson: this.lesson, cardIds: this.lesson.cardIds, course: this.course}));
+          this.location.back();
+        }
+    });
+  }
+
+  editLessonClicked() {
+    this.router.navigate(['/courses', this.course.id, 'lessons', this.lesson.id]);
   }
   
   title: string = CONFIG.LABELS.lesson;
   removeLessonLabel: string = CONFIG.LABELS.removeLesson;
+  editLessonLabel: string = CONFIG.LABELS.editLesson;
+  deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
 }

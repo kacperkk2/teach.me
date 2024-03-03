@@ -47,6 +47,13 @@ import { SummaryComponent } from '../feature/learn/summary/summary.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AddRoundButtonComponent } from '../commons/add-round-button/add-round-button.component';
 import { LearnTypeTileComponent } from '../commons/learn-type-tile/learn-type-tile.component';
+import { ConfirmDialog } from '../commons/confirm-dialog/confirm-dialog';
+import { ConfirmDeleteDialog } from '../commons/confirm-delete-dialog/confirm-delete-dialog';
+import { EditHeaderComponent } from '../feature/edit-entity/edit-header/edit-header.component';
+import { EditCardComponent } from '../feature/edit-entity/edit-card/edit-card.component';
+import { EditLessonComponent } from '../feature/edit-entity/edit-lesson/edit-lesson.component';
+import { LessonsLearnComponent } from '../feature/lessons/lessons-learn/lessons-learn.component';
+import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-course.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +75,14 @@ import { LearnTypeTileComponent } from '../commons/learn-type-tile/learn-type-ti
     RoundComponent,
     SummaryComponent,
     AddRoundButtonComponent,
-    LearnTypeTileComponent
+    LearnTypeTileComponent,
+    EditCardComponent,
+    EditHeaderComponent,
+    ConfirmDialog,
+    ConfirmDeleteDialog,
+    EditLessonComponent,
+    LessonsLearnComponent,
+    EditCourseComponent,
   ],
   imports: [
     BrowserModule,

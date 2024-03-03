@@ -22,7 +22,6 @@ export class AddCardComponent implements OnInit {
   lesson: Lesson;
   mode: AddMode = AddMode.CARD;
   AddMode = AddMode;
-  maxLength: number = CONFIG.CARDS.phraseMaxLength;
   separator: string = CONFIG.CARDS.ADD_CARD.questionAnswerSeparator;
   separatorWithSpaces: string = ' ' + this.separator + ' ';
 
@@ -55,7 +54,10 @@ export class AddCardComponent implements OnInit {
     });
   }
 
-  toggleMode() {
+  toggleMode(targetMode: AddMode) {
+    if (targetMode == this.mode) {
+      return;
+    }
     if (this.mode == AddMode.CARD) {
       this.switchToBulkMode();
     }
@@ -147,6 +149,10 @@ export class AddCardComponent implements OnInit {
   }
 
   headerTitle: string = CONFIG.LABELS.addCards;
+  maxLength: number = CONFIG.CARDS.phraseMaxLength;
+  questionLabel: string = CONFIG.LABELS.question;
+  answerLabel: string = CONFIG.LABELS.answer;
+  cardsLabel: string = CONFIG.LABELS.cards;
 }
 
 export enum AddMode {

@@ -1,10 +1,11 @@
 <app-lessons-header></app-lessons-header>
 
 <mat-tab-group dynamicHeight>
-    <mat-tab [label]="teachTabLabel | titlecase"> 
+    <mat-tab [label]="teachTabLabel | titlecase">  
+        <app-lessons-learn [course]="(course$ | async)!"></app-lessons-learn>
     </mat-tab>
-    <mat-tab [label]="lessonsTabLabel | titlecase"> 
-        <app-lessons-list></app-lessons-list>
+    <mat-tab [label]="(lessonsTabLabel | titlecase) + ' (' + (lessons$ | async)?.length + ')'"> 
+        <app-lessons-list [lessons]="(lessons$ | async)!"></app-lessons-list>
     </mat-tab>
 </mat-tab-group>
 

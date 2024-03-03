@@ -1,0 +1,7 @@
+
+<h2 mat-dialog-title fxLayout="row" fxLayoutAlign="center center"> {{ text }} </h2>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-evenly center">
+    <button fxFlex="30" mat-stroked-button [mat-dialog-close]="false"> Anuluj </button>
+    <button fxFlex="30" mat-flat-button color="warn" [mat-dialog-close]="true"> Usuń </button>
+</mat-dialog-actions>

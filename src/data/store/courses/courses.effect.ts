@@ -5,7 +5,7 @@ import { Observable, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { IdGeneratorService } from "../../../services/id-generator/id-generator.service";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
 import { saveAppState } from "../app/app.action";
-import { addCourse, loadCoursesState, removeCourse, updateCourseWithLessonId } from "../courses/courses.action";
+import { addCourse, loadCoursesState, removeCourse, updateCourse, updateCourseWithLessonId } from "../courses/courses.action";
 import { removeLessons } from "../lessons/lessons.action";
 import { selectLessonsByIds } from "../lessons/lessons.selector";
 import { selectCoursesList } from "./courses.selector";
@@ -31,9 +31,9 @@ export class CoursesEffects {
         { dispatch: false }
     )
     
-    addOrUpdateCourse$: Observable<Action> = createEffect(() =>
+    saveAppState$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
-            ofType(addCourse, updateCourseWithLessonId),
+            ofType(addCourse, updateCourseWithLessonId, updateCourse),
             switchMap(() => of(saveAppState()))
         )
     )

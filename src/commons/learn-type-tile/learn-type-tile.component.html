@@ -6,13 +6,5 @@
         <span class="category"> {{ label }} </span>
     </div>
     <mat-divider vertical></mat-divider>
-
-
-
-    <button fxFlex="25" mat-button (click)="emitActionClicked()"> Poprawnie </button>
-
-
-    <!-- <div fxFlex="25" class="learn-button" fxLayoutAlign="center center" (click)="emitActionClicked()">
-        <span class="learn-button-label"> {{ buttonLabel }} </span>
-    </div> -->
+    <button fxFlex="25" mat-button color="primary" (click)="emitActionClicked()" [disabled]="buttonDisabled"> {{ buttonLabel }} </button>
 </div>

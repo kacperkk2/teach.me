@@ -1,5 +1,4 @@
 
-
 <div fxLayout="row" fxLayoutAlign="center center">
     <div class="learn-header" fxFlex="60" fxLayout="column">
         <span class="section-name"> {{ lesson.name }} </span>
@@ -28,12 +27,9 @@
             label="Błędne poprzednim razem" 
             icon="repeat"
             buttonLabel="Ucz się"
+            [buttonDisabled]="true"
             (actionClicked)="startPreviouslyFailedGame()">
         </app-learn-type-tile>
         <!-- sync_problem -->    
     </div>
 </div>
-
-    
-        
-    

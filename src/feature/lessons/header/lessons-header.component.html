@@ -11,6 +11,9 @@
         </button>
 
         <mat-menu #lessonsMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="editCourseClicked()">
+                <span> {{ editCourseLabel | titlecase }} </span>
+            </button>
             <button mat-menu-item (click)="removeCourseClicked()">
                 <span> {{ removeCourseLabel | titlecase }} </span>
             </button>

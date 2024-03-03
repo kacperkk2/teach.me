@@ -4,8 +4,8 @@
     <mat-tab [label]="teachTabLabel | titlecase"> 
         <app-cards-learn [lesson]="(lesson$ | async)!" [course]="(course$ | async)!"></app-cards-learn>
     </mat-tab>
-    <mat-tab [label]="cardsTabLabel | titlecase"> 
-        <app-cards-list [cards]="cards$ | async"></app-cards-list>
+    <mat-tab [label]="(cardsTabLabel | titlecase) + ' (' + (cards$ | async)?.length + ')'"> 
+        <app-cards-list [cards]="(cards$ | async)!"></app-cards-list>
     </mat-tab>
 </mat-tab-group>
 

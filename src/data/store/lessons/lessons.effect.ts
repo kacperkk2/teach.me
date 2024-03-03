@@ -5,7 +5,7 @@ import { Observable, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
 import { saveAppState } from "../app/app.action";
 import { removeLessonIdFromCourse, updateCourseWithLessonId } from "../courses/courses.action";
-import { addLesson, loadLessonsState, removeLesson, removeLessons, updateLessonWithCardsIds } from "./lessons.action";
+import { addLesson, loadLessonsState, removeCardIdFromLesson, removeLesson, removeLessons, updateLesson, updateLessonWithCardsIds } from "./lessons.action";
 import { selectLessonsList } from "./lessons.selector";
 import { IdGeneratorService } from "../../../services/id-generator/id-generator.service";
 import { selectCardsByIds } from "../cards/cards.selector";
@@ -40,9 +40,9 @@ export class LessonsEffects {
         )
     );
 
-    updateLesson$: Observable<Action> = createEffect(() =>
+    saveAppState$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
-            ofType(updateLessonWithCardsIds),
+            ofType(updateLessonWithCardsIds, removeCardIdFromLesson, updateLesson),
             switchMap(() => of(saveAppState()))
         )
     );

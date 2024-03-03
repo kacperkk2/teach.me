@@ -1,0 +1,17 @@
+@import "../../../styles.scss";
+
+mat-card {
+    font-size: large;
+    box-shadow: 0 0 10px 2px $dark-grey;
+    border-radius: 25px;
+    font-size: medium;
+    background-color: transparent;
+}
+
+.wrapper {
+    width: 95%;
+}
+
+.mat-card-content{
+    background-color: none !important;
+}

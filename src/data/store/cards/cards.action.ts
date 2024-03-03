@@ -17,3 +17,13 @@ export const removeCards = createAction(
     '[Cards] Remove Cards', 
     props<{ cards: Card[] }>()
 )
+
+export const updateCard = createAction(
+    '[Cards] Update Card', 
+    props<{ card: Card }>()
+)
+
+export const removeCard = createAction(
+    '[Cards] Remove Card', 
+    props<{ cardId: number, lesson: Lesson }>()
+)

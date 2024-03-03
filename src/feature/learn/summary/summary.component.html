@@ -8,7 +8,7 @@
             </div>
             <div fxFlex="50" class="large-font" fxLayout="column" fxLayoutAlign="start center">
                 <span> Po {{ summaries[summaries.length - 1].roundNum }} rundach </span>
-                <span class="main-percent"> {{ 100*(summaries[summaries.length - 1].correctFromBeggining.length / allCardsNum) }}% </span>
+                <span class="main-percent"> {{ 100*(summaries[summaries.length - 1].correctFromBeggining.length / allCardsNum) | number : '1.0-2' }}% </span>
             </div>
         </div>
 

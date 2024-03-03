@@ -1,46 +1,92 @@
-<app-add-header [title]="headerTitle"></app-add-header>
-    
-<button mat-stroked-button (click)="toggleMode()"> Zmień tryb </button>
 
-<div *ngIf="mode == AddMode.CARD">
-    <form [formGroup]="addCardsForm">
-        <!-- <mat-form-field style="width: 100%;">
-            <input matInput #input formControlName="name" autocomplete="off">
-            <button *ngIf="input.value" matSuffix mat-icon-button (click)="clear()">
-                <mat-icon>close</mat-icon>
-              </button>
-            <mat-hint align="end"> {{ input.value.length }}/{{ maxLength }} </mat-hint>
-        </mat-form-field> -->
-    
-        <ng-container formArrayName="cards">
-            <ng-container *ngFor="let cardForm of cardsFormArray.controls; let i = index">
-                <div [formGroupName]="i">
-                    <mat-form-field appearance="fill">
-                        <input matInput formControlName="question">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                        <input matInput formControlName="answer">
-                    </mat-form-field>
-                    <mat-icon *ngIf="cardsFormArray.controls.length > 1"
-                        class="delete-btn" (click)="deleteCard(i)"> delete_forever </mat-icon>
+<div class="wrapper" fxLayout="column">
+
+    <app-add-header [title]="headerTitle"></app-add-header>
+
+    <!-- todo wyekstraktowac do komponentow, posprzatac -->
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div style="width: 90%;" fxLayout="column">
+        
+            <div class="summary-holder" fxLayoutAlign="space-between center">
+                <span class="text-light-grey"> {{ lesson.name }} </span>
+
+                <div>
+                    <button class="mode-left" mat-stroked-button (click)="toggleMode(AddMode.CARD)"> 
+                        <div fxLayout="column" fxLayoutAlign="center center">
+                            <mat-icon [ngClass]="mode == AddMode.CARD ? 'active-mode' : ''"> content_copy </mat-icon>
+                        </div>
+                    </button>
+                    <button class="mode-right" mat-stroked-button (click)="toggleMode(AddMode.BULK)"> 
+                        <div fxLayout="column" fxLayoutAlign="center center">
+                            <mat-icon [ngClass]="mode == AddMode.BULK ? 'active-mode' : ''"> text_format </mat-icon>
+                        </div>
+                    </button>
                 </div>
-            </ng-container>
-    
-            <button mat-mini-fab (click)="addEmptyCard()">
-                <mat-icon>add</mat-icon>
-            </button>
-        </ng-container>
-    </form>
-    
-    <button mat-stroked-button color="primary" [disabled]="!addCardsForm.valid" (click)="save()"> Stwórz </button>
-</div>
+            </div>
 
-<div *ngIf="mode == AddMode.BULK">
-    <form [formGroup]="addCardsBulkForm">    
-        <mat-form-field class="bulk-area">
-            <textarea matInput rows="20" formControlName="cards"></textarea>
-        </mat-form-field>
-    </form>
+            <div *ngIf="mode == AddMode.CARD" fxLayout="column">
+                <form class="main-list" [formGroup]="addCardsForm">
+                
+                    <ng-container formArrayName="cards">
+                        <ng-container *ngFor="let cardForm of cardsFormArray.controls; let i = index">
+                            <div class="card" [formGroupName]="i">
+
+                                <div fxLayout="row" fxLayoutAlign="end center">
+                                    <!-- dodac animacje usuwania karty -->
+                                    <mat-icon class="delete-card-icon" *ngIf="cardsFormArray.controls.length > 1" (click)="deleteCard(i)"> delete_outline </mat-icon>
+                                </div>
+
+                                <div fxLayout="column" fxLayoutAlign="center center">
+
+                                    <div class="form-field-holder">
+                                        <mat-label> {{ questionLabel | titlecase }} </mat-label>
+                                        <mat-form-field>
+                                            <input matInput #question formControlName="question" autocomplete="off">
+                                            <button *ngIf="question.value" matSuffix mat-icon-button (click)="question.value=''">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                            <mat-hint align="end"> {{ question.value.length }}/{{ maxLength }} </mat-hint>
+                                        </mat-form-field>
+                                    </div>
     
-    <button mat-stroked-button color="primary" [disabled]="!addCardsBulkForm.valid" (click)="toggleMode()"> Konwertuj na karty </button>
+                                    <div class="form-field-holder">
+                                        <mat-label> {{ answerLabel | titlecase }} </mat-label> 
+                                        <mat-form-field>
+                                            <input matInput #answer formControlName="answer" autocomplete="off">
+                                            <button *ngIf="answer.value" matSuffix mat-icon-button (click)="answer.value=''">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                            <mat-hint align="end"> {{ answer.value.length }}/{{ maxLength }} </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                
+                        <div class="add-card-button" fxLayout="column" fxLayoutAlign="center center">
+                            <button mat-mini-fab color="primary" (click)="addEmptyCard()">
+                                <mat-icon> add </mat-icon>
+                            </button>
+                        </div>
+                    </ng-container>
+                </form>
+                
+                <button class="bottom-button" mat-flat-button color="primary" [disabled]="!addCardsForm.valid" (click)="save()">
+                    Zapisz karty ({{ cardsFormArray.length }}) 
+                </button>
+            </div>
+            
+            <div *ngIf="mode == AddMode.BULK" fxLayout="column">
+                <form class="main-list" [formGroup]="addCardsBulkForm">    
+                    <mat-form-field class="bulk-area">
+                        <!-- todo naprawic zeby bylo scrolowalne -->
+                        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" formControlName="cards"></textarea>
+                    </mat-form-field>
+                </form>
+                
+                <button class="bottom-button" mat-flat-button color="primary" [disabled]="!addCardsBulkForm.valid" (click)="toggleMode(AddMode.CARD)"> Konwertuj na karty </button>
+            </div>
+
+        </div>
+    </div>
 </div>

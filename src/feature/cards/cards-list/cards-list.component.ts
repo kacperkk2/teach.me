@@ -10,7 +10,7 @@ import { Card } from '../../../data/model/card';
 })
 export class CardsListComponent implements OnInit {
 
-  @Input({required: true}) cards: Card[] | null;
+  @Input({required: true}) cards: Card[];
 
   constructor(private route: ActivatedRoute, private store: Store) {
   }

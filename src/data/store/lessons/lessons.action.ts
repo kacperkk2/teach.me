@@ -27,3 +27,13 @@ export const removeLessons = createAction(
     '[Lesson] Remove Lessons', 
     props<{ lessons: Lesson[], allCardIds: number[] }>()
 );
+
+export const removeCardIdFromLesson = createAction(
+    '[Lesson] Remove Card Id From Lesson', 
+    props<{ cardId: number, lesson: Lesson }>()
+);
+
+export const updateLesson = createAction(
+    '[Lesson] Update Lesson', 
+    props<{ lesson: Lesson }>()
+)

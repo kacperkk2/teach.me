@@ -37,7 +37,12 @@ export class LessonsHeaderComponent implements OnInit {
     this.location.back();
     // todo confirmation dialog
   }
+
+  editCourseClicked() {
+    this.router.navigate(['/courses', this.course.id]);
+  }
   
   title: string = CONFIG.LABELS.course;
   removeCourseLabel: string = CONFIG.LABELS.removeCourse;
+  editCourseLabel: string = CONFIG.LABELS.editCourse;
 }

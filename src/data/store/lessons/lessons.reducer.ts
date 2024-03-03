@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from "@ngrx/store";
 import { LessonsState, initializeState } from "./lessons.state";
-import { addLesson, loadLessonsState, removeLesson, removeLessons, updateLessonWithCardsIds } from "./lessons.action";
+import { addLesson, loadLessonsState, removeCardIdFromLesson, removeLesson, removeLessons, updateLesson, updateLessonWithCardsIds } from "./lessons.action";
 
 
 export const lessonsReducer = createReducer<LessonsState>(
@@ -25,6 +25,15 @@ export const lessonsReducer = createReducer<LessonsState>(
         const updatedLessons = { ...state.lessons };
         delete updatedLessons[lesson.id];
         return {...state, lessons: updatedLessons};
+    }),
+    on(removeCardIdFromLesson, (state, { cardId, lesson }) => {
+        const updatedLesson = Object.assign({}, lesson);
+        updatedLesson.cardIds = updatedLesson.cardIds.filter(id => id !== cardId);
+        return {...state, lessons: {...state.lessons, [lesson.id]: updatedLesson }}
+    }),
+    on(updateLesson, (state, { lesson }) => {
+        const updatedLesson = Object.assign({}, lesson);
+        return {...state, lessons: {...state.lessons, [lesson.id]: updatedLesson }}
     }),
 )
 
