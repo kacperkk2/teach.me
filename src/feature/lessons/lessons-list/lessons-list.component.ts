@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Lesson } from '../../../data/model/lesson';
+import { CONFIG } from '../../../app/app.properties';
 
 @Component({
   selector: 'app-lessons-list',
@@ -9,4 +10,7 @@ import { Lesson } from '../../../data/model/lesson';
 export class LessonsListComponent {
 
   @Input({required: true}) lessons: Lesson[];
+
+  emptyLessonsLabel: string = CONFIG.LABELS.emptyLessons;
+  emptyLessonsSubLabel: string = CONFIG.LABELS.emptyLessonsSub;
 }

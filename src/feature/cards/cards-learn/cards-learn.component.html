@@ -12,6 +12,7 @@
             label="Wszystkie po kolei" 
             icon="redo"
             buttonLabel="Ucz się"
+            [buttonDisabled]="cards.length == 0"
             (actionClicked)="startAllInOrderGame()">
         </app-learn-type-tile>
         <!-- text_rotation_none -->
@@ -20,6 +21,7 @@
             label="Wszystkie losowo" 
             icon="casino"
             buttonLabel="Ucz się"
+            [buttonDisabled]="cards.length == 0"
             (actionClicked)="startAllRandomGame()">
         </app-learn-type-tile>
 

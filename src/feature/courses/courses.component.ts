@@ -23,4 +23,6 @@ export class CoursesComponent implements OnInit {
   }
 
   courseLabel: string = CONFIG.LABELS.course;
+  emptyCoursesLabel: string = CONFIG.LABELS.emptyCourses;
+  emptyCoursesSubLabel: string = CONFIG.LABELS.emptyCoursesSub;
 }

@@ -45,5 +45,12 @@ export const CONFIG = {
         deleteCardConfirmation: 'Czy na pewno chcesz usunąć kartę?',
         deleteLessonConfirmation: 'Czy na pewno chcesz usunąć lekcję?',
         deleteCourseConfirmation: 'Czy na pewno chcesz usunąć kurs?',
+
+        emptyCourses: 'Brak kursów',
+        emptyCoursesSub: 'Kliknij żeby dodać kurs',
+        emptyLessons: 'Brak lekcji',
+        emptyLessonsSub: 'Kliknij przycisk na dole żeby dodać lekcję',
+        emptyCards: 'Brak kart',
+        emptyCardsSub: 'Kliknij przycisk na dole żeby dodać karty',
     }
 }

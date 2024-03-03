@@ -6,6 +6,7 @@ import { Card } from '../../../data/model/card';
 import { Course } from '../../../data/model/course';
 import { LearnDataProviderService } from '../../../services/learn-data-provider/learn-data-provider.service';
 import { selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
+import { CONFIG } from '../../../app/app.properties';
 
 @Component({
   selector: 'app-lessons-learn',
@@ -40,4 +41,6 @@ export class LessonsLearnComponent implements OnInit {
     // todo jak sie rozszerzy state o pamietanie poprzednio blednych
     console.log("previously failed started")
   }
+
+  cardsLabel: string = CONFIG.LABELS.cards;
 }

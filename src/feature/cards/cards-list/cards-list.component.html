@@ -1,9 +1,17 @@
-<mat-list #cardsList fxLayout="column" fxLayoutAlign="start center">
-    <!-- <div *ngIf="(courses | async).length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div> -->
-    <div class="wrapper" *ngFor="let card of cards; let lastItem = last;">
-        <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="[card.id]">
-            <span class="text-bold"> {{ card.question }} </span>
-            <span class="text-light-grey"> {{ card.answer }} </span>
-        </mat-card>
-    </div>
-</mat-list>
+<div *ngIf="cards.length == 0; then emptyView else normalView"></div>
+
+<ng-template #emptyView>
+    <app-empty-view [mainLabel]="emptyCardsLabel" [subLabel]="emptyCardsSubLabel"></app-empty-view>
+</ng-template>
+
+<ng-template #normalView>
+    <mat-list #cardsList fxLayout="column" fxLayoutAlign="start center">
+        <div class="wrapper" *ngFor="let card of cards; let lastItem = last;">
+            <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="[card.id]">
+                <span class="text-bold"> {{ card.question }} </span>
+                <span class="text-light-grey"> {{ card.answer }} </span>
+            </mat-card>
+        </div>
+    </mat-list>
+</ng-template>
+

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Card } from '../../../data/model/card';
+import { CONFIG } from '../../../app/app.properties';
 
 @Component({
   selector: 'app-cards-list',
@@ -18,4 +19,6 @@ export class CardsListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  emptyCardsLabel: string = CONFIG.LABELS.emptyCards;
+  emptyCardsSubLabel: string = CONFIG.LABELS.emptyCardsSub;
 }

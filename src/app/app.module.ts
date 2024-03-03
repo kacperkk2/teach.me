@@ -54,6 +54,7 @@ import { EditCardComponent } from '../feature/edit-entity/edit-card/edit-card.co
 import { EditLessonComponent } from '../feature/edit-entity/edit-lesson/edit-lesson.component';
 import { LessonsLearnComponent } from '../feature/lessons/lessons-learn/lessons-learn.component';
 import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-course.component';
+import { EmptyViewComponent } from '../commons/empty-view/empty-view.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-cou
     EditLessonComponent,
     LessonsLearnComponent,
     EditCourseComponent,
+    EmptyViewComponent,
   ],
   imports: [
     BrowserModule,

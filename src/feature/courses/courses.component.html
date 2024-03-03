@@ -1,14 +1,20 @@
 <app-courses-header></app-courses-header>
 
-<mat-list #coursesList>
-    <!-- <div *ngIf="(courses | async).length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div> -->
-    <div *ngFor="let course of courses$ | async; let lastItem = last;">
-        <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="['/courses', course.id, 'lessons']">
-            <div> {{ course.name }} </div>
-        </mat-card>
-        <!-- <mat-divider *ngIf="!lastItem" class="divider"></mat-divider> -->
-    </div>
+<div *ngIf="(courses$ | async)!.length == 0; then emptyView else normalView"></div>
 
-</mat-list>
+<ng-template #emptyView>
+    <app-empty-view [mainLabel]="emptyCoursesLabel" 
+        [subLabel]="emptyCoursesSubLabel" redirectTo="/courses/new" [showButton]="true"></app-empty-view>
+</ng-template>
 
-<app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>
+<ng-template #normalView>
+    <mat-list #coursesList>
+        <div *ngFor="let course of courses$ | async; let lastItem = last;">
+            <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="['/courses', course.id, 'lessons']">
+                <div> {{ course.name }} </div>
+            </mat-card>
+        </div>
+    </mat-list>
+
+    <app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>
+</ng-template>

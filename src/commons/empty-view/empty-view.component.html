@@ -1,0 +1,7 @@
+<div class="wrapper" fxLayout="column" fxLayoutAlign="center center"> 
+    <div class="main-label"> {{ mainLabel }} </div> 
+    <div class="sub-label text-light-grey"> {{ subLabel }} </div> 
+    <button *ngIf="showButton" mat-fab color="primary" [routerLink]="redirectTo">
+        <mat-icon> add </mat-icon>
+    </button>
+</div>

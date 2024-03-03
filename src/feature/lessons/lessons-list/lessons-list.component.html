@@ -1,8 +1,16 @@
-<mat-list #lessonsList>
-    <!-- <div *ngIf="(courses | async).length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div> -->
-    <div *ngFor="let lesson of lessons; let lastItem = last;">
-        <mat-card fxLayout="column" fxLayoutAlign="center center" [routerLink]="[lesson.id, 'cards']">
-            <div> {{ lesson.name }} </div>
-        </mat-card>
-    </div>
-</mat-list>
+
+<div *ngIf="lessons.length == 0; then emptyView else normalView"></div>
+
+<ng-template #emptyView>
+    <app-empty-view [mainLabel]="emptyLessonsLabel" [subLabel]="emptyLessonsSubLabel"></app-empty-view>
+</ng-template>
+
+<ng-template #normalView>
+    <mat-list #lessonsList>
+        <div *ngFor="let lesson of lessons; let lastItem = last;">
+            <mat-card fxLayout="column" fxLayoutAlign="center center" [routerLink]="[lesson.id, 'cards']">
+                <div> {{ lesson.name }} </div>
+            </mat-card>
+        </div>
+    </mat-list>
+</ng-template>
