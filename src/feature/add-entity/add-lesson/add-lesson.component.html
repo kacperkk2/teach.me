@@ -1,13 +1,26 @@
-<app-add-header [title]="headerTitle"></app-add-header>
 
-<form [formGroup]="addLessonForm">
-    <mat-form-field style="width: 100%;">
-        <input matInput #input formControlName="name" autocomplete="off">
-        <button *ngIf="input.value" matSuffix mat-icon-button (click)="clear()">
-            <mat-icon>close</mat-icon>
-          </button>
-        <mat-hint align="end"> {{ input.value.length }}/{{ maxLength }} </mat-hint>
-    </mat-form-field>
-</form>
+<div class="wrapper" fxLayout="column">
 
-<button mat-stroked-button color="primary" [disabled]="!addLessonForm.valid" (click)="save()"> Stwórz </button>
+    <app-add-header [title]="headerTitle"></app-add-header>
+
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
+        <div fxFlex="100" style="width: 90%;" fxLayout="column">
+        
+            <form fxFlex="85" [formGroup]="addLessonForm">    
+                <mat-label> {{ nameLabel | titlecase }} </mat-label> 
+                <mat-form-field>
+                    <input matInput #name formControlName="name" autocomplete="off">
+                    <button *ngIf="name.value" matSuffix mat-icon-button (click)="clear()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-hint align="end"> {{ name.value.length }}/{{ maxLength }} </mat-hint>
+                </mat-form-field>
+            </form>
+
+            <div fxFlex="15" fxLayoutAlign="center center">
+                <button mat-flat-button color="primary" [disabled]="!addLessonForm.valid" (click)="save()"> Stwórz </button>
+            </div>
+
+        </div>
+    </div>
+</div>

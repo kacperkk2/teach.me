@@ -1,0 +1,33 @@
+.learn-header {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.section-name {
+    margin-bottom: 5px;
+    font-size: x-large;
+}
+
+.sub-section-name {
+    font-size: medium;
+}
+
+.bottom-button {
+    width: 100% !important;
+    height: 50px;
+    border-radius: 25px !important;
+}
+
+.main-list {
+    height: calc(100vh - 280px);
+    overflow: auto;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-label {
+    display: inline-block;
+    padding-bottom: 5px;
+}

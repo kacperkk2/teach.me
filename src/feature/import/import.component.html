@@ -1,0 +1,13 @@
+<app-import-header [title]="importTitle"></app-import-header>
+
+<mat-tab-group dynamicHeight>
+    <mat-tab [label]="importTabLabel | titlecase"> 
+        <app-import-lesson *ngIf="migrationType == DataType.LESSON" 
+                [summaryData]="summaryData" (importLesson)="importLesson($any($event))"></app-import-lesson>
+        <!-- ngIf osobne dla lekcji i kursu -->
+    </mat-tab>
+    <mat-tab [label]="previewTabLabel | titlecase"> 
+        <app-import-preview [migrationData]="migrationData"></app-import-preview>
+    </mat-tab>
+</mat-tab-group>
+

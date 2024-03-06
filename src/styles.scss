@@ -82,3 +82,9 @@ mat-card {
 .text-light-grey {
   color: $light-grey;
 }
+
+.hide-overflow {
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+  overflow: hidden;
+}

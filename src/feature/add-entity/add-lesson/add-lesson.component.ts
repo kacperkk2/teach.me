@@ -41,6 +41,7 @@ export class AddLessonComponent implements OnInit {
     this.addLessonForm.controls["name"].patchValue("");
   }
 
+  // todo component do dodawania lekcji i innych encji, bo tutaj trzeba z palca podawac wartosci i wolac store
   save() {
     const lessonId = this.idGenerator.nextIdForLessons();
     const lesson: Lesson = {
@@ -56,4 +57,5 @@ export class AddLessonComponent implements OnInit {
   }
   
   headerTitle: string = CONFIG.LABELS.addLesson;
+  nameLabel: string = CONFIG.LABELS.lessonName;
 }

@@ -1,5 +1,12 @@
 export const CONFIG = {
 
+    IMPORT: {
+        importPath: "/import",
+        dataParam: "data",
+        appRoot: "/teach.me"
+        // appRoot: ""
+    },
+
     COURSES: {
         nameMaxLength: 40
     },
@@ -52,5 +59,11 @@ export const CONFIG = {
         emptyLessonsSub: 'Kliknij przycisk na dole żeby dodać lekcję',
         emptyCards: 'Brak kart',
         emptyCardsSub: 'Kliknij przycisk na dole żeby dodać karty',
+
+        exportLesson: 'eksportuj lekcję',
+        importLesson: 'import lekcji',
+        importCourse: 'import kursu',
+        importSummary: 'import',
+        importPreview: 'podgląd',
     }
 }

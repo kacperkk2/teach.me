@@ -10,6 +10,11 @@ import { removeLesson } from '../../../data/store/lessons/lessons.action';
 import { selectLesson } from '../../../data/store/lessons/lessons.selector';
 import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { MigrationService } from '../../../services/migration/migration.service';
+import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/export-dialog';
+import { CodecService } from '../../../services/codec/codec.service';
+import { selectCardsByLessonId } from '../../../data/store/cards/cards.selector';
+import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
 
 @Component({
   selector: 'app-cards-header',
@@ -22,7 +27,9 @@ export class CardsHeaderComponent {
 
   // todo zrobic dumb component z tego, menu klikniecia zwracane jako akcje wyzej
   constructor(private location: Location, private router: Router, 
-    private route: ActivatedRoute, private store: Store, public dialog: MatDialog) {
+    private route: ActivatedRoute, private store: Store, 
+    public dialog: MatDialog, private migrationService: MigrationService, 
+    private codec: CodecService, private urlShortner: UrlShortenerService) {
   }
 
   ngOnInit(): void {
@@ -55,9 +62,29 @@ export class CardsHeaderComponent {
   editLessonClicked() {
     this.router.navigate(['/courses', this.course.id, 'lessons', this.lesson.id]);
   }
+
+  exportLessonClicked() {
+    this.store.select(selectCardsByLessonId(this.lesson.id)).subscribe(cards => {
+      const url = this.migrationService.lessonToUrl(this.lesson, cards);
+
+      // todo add timeout
+      this.urlShortner.getShortUrl(url).subscribe((response) => {
+        let finalUrl = url;
+        if (response.shorturl) {
+          finalUrl = response.shorturl;
+        }
+  
+        const data = new ExportDialogInput(this.lesson.name, finalUrl);
+        const dialogRef = this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
+        dialogRef.afterClosed().subscribe();
+        // todo snackbar po kliknieu w kopiuj link
+      })
+    });
+  }
   
   title: string = CONFIG.LABELS.lesson;
   removeLessonLabel: string = CONFIG.LABELS.removeLesson;
   editLessonLabel: string = CONFIG.LABELS.editLesson;
   deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
+  exportLessonLabel: string = CONFIG.LABELS.exportLesson;
 }

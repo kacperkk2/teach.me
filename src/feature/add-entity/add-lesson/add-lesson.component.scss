@@ -1,0 +1,22 @@
+.wrapper {
+    height: 100vh; 
+}
+
+button {
+    width: 100% !important;
+    height: 50px;
+    border-radius: 25px !important;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-label {
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+form {
+    margin-top: 25px;
+}

@@ -7,11 +7,8 @@ import { Store } from '@ngrx/store';
 import { CONFIG } from '../../../app/app.properties';
 import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
 import { Course } from '../../../data/model/course';
-import { Lesson } from '../../../data/model/lesson';
-import { selectCourse } from '../../../data/store/courses/courses.selector';
-import { removeLesson, updateLesson } from '../../../data/store/lessons/lessons.action';
-import { selectLesson } from '../../../data/store/lessons/lessons.selector';
 import { removeCourse, updateCourse } from '../../../data/store/courses/courses.action';
+import { selectCourse } from '../../../data/store/courses/courses.selector';
 
 @Component({
   selector: 'app-edit-course',

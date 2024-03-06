@@ -44,4 +44,5 @@ export class AddCourseComponent implements OnInit {
   }
   
   headerTitle: string = CONFIG.LABELS.addCourse;
+  nameLabel: string = CONFIG.LABELS.courseName;
 }

@@ -55,6 +55,12 @@ import { EditLessonComponent } from '../feature/edit-entity/edit-lesson/edit-les
 import { LessonsLearnComponent } from '../feature/lessons/lessons-learn/lessons-learn.component';
 import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-course.component';
 import { EmptyViewComponent } from '../commons/empty-view/empty-view.component';
+import { ExportDialog } from '../commons/export-dialog/export-dialog';
+import { ImportComponent } from '../feature/import/import.component';
+import { ImportHeaderComponent } from '../feature/import/import-header/import-header.component';
+import { ImportPreviewComponent } from '../feature/import/import-preview/import-preview.component';
+import { ImportLessonComponent } from '../feature/import/import-summary/import-lesson/import-lesson.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -85,11 +91,17 @@ import { EmptyViewComponent } from '../commons/empty-view/empty-view.component';
     LessonsLearnComponent,
     EditCourseComponent,
     EmptyViewComponent,
+    ExportDialog,
+    ImportComponent,
+    ImportHeaderComponent,
+    ImportPreviewComponent,
+    ImportLessonComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FlexLayoutModule,
+    MatSnackBarModule,
     MatCardModule,
     BrowserAnimationsModule,
     MatButtonModule,

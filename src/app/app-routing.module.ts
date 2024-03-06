@@ -10,6 +10,7 @@ import { LearnComponent } from '../feature/learn/learn.component';
 import { EditCardComponent } from '../feature/edit-entity/edit-card/edit-card.component';
 import { EditLessonComponent } from '../feature/edit-entity/edit-lesson/edit-lesson.component';
 import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-course.component';
+import { ImportComponent } from '../feature/import/import.component';
 
 const routes: Routes = [
   { path: 'courses', component: CoursesComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'courses/:courseId/lessons/:lessonId/cards/new', component: AddCardComponent },
   { path: 'courses/:courseId/lessons/:lessonId/cards/:cardId', component: EditCardComponent },
   { path: 'learn', component: LearnComponent },
+  { path: 'import', component: ImportComponent },
   { path: '**', redirectTo: 'courses', pathMatch: 'full' },
 ];
 
