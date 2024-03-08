@@ -65,7 +65,10 @@ export class CardsHeaderComponent {
 
   exportLessonClicked() {
     this.store.select(selectCardsByLessonId(this.lesson.id)).subscribe(cards => {
-      const url = this.migrationService.lessonToUrl(this.lesson, cards);
+      let url = this.migrationService.lessonToUrl(this.lesson, cards);
+      console.log('url przed encode', url)
+      url = encodeURIComponent(url)
+      console.log('url po encode', url)
 
       // todo url shortner w jednym miejscu a nie tu i w kursach
       this.urlShortener.getShortUrl(url).subscribe((response) => {
