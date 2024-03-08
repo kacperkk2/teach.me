@@ -11,13 +11,11 @@ export class CodecService {
   
   pack(data: any, type: DataType): string {
     const wrapped = this.wrapMigrationData(data, type);
-    console.log('wrapped', wrapped)
     return this.compressEncode(wrapped);
   }
 
   unpack(data: string): MigrationDataWrapper {
     const decodedDecompressed = this.decodeDecompress(data);
-    console.log('decodedDecompressed', decodedDecompressed)
     return this.unwrapMigrationData(decodedDecompressed);
   }
 
@@ -26,11 +24,7 @@ export class CodecService {
   }
 
   private decodeDecompress(data: any) {
-    const decoded = decodeURIComponent(data);
-    console.log('decoded', decoded)
-    const decompress = decompressFromBase64(decoded);
-    console.log('decompress', decompress)
-    return decompress;
+    return decompressFromBase64(decodeURIComponent(data));
   }
 
   private wrapMigrationData(data: any, type: DataType): string {

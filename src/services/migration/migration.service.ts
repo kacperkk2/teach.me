@@ -22,8 +22,6 @@ export class MigrationService {
     // todo fetch lesson
     const data: MigrationData = this.createMigrationData([], [lesson], cards);
     const compressedEncoded = this.codec.pack(data, DataType.LESSON);
-
-    console.log('compressedEncoded', compressedEncoded)
     return this.getImportUrl(compressedEncoded);
   }
 
@@ -31,7 +29,6 @@ export class MigrationService {
   courseToUrl(course: Course, lessons: Lesson[], cards: Card[]) {
     // todo fetch lessons i cards
     const data: MigrationData = this.createMigrationData([course], lessons, cards);
-    console.log('courseToUrl', data)
     const compressedEncoded = this.codec.pack(data, DataType.COURSE);
     return this.getImportUrl(compressedEncoded);
   }

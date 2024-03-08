@@ -61,16 +61,14 @@ export class LessonsHeaderComponent implements OnInit {
       const cardIds = lessons.flatMap(lesson => lesson.cardIds);
 
       this.store.select(selectCardsByIds(cardIds)).subscribe(cards => {
-
         const url = this.migrationService.courseToUrl(this.course, lessons, cards);
-        console.log('final url', url)
 
         // todo url shortner w jednym miejscu a nie tu i w kursach
         this.urlShortener.getShortUrl(url).subscribe((response) => {
           let finalUrl = url;
-          // if (response != null && response.shorturl) {
-          //   finalUrl = response.shorturl;
-          // }
+          if (response != null && response.shorturl) {
+            finalUrl = response.shorturl;
+          }
     
           const data = new ExportDialogInput(this.course.name, finalUrl);
           const dialogRef = this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
