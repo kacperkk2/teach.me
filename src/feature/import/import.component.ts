@@ -39,7 +39,6 @@ export class ImportComponent implements OnInit {
       const migrationDataWrapper = this.codec.unpack(data);
       this.migrationType = migrationDataWrapper.type;
       this.migrationData = JSON.parse(migrationDataWrapper.data || '{}');
-      console.log(this.migrationData)
       this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
       // todo zabezpieczyc sie na mozliwosc zlych danych po rozpakowaniu, wtedy widok ze dane popsute i tylko krzyzyk
       this.importTitle = this.getImportTitle(this.migrationType);

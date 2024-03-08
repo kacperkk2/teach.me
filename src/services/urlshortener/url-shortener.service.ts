@@ -11,7 +11,8 @@ export class UrlShortenerService {
   }
 
   getShortUrl(longUrl: string) {
-    return this.httpClient.get<ShortUrlResponse>('https://is.gd/create.php?format=json&url=' + longUrl)
+    const encodedUrl = encodeURIComponent(longUrl);
+    return this.httpClient.get<ShortUrlResponse>('https://is.gd/create.php?format=json&url=' + encodedUrl)
       .pipe(
         timeout(3000),
         catchError(e => {

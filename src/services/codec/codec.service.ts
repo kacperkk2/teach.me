@@ -11,7 +11,6 @@ export class CodecService {
   
   pack(data: any, type: DataType): string {
     const wrapped = this.wrapMigrationData(data, type);
-    console.log('wrapped', wrapped)
     return this.compressEncode(wrapped);
   }
 
@@ -21,12 +20,6 @@ export class CodecService {
   }
 
   private compressEncode(data: any) {
-    // console.log('compressToBase64(data)', compressToBase64(data))
-    // console.log('encodeURIComponent(compressToBase64(data)', encodeURIComponent(compressToBase64(data)))
-    // console.log('decodeURIComponent(encodeURIComponent(compressToBase64(data))', 
-    //     decodeURIComponent(encodeURIComponent(compressToBase64(data))))
-    // console.log('decompressFromBase64 encodeURIComponent(compressToBase64(data)', 
-    //     decompressFromBase64(decodeURIComponent(encodeURIComponent(compressToBase64(data)))))
     return encodeURIComponent(compressToBase64(data));
   }
 

@@ -13,6 +13,7 @@ import { MigrationService } from '../../../services/migration/migration.service'
 import { selectCardsByIds, selectCardsByLessonId, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
 import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/export-dialog';
 import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
+import { CodecService } from '../../../services/codec/codec.service';
 
 @Component({
   selector: 'app-lessons-header',
@@ -25,7 +26,7 @@ export class LessonsHeaderComponent implements OnInit {
   constructor(private location: Location, private router: Router, 
     private route: ActivatedRoute, private store: Store, 
     public dialog: MatDialog, private migrationService: MigrationService,
-    private urlShortener: UrlShortenerService) {
+    private urlShortener: UrlShortenerService, private codec: CodecService) {
   }
 
   ngOnInit(): void {
@@ -60,7 +61,6 @@ export class LessonsHeaderComponent implements OnInit {
       const cardIds = lessons.flatMap(lesson => lesson.cardIds);
 
       this.store.select(selectCardsByIds(cardIds)).subscribe(cards => {
-
         const url = this.migrationService.courseToUrl(this.course, lessons, cards);
 
         // todo url shortner w jednym miejscu a nie tu i w kursach
