@@ -34,14 +34,16 @@ export class ImportComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('init import');
     this.route.queryParams.subscribe(params => {
+      console.log('init import params');
       const data = params['data'];
       console.log('data', data);
       const migrationDataWrapper = this.codec.unpack(data);
       console.log('migrationDataWrapper', migrationDataWrapper);
       this.migrationType = migrationDataWrapper.type;
       this.migrationData = JSON.parse(migrationDataWrapper.data || '{}');
-      console.log('import init', this.migrationData);
+      console.log('migrationData', this.migrationData);
       this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
       // todo zabezpieczyc sie na mozliwosc zlych danych po rozpakowaniu, wtedy widok ze dane popsute i tylko krzyzyk
       this.importTitle = this.getImportTitle(this.migrationType);
