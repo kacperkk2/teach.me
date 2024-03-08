@@ -66,9 +66,9 @@ export class LessonsHeaderComponent implements OnInit {
         // todo url shortner w jednym miejscu a nie tu i w kursach
         this.urlShortener.getShortUrl(url).subscribe((response) => {
           let finalUrl = url;
-          if (response != null && response.shorturl) {
-            finalUrl = response.shorturl;
-          }
+          // if (response != null && response.shorturl) {
+          //   finalUrl = response.shorturl;
+          // }
     
           const data = new ExportDialogInput(this.course.name, finalUrl);
           const dialogRef = this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});

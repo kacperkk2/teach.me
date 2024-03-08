@@ -29,6 +29,7 @@ export class MigrationService {
   courseToUrl(course: Course, lessons: Lesson[], cards: Card[]) {
     // todo fetch lessons i cards
     const data: MigrationData = this.createMigrationData([course], lessons, cards);
+    console.log('courseToUrl', data)
     const compressedEncoded = this.codec.pack(data, DataType.COURSE);
     return this.getImportUrl(compressedEncoded);
   }
