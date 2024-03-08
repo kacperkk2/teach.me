@@ -17,6 +17,7 @@ export class CodecService {
 
   unpack(data: string): MigrationDataWrapper {
     const decodedDecompressed = this.decodeDecompress(data);
+    console.log('decodedDecompressed', decodedDecompressed)
     return this.unwrapMigrationData(decodedDecompressed);
   }
 
@@ -25,7 +26,11 @@ export class CodecService {
   }
 
   private decodeDecompress(data: any) {
-    return decompressFromBase64(decodeURIComponent(data));
+    const decoded = decodeURIComponent(data);
+    console.log('decoded', decoded)
+    const decompress = decompressFromBase64(decoded);
+    console.log('decompress', decompress)
+    return decompress;
   }
 
   private wrapMigrationData(data: any, type: DataType): string {
