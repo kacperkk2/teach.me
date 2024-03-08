@@ -36,6 +36,7 @@ export class ImportComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const data = params['data'];
+      console.log('data', data);
       const migrationDataWrapper = this.codec.unpack(data);
       console.log('migrationDataWrapper', migrationDataWrapper);
       this.migrationType = migrationDataWrapper.type;
