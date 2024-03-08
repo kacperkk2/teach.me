@@ -62,8 +62,8 @@ export class LessonsHeaderComponent implements OnInit {
 
       this.store.select(selectCardsByIds(cardIds)).subscribe(cards => {
 
-        let url = this.migrationService.courseToUrl(this.course, lessons, cards);
-        url = encodeURIComponent(url);
+        const url = this.migrationService.courseToUrl(this.course, lessons, cards);
+        console.log('final url', url)
 
         // todo url shortner w jednym miejscu a nie tu i w kursach
         this.urlShortener.getShortUrl(url).subscribe((response) => {
