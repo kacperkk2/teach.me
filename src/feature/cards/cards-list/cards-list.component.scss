@@ -1,17 +1,19 @@
 @import "../../../styles.scss";
 
-mat-card {
-    font-size: large;
-    box-shadow: 0 0 10px 2px $dark-grey;
-    border-radius: 25px;
-    font-size: medium;
-    background-color: transparent;
-}
+// todo zdecydowac czy mat-card czy customowy kafelek jak dla gier
 
-.wrapper {
-    width: 95%;
-}
+// mat-card {
+//     font-size: large;
+//     box-shadow: 0 0 10px 2px $dark-grey;
+//     border-radius: 25px;
+//     font-size: medium;
+//     background-color: transparent;
+// }
 
-.mat-card-content{
-    background-color: none !important;
-}
+// .wrapper {
+//     width: 95%;
+// }
+
+// .mat-card-content{
+//     background-color: none !important;
+// }

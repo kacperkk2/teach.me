@@ -29,7 +29,7 @@ export class CardsHeaderComponent {
   constructor(private location: Location, private router: Router, 
     private route: ActivatedRoute, private store: Store, 
     public dialog: MatDialog, private migrationService: MigrationService, 
-    private codec: CodecService, private urlShortner: UrlShortenerService) {
+    private codec: CodecService, private urlShortener: UrlShortenerService) {
   }
 
   ngOnInit(): void {
@@ -67,10 +67,10 @@ export class CardsHeaderComponent {
     this.store.select(selectCardsByLessonId(this.lesson.id)).subscribe(cards => {
       const url = this.migrationService.lessonToUrl(this.lesson, cards);
 
-      // todo add timeout
-      this.urlShortner.getShortUrl(url).subscribe((response) => {
+      // todo url shortner w jednym miejscu a nie tu i w kursach
+      this.urlShortener.getShortUrl(url).subscribe((response) => {
         let finalUrl = url;
-        if (response.shorturl) {
+        if (response != null && response.shorturl) {
           finalUrl = response.shorturl;
         }
   

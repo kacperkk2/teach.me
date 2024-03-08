@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from "@ngrx/store";
 import { LessonsState, initializeState } from "./lessons.state";
-import { addLesson, loadLessonsState, removeCardIdFromLesson, removeLesson, removeLessons, updateLesson, updateLessonWithCardsIds } from "./lessons.action";
+import { addLesson, addLessons, loadLessonsState, removeCardIdFromLesson, removeLesson, removeLessons, updateLesson, updateLessonWithCardsIds } from "./lessons.action";
+import { Lesson } from "../../model/lesson";
 
 
 export const lessonsReducer = createReducer<LessonsState>(
@@ -10,6 +11,16 @@ export const lessonsReducer = createReducer<LessonsState>(
     on(addLesson, (state, { lesson }) => ({
         ...state,
         lessons: {...state.lessons, [lesson.id]: lesson }
+    })),
+    on(addLessons, (state, { lessons }) => ({
+        ...state, 
+        lessons: {
+            ...state.lessons, 
+            ...lessons.reduce((acc: { [id: number]: Lesson }, lesson) => {
+                acc[lesson.id] = lesson;
+                return acc;
+            }, {}) 
+        }
     })),
     on(updateLessonWithCardsIds, (state, { lesson, cardIds }) => {
         const updatedLesson = Object.assign({}, lesson);

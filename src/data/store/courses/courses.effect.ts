@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { Observable, map, of, switchMap, tap, withLatestFrom } from "rxjs";
+import { Observable, concatMap, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { IdGeneratorService } from "../../../services/id-generator/id-generator.service";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
 import { saveAppState } from "../app/app.action";
-import { addCourse, loadCoursesState, removeCourse, updateCourse, updateCourseWithLessonId } from "../courses/courses.action";
+import { addCourse, loadCoursesState, removeCourse, updateCourse, updateCourseWithLessonId, updateCourseWithLessonIds } from "../courses/courses.action";
 import { removeLessons } from "../lessons/lessons.action";
 import { selectLessonsByIds } from "../lessons/lessons.selector";
 import { selectCoursesList } from "./courses.selector";
@@ -33,7 +33,7 @@ export class CoursesEffects {
     
     saveAppState$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
-            ofType(addCourse, updateCourseWithLessonId, updateCourse),
+            ofType(addCourse, updateCourseWithLessonId, updateCourse, updateCourseWithLessonIds),
             switchMap(() => of(saveAppState()))
         )
     )
@@ -41,13 +41,13 @@ export class CoursesEffects {
     removeCourse$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(removeCourse),
-            switchMap((payload) => {
+            concatMap((payload) => {
                 return of(payload).pipe(
                     withLatestFrom(this.store$.select(selectLessonsByIds(payload.lessonIds))),
                     map(([payload, lessons]) => ({ lessons }))
                 );
             }),
-            switchMap((payload) => {
+            concatMap((payload) => {
                 const allCardIds = payload.lessons.reduce((acc: number[], lesson: Lesson) => {
                     return acc.concat(lesson.cardIds);
                 }, []);

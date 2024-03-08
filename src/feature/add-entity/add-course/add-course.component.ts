@@ -34,7 +34,7 @@ export class AddCourseComponent implements OnInit {
   save() {
     const course: Course = {
       id: this.idGenerator.nextIdForCourses(),
-      name: this.addCourseForm.controls["name"].value,
+      name: this.addCourseForm.controls["name"].value.trim(),
       lastLearningDate: new Date(),
       nextSuggestedLearningDate: new Date(),
       lessonIds: []

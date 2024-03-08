@@ -8,7 +8,7 @@
 <ng-template #normalView>
     <mat-list #lessonsList>
         <div *ngFor="let lesson of lessons; let lastItem = last;">
-            <mat-card fxLayout="column" fxLayoutAlign="center center" [routerLink]="[lesson.id, 'cards']">
+            <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="[lesson.id, 'cards']">
                 <div> {{ lesson.name }} </div>
             </mat-card>
         </div>

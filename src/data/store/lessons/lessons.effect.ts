@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { Observable, map, of, switchMap, tap, withLatestFrom } from "rxjs";
+import { Observable, concatMap, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
 import { saveAppState } from "../app/app.action";
-import { removeLessonIdFromCourse, updateCourseWithLessonId } from "../courses/courses.action";
-import { addLesson, loadLessonsState, removeCardIdFromLesson, removeLesson, removeLessons, updateLesson, updateLessonWithCardsIds } from "./lessons.action";
+import { removeLessonIdFromCourse, updateCourseWithLessonId, updateCourseWithLessonIds } from "../courses/courses.action";
+import { addLesson, addLessons, loadLessonsState, removeCardIdFromLesson, removeLesson, removeLessons, updateLesson, updateLessonWithCardsIds } from "./lessons.action";
 import { selectLessonsList } from "./lessons.selector";
 import { IdGeneratorService } from "../../../services/id-generator/id-generator.service";
 import { selectCardsByIds } from "../cards/cards.selector";
@@ -34,11 +34,20 @@ export class LessonsEffects {
     addLesson$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(addLesson),
-            switchMap((payload) => 
+            concatMap((payload) => 
                 of(updateCourseWithLessonId({course: payload.course, lessonId: payload.lesson.id}))
             )
         )
     );
+
+    addLessons$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(addLessons),
+            concatMap((payload) => 
+                of(updateCourseWithLessonIds({course: payload.course, lessonIds: payload.lessons.map(lesson => lesson.id)}))
+            )
+        )
+    )
 
     saveAppState$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
@@ -50,13 +59,13 @@ export class LessonsEffects {
     removeLesson$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(removeLesson),
-            switchMap((payload) => {
+            concatMap((payload) => {
                 return of(payload).pipe(
                     withLatestFrom(this.store$.select(selectCardsByIds(payload.cardIds))),
                     map(([payload, cards]) => ({ payload, cards }))
                 );
             }),
-            switchMap((payload) => 
+            concatMap((payload) => 
                 of(
                     removeCards({cards: payload.cards}),
                     removeLessonIdFromCourse({lessonId: payload.payload.lesson.id, course: payload.payload.course})
@@ -68,13 +77,13 @@ export class LessonsEffects {
     removeLessons$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(removeLessons),
-            switchMap((payload) => {
+            concatMap((payload) => {
                 return of(payload).pipe(
                     withLatestFrom(this.store$.select(selectCardsByIds(payload.allCardIds))),
                     map(([payload, cards]) => ({ cards }))
                 );
             }),
-            switchMap((payload) => of(removeCards({cards: payload.cards})))
+            concatMap((payload) => of(removeCards({cards: payload.cards})))
         )
     )
 }

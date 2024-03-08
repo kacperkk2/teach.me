@@ -17,14 +17,6 @@
                 </button>
                 <mat-hint align="end"> {{ name.value.length }}/{{ maxNameLength }} </mat-hint>
             </mat-form-field>
-
-            <mat-label> {{ addToCourseLabel }} </mat-label>
-            <mat-form-field>
-                <mat-select formControlName="course">
-                    <mat-option class="option-button" (click)="newCourse()"> <mat-icon>add</mat-icon> Stwórz nowy kurs </mat-option>
-                    <mat-option *ngFor="let course of (courses$ | async)" [value]="course"> {{ course.name }} </mat-option>
-                </mat-select>
-              </mat-form-field>
         </form>
 
         <button class="bottom-button" mat-flat-button color="primary" [disabled]="!importForm.valid" (click)="import()"> Importuj </button>

@@ -46,7 +46,7 @@ export class AddLessonComponent implements OnInit {
     const lessonId = this.idGenerator.nextIdForLessons();
     const lesson: Lesson = {
       id: lessonId,
-      name: this.addLessonForm.controls["name"].value,
+      name: this.addLessonForm.controls["name"].value.trim(),
       lastLearningDate: new Date(),
       nextSuggestedLearningDate: new Date(),
       noMistakeInARow: 0,

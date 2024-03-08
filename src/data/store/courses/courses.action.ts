@@ -17,6 +17,11 @@ export const updateCourseWithLessonId = createAction(
     props<{ course: Course, lessonId: number }>()
 );
 
+export const updateCourseWithLessonIds = createAction(
+    '[Courses] Update Course With Lesson Ids', 
+    props<{ course: Course, lessonIds: number[] }>()
+);
+
 export const removeCourse = createAction(
     '[Courses] Remove Course', 
     props<{ course: Course, lessonIds: number[] }>()

@@ -13,6 +13,11 @@ export const addLesson = createAction(
     props<{ lesson: Lesson, course: Course }>()
 )
 
+export const addLessons = createAction(
+    '[Lessons] Add Lessons', 
+    props<{ lessons: Lesson[], course: Course }>()
+)
+
 export const updateLessonWithCardsIds = createAction(
     '[Lesson] Update Lesson With Card Ids', 
     props<{ lesson: Lesson, cardIds: number[] }>()

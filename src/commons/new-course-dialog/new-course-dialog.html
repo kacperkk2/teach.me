@@ -1,0 +1,17 @@
+
+<mat-dialog-content>
+    <form [formGroup]="addCourseForm" fxLayout="column">    
+        <mat-label> {{ nameLabel | titlecase }} </mat-label> 
+        <mat-form-field>
+            <input matInput #name formControlName="name" autocomplete="off">
+            <button *ngIf="name.value" matSuffix mat-icon-button (click)="clear()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-hint align="end"> {{ name.value.length }}/{{ maxLength }} </mat-hint>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-evenly center">
+    <button fxFlex="40" mat-stroked-button [mat-dialog-close]> Anuluj </button>
+    <button fxFlex="40" mat-flat-button color="primary" [disabled]="!addCourseForm.valid" (click)="save()"> Stwórz </button>
+</mat-dialog-actions>

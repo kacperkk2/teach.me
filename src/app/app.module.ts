@@ -61,6 +61,8 @@ import { ImportHeaderComponent } from '../feature/import/import-header/import-he
 import { ImportPreviewComponent } from '../feature/import/import-preview/import-preview.component';
 import { ImportLessonComponent } from '../feature/import/import-summary/import-lesson/import-lesson.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ImportCourseComponent } from '../feature/import/import-summary/import-course/import-course.component';
+import { NewCourseDialog } from '../commons/new-course-dialog/new-course-dialog';
 
 @NgModule({
   declarations: [
@@ -95,7 +97,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ImportComponent,
     ImportHeaderComponent,
     ImportPreviewComponent,
-    ImportLessonComponent
+    ImportLessonComponent,
+    ImportCourseComponent,
+    NewCourseDialog
   ],
   imports: [
     BrowserModule,

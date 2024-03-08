@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -7,6 +7,8 @@ import { Course } from '../../../../data/model/course';
 import { selectCoursesList } from '../../../../data/store/courses/courses.selector';
 import { ImportSummaryData } from '../../import.component';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { NewCourseDialog } from '../../../../commons/new-course-dialog/new-course-dialog';
 
 @Component({
   selector: 'app-import-lesson',
@@ -28,7 +30,7 @@ export class ImportLessonComponent implements OnInit {
     return this.importForm.controls["course"] as FormControl;
   }
 
-  constructor(private store: Store, private router: Router) {
+  constructor(private store: Store, private router: Router, public dialog: MatDialog) {
 
   }
 
@@ -40,15 +42,20 @@ export class ImportLessonComponent implements OnInit {
     this.nameFormControl.patchValue(this.summaryData.entityName);
     this.courses$ = this.store.select(selectCoursesList);
   }
-
-  // TODO ZROBIC DIALOG NA DODAWANIE NOWEGO KURSU
-
+  
   import() {
     this.importLesson.emit({
       newLessonName: this.nameFormControl.value,
       course: this.courseFormControl.value
     })
     this.router.navigate(['/courses']);
+    // TODO ZROBIC DIALOG NA DODAWANIE NOWEGO KURSU
+  }
+
+  newCourse() {
+    this.dialog.open(NewCourseDialog, {width: '90%', maxWidth: '600px', autoFocus: false})
+        .afterClosed()
+        .subscribe();
   }
 
   clearName() {
@@ -57,6 +64,7 @@ export class ImportLessonComponent implements OnInit {
 
   nameLabel: string = CONFIG.LABELS.lessonName;
   maxNameLength = CONFIG.LESSONS.nameMaxLength;
+  addToCourseLabel = CONFIG.LABELS.addToCourse;
 }
 
 export interface ImportLessonData {

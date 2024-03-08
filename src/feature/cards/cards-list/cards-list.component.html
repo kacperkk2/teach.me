@@ -5,7 +5,7 @@
 </ng-template>
 
 <ng-template #normalView>
-    <mat-list #cardsList fxLayout="column" fxLayoutAlign="start center">
+    <mat-list #cardsList>
         <div class="wrapper" *ngFor="let card of cards; let lastItem = last;">
             <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="[card.id]">
                 <span class="text-bold"> {{ card.question }} </span>

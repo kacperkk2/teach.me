@@ -4,7 +4,8 @@
     <mat-tab [label]="importTabLabel | titlecase"> 
         <app-import-lesson *ngIf="migrationType == DataType.LESSON" 
                 [summaryData]="summaryData" (importLesson)="importLesson($any($event))"></app-import-lesson>
-        <!-- ngIf osobne dla lekcji i kursu -->
+        <app-import-course *ngIf="migrationType == DataType.COURSE" 
+                [summaryData]="summaryData" (importCourse)="importCourse($any($event))"></app-import-course>
     </mat-tab>
     <mat-tab [label]="previewTabLabel | titlecase"> 
         <app-import-preview [migrationData]="migrationData"></app-import-preview>

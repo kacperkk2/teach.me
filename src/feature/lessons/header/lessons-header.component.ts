@@ -8,6 +8,11 @@ import { Course } from '../../../data/model/course';
 import { removeCourse } from '../../../data/store/courses/courses.action';
 import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { selectLessonsByCourseId } from '../../../data/store/lessons/lessons.selector';
+import { MigrationService } from '../../../services/migration/migration.service';
+import { selectCardsByIds, selectCardsByLessonId, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
+import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/export-dialog';
+import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
 
 @Component({
   selector: 'app-lessons-header',
@@ -18,7 +23,9 @@ export class LessonsHeaderComponent implements OnInit {
   course: Course;
 
   constructor(private location: Location, private router: Router, 
-    private route: ActivatedRoute, private store: Store, public dialog: MatDialog) {
+    private route: ActivatedRoute, private store: Store, 
+    public dialog: MatDialog, private migrationService: MigrationService,
+    private urlShortener: UrlShortenerService) {
   }
 
   ngOnInit(): void {
@@ -47,9 +54,34 @@ export class LessonsHeaderComponent implements OnInit {
   editCourseClicked() {
     this.router.navigate(['/courses', this.course.id]);
   }
+
+  exportCourseClicked() {
+    this.store.select(selectLessonsByCourseId(this.course.id)).subscribe(lessons => {
+      const cardIds = lessons.flatMap(lesson => lesson.cardIds);
+
+      this.store.select(selectCardsByIds(cardIds)).subscribe(cards => {
+
+        const url = this.migrationService.courseToUrl(this.course, lessons, cards);
+
+        // todo url shortner w jednym miejscu a nie tu i w kursach
+        this.urlShortener.getShortUrl(url).subscribe((response) => {
+          let finalUrl = url;
+          if (response != null && response.shorturl) {
+            finalUrl = response.shorturl;
+          }
+    
+          const data = new ExportDialogInput(this.course.name, finalUrl);
+          const dialogRef = this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
+          dialogRef.afterClosed().subscribe();
+          // todo snackbar po kliknieu w kopiuj link
+        })
+      });
+    });
+  }
   
   title: string = CONFIG.LABELS.course;
   removeCourseLabel: string = CONFIG.LABELS.removeCourse;
   editCourseLabel: string = CONFIG.LABELS.editCourse;
   deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
+  exportCourseLabel: string = CONFIG.LABELS.exportCourse;
 }

@@ -4,12 +4,11 @@ import { Action, Store } from "@ngrx/store";
 import { Observable, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { AppFeatureState } from "..";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
+import { loadCardsState } from "../cards/cards.action";
 import { loadCoursesState } from "../courses/courses.action";
+import { loadLessonsState } from "../lessons/lessons.action";
 import { loadAppState, saveAppState } from "./app.action";
 import { selectAppState } from "./app.selector";
-import { loadLessonsState } from "../lessons/lessons.action";
-import { loadCardsState } from "../cards/cards.action";
-import { IdGeneratorService } from "../../../services/id-generator/id-generator.service";
 
 @Injectable()
 export class AppEffects {

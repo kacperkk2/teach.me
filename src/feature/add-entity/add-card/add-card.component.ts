@@ -133,8 +133,8 @@ export class AddCardComponent implements OnInit {
     const cards: Card[] = (this.cardsFormArray.controls as FormGroup[]).map((cardFormGroup: FormGroup) => {
       return {
         id: this.idGenerator.nextIdForCards(),
-        question: cardFormGroup.controls["question"].value,
-        answer: cardFormGroup.controls["answer"].value
+        question: cardFormGroup.controls["question"].value.trim(),
+        answer: cardFormGroup.controls["answer"].value.trim()
       }
     });
     this.store.dispatch(addCards({cards: cards, lesson: this.lesson}));

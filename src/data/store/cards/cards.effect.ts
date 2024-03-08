@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { Observable, of, switchMap, tap, withLatestFrom } from "rxjs";
+import { Observable, concatMap, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
 import { removeCardIdFromLesson, updateLessonWithCardsIds } from "../lessons/lessons.action";
 import { addCards, loadCardsState, removeCard, removeCards, updateCard } from "./cards.action";
@@ -32,7 +32,7 @@ export class CardsEffects {
     addCards$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(addCards),
-            switchMap((payload) => 
+            concatMap((payload) => 
                 of(updateLessonWithCardsIds({lesson: payload.lesson, cardIds: payload.cards.map(card => card.id)}))
             )
         )
@@ -48,7 +48,7 @@ export class CardsEffects {
     removeCard$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(removeCard),
-            switchMap((payload) => of(removeCardIdFromLesson({cardId: payload.cardId, lesson: payload.lesson})))
+            concatMap((payload) => of(removeCardIdFromLesson({cardId: payload.cardId, lesson: payload.lesson})))
         )
     );
 }
