@@ -22,6 +22,8 @@ export class MigrationService {
     // todo fetch lesson
     const data: MigrationData = this.createMigrationData([], [lesson], cards);
     const compressedEncoded = this.codec.pack(data, DataType.LESSON);
+
+    console.log('compressedEncoded', compressedEncoded)
     return this.getImportUrl(compressedEncoded);
   }
 
