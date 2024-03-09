@@ -7,7 +7,7 @@ import { StorageManagerService } from "../../../services/storage-manager/storage
 import { loadCardsState } from "../cards/cards.action";
 import { loadCoursesState } from "../courses/courses.action";
 import { loadLessonsState } from "../lessons/lessons.action";
-import { loadAppState, saveAppState } from "./app.action";
+import { clearAppState, loadAppState, saveAppState } from "./app.action";
 import { selectAppState } from "./app.selector";
 
 @Injectable()
@@ -41,6 +41,16 @@ export class AppEffects {
             withLatestFrom(this.store$.select(selectAppState)),
             tap(([payload, appState]) => 
                 this.storageManager.saveAppState(appState)
+            )
+        ),
+        { dispatch: false }
+    )
+
+    clearAppState$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(clearAppState),
+            tap((payload) => 
+                this.storageManager.clearAppState()
             )
         ),
         { dispatch: false }

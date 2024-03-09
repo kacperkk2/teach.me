@@ -5,15 +5,15 @@
     </div>
 
     <div>
-        <!-- <button mat-icon-button [matMenuTriggerFor]="courseMenu">
+        <button mat-icon-button [matMenuTriggerFor]="coursesMenu">
             <mat-icon> more_vert </mat-icon>
         </button>
 
-        <mat-menu #courseMenu="matMenu" xPosition="before">
-            <button mat-menu-item (onClick)="removeCourse">
-                <span> removeCourseLabel </span>
+        <mat-menu #coursesMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="removeAppData()">
+                <span> {{ removeAppDataLabel | titlecase }} </span>
             </button>
-        </mat-menu> -->
+        </mat-menu>
 
     </div>
 </mat-toolbar>

@@ -1,14 +1,23 @@
 <app-import-header [title]="importTitle"></app-import-header>
 
-<mat-tab-group dynamicHeight>
-    <mat-tab [label]="importTabLabel | titlecase"> 
-        <app-import-lesson *ngIf="migrationType == DataType.LESSON" 
-                [summaryData]="summaryData" (importLesson)="importLesson($any($event))"></app-import-lesson>
-        <app-import-course *ngIf="migrationType == DataType.COURSE" 
-                [summaryData]="summaryData" (importCourse)="importCourse($any($event))"></app-import-course>
-    </mat-tab>
-    <mat-tab [label]="previewTabLabel | titlecase"> 
-        <app-import-preview [migrationData]="migrationData"></app-import-preview>
-    </mat-tab>
-</mat-tab-group>
+<div *ngIf="isImportFail; then importFailView else normalView"></div>
+
+<ng-template #importFailView>
+    <app-empty-view [mainLabel]="importFailedReason" [subLabel]="importFailedDescription"></app-empty-view>
+</ng-template>
+
+<ng-template #normalView>
+    <mat-tab-group dynamicHeight>
+        <mat-tab [label]="importTabLabel | titlecase"> 
+            <app-import-lesson *ngIf="migrationType == DataType.LESSON" 
+                    [summaryData]="summaryData" (importLesson)="importLesson($any($event))"></app-import-lesson>
+            <app-import-course *ngIf="migrationType == DataType.COURSE" 
+                    [summaryData]="summaryData" (importCourse)="importCourse($any($event))"></app-import-course>
+        </mat-tab>
+        <mat-tab [label]="previewTabLabel | titlecase"> 
+            <app-import-preview [migrationData]="migrationData"></app-import-preview>
+        </mat-tab>
+    </mat-tab-group>
+</ng-template>
+
 
