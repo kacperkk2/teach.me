@@ -16,6 +16,10 @@ export class StorageManagerService {
     localStorage.setItem(this.appStateKey, JSON.stringify(appState));
   }
 
+  public clearAppState() {
+    localStorage.setItem(this.appStateKey, '{}');
+  }
+
   public loadAppState() {
     return JSON.parse(localStorage.getItem(this.appStateKey) || '{}');
   }

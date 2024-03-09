@@ -27,6 +27,7 @@ export class ImportComponent implements OnInit {
   migrationType: DataType;
   importTitle: string;
   DataType = DataType;
+  isImportFail: boolean = false;
 
   constructor(private codec: CodecService, private route: ActivatedRoute, 
     private store: Store, private idGenerator: IdGeneratorService, private snackBar: MatSnackBar) {
@@ -39,6 +40,10 @@ export class ImportComponent implements OnInit {
       const migrationDataWrapper = this.codec.unpack(data);
       this.migrationType = migrationDataWrapper.type;
       this.migrationData = JSON.parse(migrationDataWrapper.data || '{}');
+      if (Object.keys(this.migrationData).length == 0) {
+        this.importFailed();
+        return;
+      }
       this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
       // todo zabezpieczyc sie na mozliwosc zlych danych po rozpakowaniu, wtedy widok ze dane popsute i tylko krzyzyk
       this.importTitle = this.getImportTitle(this.migrationType);
@@ -105,6 +110,11 @@ export class ImportComponent implements OnInit {
     });
   }
 
+  importFailed() {
+    this.isImportFail = true;
+    this.importTitle = this.importFailedTitle;
+  }
+
   private getImportTitle(type: DataType): string {
     if (type == DataType.LESSON) {
       return this.lessonImportTitle;
@@ -133,6 +143,9 @@ export class ImportComponent implements OnInit {
   previewTabLabel: string = CONFIG.LABELS.importPreview;
   lessonImportTitle: string = CONFIG.LABELS.importLesson;
   courseImportTitle: string = CONFIG.LABELS.importCourse;
+  importFailedTitle: string = CONFIG.LABELS.importFailed;
+  importFailedReason: string = CONFIG.LABELS.importFailedReason;
+  importFailedDescription: string = CONFIG.LABELS.importFailedDescription;
 }
 
 export interface ImportSummaryData {

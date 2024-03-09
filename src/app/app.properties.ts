@@ -43,6 +43,7 @@ export const CONFIG = {
 
         removeCourse: 'usuń kurs',
         removeLesson: 'usuń lekcję',
+        removeAppData: 'usuń dane aplikacji',
 
         teachTab: 'nauka',
         lessonsTab: 'lekcje',
@@ -51,6 +52,7 @@ export const CONFIG = {
         deleteCardConfirmation: 'Czy na pewno chcesz usunąć kartę?',
         deleteLessonConfirmation: 'Czy na pewno chcesz usunąć lekcję?',
         deleteCourseConfirmation: 'Czy na pewno chcesz usunąć kurs?',
+        deleteAppDataConfirmation: 'Czy na pewno chcesz usunąć dane aplikacji?',
 
         emptyCourses: 'Brak kursów',
         emptyCoursesSub: 'Kliknij żeby dodać kurs',
@@ -63,6 +65,9 @@ export const CONFIG = {
         exportCourse: 'eksportuj kurs',
         importLesson: 'import lekcji',
         importCourse: 'import kursu',
+        importFailed: 'import nieudany',
+        importFailedReason: 'Niestety nie udało się odczytać danych',
+        importFailedDescription: 'Dane zapisane w adresie URL są błędne',
         importSummary: 'import',
         importPreview: 'podgląd',
         addToCourse: 'Dodaj do kursu',
