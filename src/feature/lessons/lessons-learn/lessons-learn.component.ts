@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { CONFIG } from '../../../app/app.properties';
 import { shuffle } from '../../../commons/utils';
 import { Card } from '../../../data/model/card';
 import { Course } from '../../../data/model/course';
-import { LearnDataProviderService } from '../../../services/learn-data-provider/learn-data-provider.service';
 import { selectCardsByIds, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
-import { CONFIG } from '../../../app/app.properties';
 import { LearnData } from '../../cards/cards-learn/cards-learn.component';
 
 @Component({
@@ -21,7 +20,7 @@ export class LessonsLearnComponent implements OnInit {
   cards: Card[];
   wrongPreviouslyCards: Card[];
 
-  constructor(private router: Router, private store: Store, private learnDataProvider: LearnDataProviderService) {
+  constructor(private router: Router, private store: Store) {
   }
 
   ngOnInit(): void {

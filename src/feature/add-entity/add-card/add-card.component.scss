@@ -1,7 +1,7 @@
 @import "../../../styles.scss";
 
 .wrapper {
-    height: 100vh; 
+    height: 100dvh; 
 }
 
 .bottom-button {
@@ -53,7 +53,7 @@ mat-label {
 }
 
 .main-list {
-    height: calc(100vh - 50px - 150px - 5px);
+    height: calc(100dvh - 50px - 150px - 5px);
     overflow: auto;
 }
 
