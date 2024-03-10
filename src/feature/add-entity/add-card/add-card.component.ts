@@ -102,7 +102,7 @@ export class AddCardComponent implements OnInit {
         return;
       }
       const question = this.trimOrEmptyString(line.split(this.separator)[0]);
-      const answer = this.trimOrEmptyString(line.split(this.separator)[1]);
+      const answer = this.trimOrEmptyString(line.split(this.separator).slice(1).join(this.separator));
       this.addCard(question, answer);
     });
     if (this.cardsFormArray.length == 0) {
