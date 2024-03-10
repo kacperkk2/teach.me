@@ -11,5 +11,5 @@
     <button fxFlex="40" mat-stroked-button [mat-dialog-close]> Anuluj </button>
     <button fxFlex="40" mat-flat-button color="primary" 
             [cdkCopyToClipboard]="getDataToCopy()"
-            [mat-dialog-close]> Kopiuj link </button>
+            (click)="close()"> Kopiuj link </button>
 </mat-dialog-actions>

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { CONFIG } from '../../app/app.properties';
 import { Course } from '../../data/model/course';
 import { selectCoursesList } from '../../data/store/courses/courses.selector';
-import { IdGeneratorService } from '../../services/id-generator/id-generator.service';
-import { CONFIG } from '../../app/app.properties';
 
 @Component({
   selector: 'app-courses',
@@ -15,7 +14,7 @@ export class CoursesComponent implements OnInit {
 
   courses$: Observable<Course[]>;
 
-  constructor(private store: Store, private idGenerator: IdGeneratorService) {
+  constructor(private store: Store) {
   }
 
   ngOnInit(): void {

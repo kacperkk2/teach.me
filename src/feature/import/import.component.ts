@@ -71,6 +71,7 @@ export class ImportComponent implements OnInit {
       }
     })
     this.store.dispatch(addCards({cards: cards, lesson: lesson}))
+    this.showSnackBar('Pomyślnie zaimportowano lekcję');
   }
 
   // todo w kazdym elemencie parent id, wtedy uproscic add (nie beda lancuchami, tylko save obiektu ktory przychodzi)
@@ -110,6 +111,15 @@ export class ImportComponent implements OnInit {
     this.store.dispatch(addLessons({lessons: Array.from(lessonToCards.keys()), course: course}))
     lessonToCards.forEach((value: Card[], key: Lesson) => {
       this.store.dispatch(addCards({cards: value, lesson: key})) 
+    });
+    this.showSnackBar('Pomyślnie zaimportowano kurs');
+  }
+
+  showSnackBar(label: string) {
+    this.snackBar.open(label, 'Zamknij', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3 * 1000,
     });
   }
 

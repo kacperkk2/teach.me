@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'export-dialog',
@@ -10,12 +11,21 @@ export class ExportDialog {
 
   constructor(
     public dialogRef: MatDialogRef<ExportDialog>, 
-    @Inject(MAT_DIALOG_DATA) public data: ExportDialogInput) {
+    @Inject(MAT_DIALOG_DATA) public data: ExportDialogInput,
+    private snackBar: MatSnackBar) {
   }
 
   getDataToCopy() {
-    // todo jakis opis ze teachme i udostepnione lekcje lub kurs i nazwa
     return this.data.url;
+  }
+
+  close() {
+    this.snackBar.open('Link został skopiowany', 'Zamknij', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3 * 1000,
+    });
+    this.dialogRef.close();
   }
 }
 

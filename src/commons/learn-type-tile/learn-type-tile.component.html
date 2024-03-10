@@ -3,24 +3,12 @@
         <mat-icon class="side-icon text-light-grey"> {{ icon }} </mat-icon>
     </div>
     <div fxFlex="60" fxLayoutAlign="start center">
-        <div class="card-icon">
-            <div class="number"> {{ cardsCount }} </div>
-        </div>
+        <app-card-icon [count]="cardsCount"></app-card-icon>
         <span> {{ label }}  </span>
-        
-
     </div>
     <mat-divider vertical></mat-divider>
     <button fxFlex="25" mat-button color="primary" 
             (click)="emitActionClicked()" [disabled]="cardsCount == 0"> 
-        
-        <div fxLayout="row" fxLayoutAlign="center center"  >
-
-    
-            <div>
-                {{ buttonLabel }}
-    
-            </div>
-        </div>
+        {{ buttonLabel }}
     </button>
 </div>
