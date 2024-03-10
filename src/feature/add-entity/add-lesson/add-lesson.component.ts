@@ -51,6 +51,7 @@ export class AddLessonComponent implements OnInit {
       nextSuggestedLearningDate: new Date(),
       noMistakeInARow: 0,
       cardIds: [],
+      wrongPreviouslyCardIds: [],
     }
     this.store.dispatch(addLesson({lesson: lesson, course: this.course}));
     this.location.back();

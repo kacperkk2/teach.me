@@ -37,7 +37,8 @@ export class AddCourseComponent implements OnInit {
       name: this.addCourseForm.controls["name"].value.trim(),
       lastLearningDate: new Date(),
       nextSuggestedLearningDate: new Date(),
-      lessonIds: []
+      lessonIds: [],
+      wrongPreviouslyCardIds: []
     }
     this.store.dispatch(addCourse({course}));
     this.location.back();

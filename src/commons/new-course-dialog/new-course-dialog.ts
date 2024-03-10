@@ -42,7 +42,8 @@ export class NewCourseDialog {
       name: this.nameFormControl.value.trim(),
       lastLearningDate: new Date(),
       nextSuggestedLearningDate: new Date(),
-      lessonIds: []
+      lessonIds: [],
+      wrongPreviouslyCardIds: []
     }
     this.store.dispatch(addCourse({course}));
     this.dialogRef.close();

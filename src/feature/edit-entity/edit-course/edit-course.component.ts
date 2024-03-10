@@ -62,7 +62,8 @@ export class EditCourseComponent implements OnInit {
       name: this.nameFormControl.value,
       lastLearningDate: this.course.lastLearningDate,
       nextSuggestedLearningDate: this.course.nextSuggestedLearningDate,
-      lessonIds: this.course.lessonIds
+      lessonIds: this.course.lessonIds,
+      wrongPreviouslyCardIds: this.course.wrongPreviouslyCardIds
     }
     this.store.dispatch(updateCourse({course: updatedCourse}));
     this.location.back();

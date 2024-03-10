@@ -10,7 +10,7 @@ export class LearnTypeTileComponent {
   @Input({required: true}) label: string;
   @Input({required: true}) icon: string;
   @Input({required: true}) buttonLabel: string;
-  @Input() buttonDisabled: boolean = false;
+  @Input({required: true}) cardsCount: number;
   @Output() actionClicked = new EventEmitter();
   
   emitActionClicked() {

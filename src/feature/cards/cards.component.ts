@@ -9,6 +9,9 @@ import { selectLesson } from '../../data/store/lessons/lessons.selector';
 import { CONFIG } from '../../app/app.properties';
 import { Course } from '../../data/model/course';
 import { selectCourse } from '../../data/store/courses/courses.selector';
+import { LearnEndData, LearnEndState } from '../learn/learn.component';
+import { LearnData } from './cards-learn/cards-learn.component';
+import { updateLesson } from '../../data/store/lessons/lessons.action';
 
 @Component({
   selector: 'app-cards',
@@ -17,9 +20,12 @@ import { selectCourse } from '../../data/store/courses/courses.selector';
 })
 export class CardsComponent implements OnInit {
 
+  isLearning: boolean = false;
+  cardsToLearn: Card[];
+
   course$: Observable<Course>;
   cards$: Observable<Card[]>;
-  lesson$: Observable<Lesson>;
+  lesson: Lesson;
 
   constructor(private route: ActivatedRoute, private store: Store) {
   }
@@ -29,9 +35,31 @@ export class CardsComponent implements OnInit {
       const courseId = params['courseId'];
       const lessonId = params['lessonId'];
       this.cards$ = this.store.select(selectCardsByLessonId(lessonId));
-      this.lesson$ = this.store.select(selectLesson(lessonId));
+      this.store.select(selectLesson(lessonId)).subscribe(lesson => this.lesson = lesson);
       this.course$ = this.store.select(selectCourse(courseId));
    });
+  }
+
+  learnEnd(learnEndData: LearnEndData) {
+    this.isLearning = false;
+    if (learnEndData.state == LearnEndState.ABORT) {
+      return;
+    }
+    const updatedLesson: Lesson = {
+      id: this.lesson.id,
+      name: this.lesson.name,
+      lastLearningDate: this.lesson.lastLearningDate,
+      nextSuggestedLearningDate: this.lesson.nextSuggestedLearningDate,
+      noMistakeInARow: this.lesson.noMistakeInARow,
+      cardIds: this.lesson.cardIds,
+      wrongPreviouslyCardIds: learnEndData.wrong.map(card => card.id),
+    }
+    this.store.dispatch(updateLesson({lesson: updatedLesson}))
+  }
+
+  learnClicked(learnData: LearnData) {
+    this.cardsToLearn = learnData.cards;
+    this.isLearning = true;
   }
 
   teachTabLabel: string = CONFIG.LABELS.teachTab;

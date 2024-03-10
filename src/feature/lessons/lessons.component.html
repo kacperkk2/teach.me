@@ -1,12 +1,22 @@
-<app-lessons-header></app-lessons-header>
 
-<mat-tab-group dynamicHeight>
-    <mat-tab [label]="teachTabLabel | titlecase">  
-        <app-lessons-learn [course]="(course$ | async)!"></app-lessons-learn>
-    </mat-tab>
-    <mat-tab [label]="(lessonsTabLabel | titlecase) + ' (' + (lessons$ | async)?.length + ')'"> 
-        <app-lessons-list [lessons]="(lessons$ | async)!"></app-lessons-list>
-    </mat-tab>
-</mat-tab-group>
 
-<app-add-round-button redirectTo="new" [label]="lessonLabel"></app-add-round-button>
+<div *ngIf="isLearning; then learnView else normalView"></div>
+
+<ng-template #learnView>
+    <app-learn [cards]="cardsToLearn" [label]="course.name" (learnEnd)="learnEnd($any($event))"></app-learn>
+</ng-template>
+
+<ng-template #normalView>
+    <app-lessons-header></app-lessons-header>
+    
+    <mat-tab-group dynamicHeight>
+        <mat-tab [label]="teachTabLabel | titlecase">  
+            <app-lessons-learn [course]="course" (learnClicked)="learnClicked($any($event))"></app-lessons-learn>
+        </mat-tab>
+        <mat-tab [label]="(lessonsTabLabel | titlecase) + ' (' + (lessons$ | async)?.length + ')'"> 
+            <app-lessons-list [lessons]="(lessons$ | async)!"></app-lessons-list>
+        </mat-tab>
+    </mat-tab-group>
+    
+    <app-add-round-button redirectTo="new" [label]="lessonLabel"></app-add-round-button>
+</ng-template>

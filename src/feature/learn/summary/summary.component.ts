@@ -20,8 +20,12 @@ export class SummaryComponent {
   endSummary() {
     this.action.emit(SummaryAction.NEXT);
   }
+
+  endLearn() {
+    this.action.emit(SummaryAction.LEARN_END);
+  }
 }
 
 export enum SummaryAction {
-  ABORT, NEXT
+  ABORT, NEXT, LEARN_END
 }

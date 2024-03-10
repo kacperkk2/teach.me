@@ -1,9 +1,5 @@
-import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Card } from '../../data/model/card';
-import { LearnDataProviderService } from '../../services/learn-data-provider/learn-data-provider.service';
 import { RoundAction, RoundSummary } from './round/round.component';
 import { SummaryAction } from './summary/summary.component';
 
@@ -13,32 +9,29 @@ import { SummaryAction } from './summary/summary.component';
   styleUrl: './learn.component.scss'
 })
 export class LearnComponent implements OnInit {
+  @Input({required: true}) cards: Card[];
+  @Input({required: true}) label: string;
+  @Output() learnEnd = new EventEmitter();
 
-  cards: Card[];
-  label: string;
-
+  cardsWrongInFirstRound: Card[];
   cardsLeft: Card[];
   gameState: GameState = GameState.ROUND;
   GameState = GameState;
   round: number;
   fullRoundsSummaries: FullRoundSummary[];
   
-  constructor(private route: ActivatedRoute, private store: Store, 
-    private location: Location, private learnDataProvider: LearnDataProviderService) {
+  constructor() {
   }
 
   ngOnInit(): void {
     this.round = 1;
     this.fullRoundsSummaries = [];
-
-    this.cards = this.learnDataProvider.getCards();
     this.cardsLeft = this.cards;
-    this.label = this.learnDataProvider.getLabel();
   }
 
   endRound(roundSummary: RoundSummary) {
     if (roundSummary.roundAction == RoundAction.ABORT) {
-      this.close();
+      this.abortLearn();
     }
     else {
       const fullRoundSummary = new FullRoundSummary(
@@ -49,6 +42,10 @@ export class LearnComponent implements OnInit {
         roundSummary.wrong
       );
       this.fullRoundsSummaries.push(fullRoundSummary);
+      this.cardsLeft = this.fullRoundsSummaries[this.round-1].wrongInRound;
+      if (this.round == 1) {
+        this.cardsWrongInFirstRound = [...this.cardsLeft];
+      }
       this.gameState = GameState.SUMMARY;
     }
   }
@@ -62,23 +59,37 @@ export class LearnComponent implements OnInit {
 
   endSummary(action: SummaryAction) {
     if (action == SummaryAction.ABORT) {
-      this.close();
+      this.abortLearn();
+    }
+    else if (action == SummaryAction.LEARN_END) {
+      this.finishLearn();
     }
     else {
-      this.cardsLeft = this.fullRoundsSummaries[this.round-1].wrongInRound;
       this.round++;
       this.gameState = GameState.ROUND;
     }
   }
 
-  close() {
-    this.location.back();
+  abortLearn() {
+    this.learnEnd.emit(new LearnEndData(LearnEndState.ABORT, []))
+  }
+
+  finishLearn() {
+    this.learnEnd.emit(new LearnEndData(LearnEndState.LEARN_END, this.cardsWrongInFirstRound))
   }
 }
 
 export class FullRoundSummary {
   constructor(public roundNum: number, public correctFromBeggining: Card[], public wrongFromBeggining: Card[], 
     public correctInRound: Card[], public wrongInRound: Card[]) {}
+}
+
+export class LearnEndData {
+  constructor(public state: LearnEndState, public wrong: Card[]) {}
+}
+
+export enum LearnEndState {
+  ABORT, LEARN_END
 }
 
 export enum GameState {

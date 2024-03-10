@@ -6,4 +6,5 @@ export interface Lesson {
     nextSuggestedLearningDate: Date,
     noMistakeInARow: number,
     cardIds: number[],
+    wrongPreviouslyCardIds: number[]
 }

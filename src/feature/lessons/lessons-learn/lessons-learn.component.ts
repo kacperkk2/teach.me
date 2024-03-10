@@ -1,12 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { shuffle } from '../../../commons/utils';
 import { Card } from '../../../data/model/card';
 import { Course } from '../../../data/model/course';
 import { LearnDataProviderService } from '../../../services/learn-data-provider/learn-data-provider.service';
-import { selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
+import { selectCardsByIds, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
 import { CONFIG } from '../../../app/app.properties';
+import { LearnData } from '../../cards/cards-learn/cards-learn.component';
 
 @Component({
   selector: 'app-lessons-learn',
@@ -14,9 +15,11 @@ import { CONFIG } from '../../../app/app.properties';
   styleUrl: './lessons-learn.component.scss'
 })
 export class LessonsLearnComponent implements OnInit {
-
   @Input({required: true}) course: Course;
+  @Output() learnClicked = new EventEmitter<LearnData>();
+
   cards: Card[];
+  wrongPreviouslyCards: Card[];
 
   constructor(private router: Router, private store: Store, private learnDataProvider: LearnDataProviderService) {
   }
@@ -25,21 +28,21 @@ export class LessonsLearnComponent implements OnInit {
     this.store.select(selectCardsByLessonIds(this.course.lessonIds)).subscribe(courseCards => {
       this.cards = courseCards;
     });
+    this.store.select(selectCardsByIds(this.course.wrongPreviouslyCardIds)).subscribe(wrongCards => {
+      this.wrongPreviouslyCards = wrongCards
+    });
   }
 
   startAllInOrderGame() {
-    this.learnDataProvider.prepareData([...this.cards], this.course.name);
-    this.router.navigate(['/learn']);
+    this.learnClicked.emit(new LearnData([...this.cards]));
   }
 
   startAllRandomGame() {
-    this.learnDataProvider.prepareData(shuffle([...this.cards]), this.course.name);
-    this.router.navigate(['/learn']);
+    this.learnClicked.emit(new LearnData(shuffle([...this.cards])));
   }
 
   startPreviouslyFailedGame() {
-    // todo jak sie rozszerzy state o pamietanie poprzednio blednych
-    console.log("previously failed started")
+    this.learnClicked.emit(new LearnData([...this.wrongPreviouslyCards]));
   }
 
   cardsLabel: string = CONFIG.LABELS.cards;

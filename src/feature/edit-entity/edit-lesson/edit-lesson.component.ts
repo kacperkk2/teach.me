@@ -75,6 +75,7 @@ export class EditLessonComponent implements OnInit {
       nextSuggestedLearningDate: this.lesson.nextSuggestedLearningDate,
       noMistakeInARow: this.lesson.noMistakeInARow,
       cardIds: this.lesson.cardIds,
+      wrongPreviouslyCardIds: this.lesson.wrongPreviouslyCardIds,
     }
     this.store.dispatch(updateLesson({lesson: updatedLesson}));
     this.location.back();

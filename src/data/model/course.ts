@@ -4,5 +4,6 @@ export interface Course {
     name: string,
     lastLearningDate: Date,
     nextSuggestedLearningDate: Date,
-    lessonIds: number[]
+    lessonIds: number[],
+    wrongPreviouslyCardIds: number[]
 }

@@ -12,7 +12,7 @@
             label="Wszystkie po kolei" 
             icon="redo"
             buttonLabel="Ucz się"
-            [buttonDisabled]="cards.length == 0"
+            [cardsCount]="cards.length"
             (actionClicked)="startAllInOrderGame()">
         </app-learn-type-tile>
         <!-- text_rotation_none -->
@@ -21,7 +21,7 @@
             label="Wszystkie losowo" 
             icon="casino"
             buttonLabel="Ucz się"
-            [buttonDisabled]="cards.length == 0"
+            [cardsCount]="cards.length"
             (actionClicked)="startAllRandomGame()">
         </app-learn-type-tile>
 
@@ -29,7 +29,7 @@
             label="Błędne poprzednim razem" 
             icon="repeat"
             buttonLabel="Ucz się"
-            [buttonDisabled]="true"
+            [cardsCount]="wrongPreviouslyCards.length"
             (actionClicked)="startPreviouslyFailedGame()">
         </app-learn-type-tile>
         <!-- sync_problem -->    

@@ -59,6 +59,7 @@ export class ImportComponent implements OnInit {
       nextSuggestedLearningDate: new Date(),
       noMistakeInARow: 0,
       cardIds: [],
+      wrongPreviouslyCardIds: [],
     }
     this.store.dispatch(addLesson({lesson: lesson, course: importLessonData.course}))
 
@@ -79,7 +80,8 @@ export class ImportComponent implements OnInit {
       name: importCourseData.newCourseName,
       lastLearningDate: new Date(),
       nextSuggestedLearningDate: new Date(),
-      lessonIds: []
+      lessonIds: [],
+      wrongPreviouslyCardIds: []
     }
     this.store.dispatch(addCourse({course: course}))
 
@@ -99,7 +101,8 @@ export class ImportComponent implements OnInit {
         lastLearningDate: new Date(),
         nextSuggestedLearningDate: new Date(),
         noMistakeInARow: 0,
-        cardIds: []
+        cardIds: [],
+        wrongPreviouslyCardIds: [],
       }
       lessonToCards.set(lesson, cards);
     })
