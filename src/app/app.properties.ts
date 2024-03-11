@@ -3,8 +3,7 @@ export const CONFIG = {
     IMPORT: {
         importPath: "/import",
         dataParam: "data",
-        // appRoot: "/teach.me"
-        appRoot: ""
+        appRoot: "/teach.me"
     },
 
     COURSES: {
