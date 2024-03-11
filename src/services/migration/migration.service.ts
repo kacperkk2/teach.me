@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CONFIG } from '../../app/app.properties';
-import { Card } from '../../data/model/card';
-import { Lesson } from '../../data/model/lesson';
+import { Card, CardMigration } from '../../data/model/card';
+import { Lesson, LessonMigration } from '../../data/model/lesson';
 import { CodecService } from '../codec/codec.service';
 import { UrlShortenerService } from '../urlshortener/url-shortener.service';
-import { Course } from '../../data/model/course';
+import { Course, CourseMigration } from '../../data/model/course';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class MigrationService {
   // todo przekazac tylko lessonId (ale wtedy trzeba by tu zwracac z subscribe)
   lessonToUrl(lesson: Lesson, cards: Card[]) {
     // todo fetch lesson
-    const data: MigrationData = this.createMigrationData([], [lesson], cards);
+    const data: LessonMigration[] = this.prepareForLessonsMigration([lesson], cards);
     const compressedEncoded = this.codec.pack(data, DataType.LESSON);
     return this.getImportUrl(compressedEncoded);
   }
@@ -28,7 +28,7 @@ export class MigrationService {
   // todo przekazac tylko courseId (ale wtedy trzeba by tu zwracac z subscribe)
   courseToUrl(course: Course, lessons: Lesson[], cards: Card[]) {
     // todo fetch lessons i cards
-    const data: MigrationData = this.createMigrationData([course], lessons, cards);
+    const data: CourseMigration[] = this.prepareForCoursesMigration([course], lessons, cards);
     const compressedEncoded = this.codec.pack(data, DataType.COURSE);
     return this.getImportUrl(compressedEncoded);
   }
@@ -42,29 +42,46 @@ export class MigrationService {
     return location.origin + this.appRoot + this.importPath + "?" + this.dataParam + "=" + data;
   }
 
-  private createMigrationData(courses: Course[], lessons: Lesson[], cards: Card[]): MigrationData {
-    return {
-      courses: courses.reduce((acc: { [id: number]: Course }, course) => {
-        acc[course.id] = course;
-        return acc;
-      }, {}),
-      lessons: lessons.reduce((acc: { [id: number]: Lesson }, lesson) => {
-        acc[lesson.id] = lesson;
-        return acc;
-      }, {}),
-      cards: cards.reduce((acc: { [id: number]: Card }, card) => {
-        acc[card.id] = card;
-        return acc;
-      }, {})
-    }
-  }
-}
+  private prepareForCoursesMigration(courses: Course[], lessons: Lesson[], cards: Card[]): CourseMigration[] {
+    const lessonsMap = this.buildLessonsMap(lessons);
+    const cardsMap = this.buildCardsMap(cards);
 
-// todo - czy nie latwiejsza struktura by byla drzewiasta? latwiej wyswietlic i pozniej dodac do store?
-export interface MigrationData {
-  courses: { [key: number]: Course },
-  lessons: { [key: number]: Lesson },
-  cards: { [key: number]: Card },
+    return courses.map(course => {
+      const courseLessonsMigration: LessonMigration[] = course.lessonIds.map(lessonId => {
+        const lesson: Lesson = lessonsMap[lessonId];
+        const lessonCardsMigration: CardMigration[] = lesson.cardIds.map(cardId => {
+          return mapCardToCardMigration(cardsMap[cardId]);
+        })
+        return mapLessonToLessonMigration(lesson, lessonCardsMigration);
+      })
+      return mapCourseToCourseMigration(course, courseLessonsMigration);
+    });
+  }
+
+  private prepareForLessonsMigration(lessons: Lesson[], cards: Card[]): LessonMigration[] {
+    const cardsMap = this.buildCardsMap(cards);
+    
+    return lessons.map(lesson => {
+      const lessonCardsMigration: CardMigration[] = lesson.cardIds.map(cardId => {
+        return mapCardToCardMigration(cardsMap[cardId]);
+      })
+      return mapLessonToLessonMigration(lesson, lessonCardsMigration);
+    });
+  }
+
+  private buildLessonsMap(lessons: Lesson[]) {
+    return lessons.reduce((acc: { [id: number]: Lesson }, lesson) => {
+      acc[lesson.id] = lesson;
+      return acc;
+    }, {});
+  }
+
+  private buildCardsMap(cards: Card[]) {
+    return cards.reduce((acc: { [id: number]: Card }, card) => {
+      acc[card.id] = card;
+      return acc;
+    }, {});
+  }
 }
 
 export interface MigrationDataWrapper {
@@ -74,4 +91,25 @@ export interface MigrationDataWrapper {
 
 export enum DataType {
   LESSON, COURSE
+}
+
+export function mapCourseToCourseMigration(course: Course, lessonsMigration: LessonMigration[]): CourseMigration {
+  return {
+    name: course.name,
+    lessons: lessonsMigration
+  }
+}
+
+export function mapLessonToLessonMigration(lesson: Lesson, cardsMigration: CardMigration[]): LessonMigration {
+  return {
+    name: lesson.name,
+    cards: cardsMigration
+  }
+}
+
+export function mapCardToCardMigration(card: Card): CardMigration {
+  return {
+    question: card.question,
+    answer: card.answer,
+  }
 }

@@ -4,15 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CONFIG } from '../../app/app.properties';
 import { Card } from '../../data/model/card';
-import { Lesson } from '../../data/model/lesson';
+import { Lesson, LessonMigration } from '../../data/model/lesson';
 import { addCards } from '../../data/store/cards/cards.action';
 import { addLesson, addLessons } from '../../data/store/lessons/lessons.action';
 import { CodecService } from '../../services/codec/codec.service';
 import { IdGeneratorService } from '../../services/id-generator/id-generator.service';
-import { DataType, MigrationData } from '../../services/migration/migration.service';
+import { DataType } from '../../services/migration/migration.service';
 import { ImportLessonData } from './import-summary/import-lesson/import-lesson.component';
 import { ImportCourseData } from './import-summary/import-course/import-course.component';
-import { Course } from '../../data/model/course';
+import { Course, CourseMigration } from '../../data/model/course';
 import { addCourse } from '../../data/store/courses/courses.action';
 
 @Component({
@@ -22,7 +22,8 @@ import { addCourse } from '../../data/store/courses/courses.action';
 })
 export class ImportComponent implements OnInit {
 
-  migrationData: MigrationData;
+  migrationData: CourseMigration[] | LessonMigration[];
+  lessonsData: LessonMigration[];
   summaryData: ImportSummaryData;
   migrationType: DataType;
   importTitle: string;
@@ -37,21 +38,20 @@ export class ImportComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       const data = params['data'];
-      const migrationDataWrapper = this.codec.unpack(data);
-      this.migrationType = migrationDataWrapper.type;
-      this.migrationData = JSON.parse(migrationDataWrapper.data || '{}');
+      [this.migrationData, this.migrationType] = this.codec.unpack(data);
       if (Object.keys(this.migrationData).length == 0) {
         this.importFailed();
         return;
       }
       this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
-      // todo zabezpieczyc sie na mozliwosc zlych danych po rozpakowaniu, wtedy widok ze dane popsute i tylko krzyzyk
       this.importTitle = this.getImportTitle(this.migrationType);
+      this.lessonsData = this.getLessonsData(this.migrationData, this.migrationType);
    });
   }
 
   // todo nie podoba mi sie ze zwracam nazwe lekcji i kurs, a karty biore z migration data, ale czy da sie inaczej?
   importLesson(importLessonData: ImportLessonData) {
+    const migrationLessonData: LessonMigration = this.migrationData[0] as LessonMigration;
     const lesson: Lesson = {
       id: this.idGenerator.nextIdForLessons(),
       name: importLessonData.newLessonName,
@@ -63,7 +63,7 @@ export class ImportComponent implements OnInit {
     }
     this.store.dispatch(addLesson({lesson: lesson, course: importLessonData.course}))
 
-    const cards: Card[] = Object.values(this.migrationData.cards).map(card => {
+    const cards: Card[] = migrationLessonData.cards.map(card => {
       return {
         id: this.idGenerator.nextIdForCards(),
         question: card.question,
@@ -76,6 +76,7 @@ export class ImportComponent implements OnInit {
 
   // todo w kazdym elemencie parent id, wtedy uproscic add (nie beda lancuchami, tylko save obiektu ktory przychodzi)
   importCourse(importCourseData: ImportCourseData) {
+    const migrationCourseData: CourseMigration = this.migrationData[0] as CourseMigration;
     const course: Course = {
       id: this.idGenerator.nextIdForCourses(),
       name: importCourseData.newCourseName,
@@ -88,12 +89,12 @@ export class ImportComponent implements OnInit {
 
     let lessonToCards = new Map<Lesson, Card[]>();
 
-    Object.values(this.migrationData.lessons).forEach(migratedDataLesson => {
-      const cards: Card[] = migratedDataLesson.cardIds.map(cardId => {
+    migrationCourseData.lessons.forEach(migratedDataLesson => {
+      const cards: Card[] = migratedDataLesson.cards.map(card => {
         return {
           id: this.idGenerator.nextIdForCards(),
-          question: this.migrationData.cards[cardId].question,
-          answer: this.migrationData.cards[cardId].answer
+          question: card.question,
+          answer: card.answer
         }
       })
       const lesson: Lesson = {
@@ -138,16 +139,27 @@ export class ImportComponent implements OnInit {
     return "";
   }
 
-  private getSummaryData(migrationData: MigrationData, type: DataType): ImportSummaryData {
+  private getSummaryData(migrationData: CourseMigration[] | LessonMigration[], type: DataType): ImportSummaryData {
+    // TODO
     if (type == DataType.LESSON) {
       return {
-        entityName: Object.values(migrationData.lessons)[0].name,
+        entityName: migrationData[0].name
       }
     }
     else if (type == DataType.COURSE) {
       return {
-        entityName: Object.values(migrationData.courses)[0].name,
+        entityName: migrationData[0].name,
       }
+    }
+    throw new TypeError("Illegal data type during import")
+  }
+
+  private getLessonsData(migrationData: any, type: DataType): LessonMigration[] {
+    if (type == DataType.LESSON) {
+      return migrationData;
+    }
+    else if (type == DataType.COURSE) {
+      return migrationData[0].lessons;
     }
     throw new TypeError("Illegal data type during import")
   }

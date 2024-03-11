@@ -15,7 +15,7 @@
                     [summaryData]="summaryData" (importCourse)="importCourse($any($event))"></app-import-course>
         </mat-tab>
         <mat-tab [label]="previewTabLabel | titlecase"> 
-            <app-import-preview [migrationData]="migrationData"></app-import-preview>
+            <app-import-preview [migrationLessons]="lessonsData"></app-import-preview>
         </mat-tab>
     </mat-tab-group>
 </ng-template>

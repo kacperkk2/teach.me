@@ -4,3 +4,8 @@ export interface Card {
     question: string,
     answer: string,
 }
+
+export interface CardMigration {
+    question: string,
+    answer: string,
+}

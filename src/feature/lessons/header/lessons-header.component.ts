@@ -69,7 +69,6 @@ export class LessonsHeaderComponent implements OnInit {
           let finalUrl = url;
           if (response != null && response.shorturl) {
             finalUrl = response.shorturl;
-            console.log('response.shorturl', response.shorturl)
           }
     
           const data = new ExportDialogInput(this.course.name, finalUrl);

@@ -1,22 +1,32 @@
 import { Injectable } from '@angular/core';
-import { DataType, MigrationData, MigrationDataWrapper } from '../migration/migration.service';
 import { compressToBase64, decompressFromBase64 } from 'lz-string';
+import { DataType, MigrationDataWrapper } from '../migration/migration.service';
+import { TightCompressorService } from '../tight-compressor/tight-compressor.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CodecService {
 
-  constructor() { }
+  constructor(private tightCompressor: TightCompressorService) { }
   
   pack(data: any, type: DataType): string {
-    const wrapped = this.wrapMigrationData(data, type);
+    const tightCompressed: string = this.tightCompressor.compress(data, type);
+    const wrapped: string = this.wrapMigrationData(tightCompressed, type);
+
+    console.log('wrapped', wrapped);
+
     return this.compressEncode(wrapped);
   }
 
-  unpack(data: string): MigrationDataWrapper {
+  unpack(data: string): [any, DataType] {
     const decodedDecompressed = this.decodeDecompress(data);
-    return this.unwrapMigrationData(decodedDecompressed);
+    const unwrapped: MigrationDataWrapper = this.unwrapMigrationData(decodedDecompressed);
+    const unpacked = this.tightCompressor.decompress(unwrapped.data, unwrapped.type);
+
+    console.log('unpacked', unpacked);
+
+    return [unpacked, unwrapped.type];
   }
 
   private compressEncode(data: any) {
@@ -27,14 +37,14 @@ export class CodecService {
     return decompressFromBase64(decodeURIComponent(data));
   }
 
-  private wrapMigrationData(data: any, type: DataType): string {
+  private wrapMigrationData(data: string, type: DataType): string {
     return JSON.stringify({
-      data: JSON.stringify(data),
+      data: data,
       type: type
     })
   }
 
-  private unwrapMigrationData(data: any): any {
+  private unwrapMigrationData(data: any): MigrationDataWrapper {
     return JSON.parse(data || '{}');
   }
 }

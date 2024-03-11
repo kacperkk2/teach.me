@@ -1,3 +1,4 @@
+import { CardMigration } from "./card";
 
 export interface Lesson {
     id: number,
@@ -7,4 +8,9 @@ export interface Lesson {
     noMistakeInARow: number,
     cardIds: number[],
     wrongPreviouslyCardIds: number[]
+}
+
+export interface LessonMigration {
+    name: string,
+    cards: CardMigration[],
 }

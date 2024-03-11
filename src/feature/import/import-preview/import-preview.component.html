@@ -2,16 +2,16 @@
 <div fxLayout="column" fxLayoutAlign="center center">
     <div class="main-list">
         <div fxLayout="column"  fxLayoutAlign="center center" >
-            <div class="wrapper" *ngFor="let lesson of migrationData.lessons | keyvalue; let i = index">
+            <div class="wrapper" *ngFor="let lesson of migrationLessons; let i = index">
                 <div class="lesson-label" fxLayout="column" fxLayoutAlign="center start">
-                    <mat-label> {{ lesson.value.name }} </mat-label> 
-                    <mat-label class="text-light-grey"> {{ cardsLabel | titlecase }}: {{ lesson.value.cardIds.length }} </mat-label> 
+                    <mat-label> {{ lesson.name }} </mat-label> 
+                    <mat-label class="text-light-grey"> {{ cardsLabel | titlecase }}: {{ lesson.cards.length }} </mat-label> 
                 </div>
         
-                <div *ngFor="let cardId of lesson.value.cardIds; let i = index" fxLayout="column" fxLayoutAlign="center center">
+                <div *ngFor="let card of lesson.cards; let i = index" fxLayout="column" fxLayoutAlign="center center">
                     <mat-card fxLayout="column" fxLayoutAlign="center start">
-                        <span class="text-bold"> {{ migrationData.cards[cardId].question }} </span>
-                        <span class="text-light-grey"> {{ migrationData.cards[cardId].answer }} </span>
+                        <span class="text-bold"> {{ card.question }} </span>
+                        <span class="text-light-grey"> {{ card.answer }} </span>
                     </mat-card>
                 </div>
             </div>

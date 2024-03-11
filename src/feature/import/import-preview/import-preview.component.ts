@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { MigrationData } from '../../../services/migration/migration.service';
 import { CONFIG } from '../../../app/app.properties';
+import { LessonMigration } from '../../../data/model/lesson';
 
 @Component({
   selector: 'app-import-preview',
@@ -9,10 +9,10 @@ import { CONFIG } from '../../../app/app.properties';
 })
 export class ImportPreviewComponent {
 
-  @Input({required: true}) migrationData: MigrationData;
+  @Input({required: true}) migrationLessons: LessonMigration[];
 
   getCards() {
-    return Object.values(this.migrationData.cards)
+    return []; //Object.values(this.migrationData.cards)
   }
 
   cardsLabel: string = CONFIG.LABELS.cards;
