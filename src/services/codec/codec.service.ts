@@ -13,9 +13,6 @@ export class CodecService {
   pack(data: any, type: DataType): string {
     const tightCompressed: string = this.tightCompressor.compress(data, type);
     const wrapped: string = this.wrapMigrationData(tightCompressed, type);
-
-    console.log('wrapped', wrapped);
-
     return this.compressEncode(wrapped);
   }
 
@@ -23,9 +20,6 @@ export class CodecService {
     const decodedDecompressed = this.decodeDecompress(data);
     const unwrapped: MigrationDataWrapper = this.unwrapMigrationData(decodedDecompressed);
     const unpacked = this.tightCompressor.decompress(unwrapped.data, unwrapped.type);
-
-    console.log('unpacked', unpacked);
-
     return [unpacked, unwrapped.type];
   }
 
