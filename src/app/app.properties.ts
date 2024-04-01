@@ -15,7 +15,7 @@ export const CONFIG = {
     },
 
     CARDS: {
-        phraseMaxLength: 40,
+        phraseMaxLength: 70,
 
         ADD_CARD: {
             questionAnswerSeparator: '-'
@@ -72,5 +72,8 @@ export const CONFIG = {
         importPreview: 'podgląd',
         addToCourse: 'Dodaj do kursu',
         newCourseName: 'Nazwa nowego kursu',
+
+        turnCards: 'Odwróć karty',
+        turnCardsSnackBar: 'Karty zostały odwrócone',
     }
 }

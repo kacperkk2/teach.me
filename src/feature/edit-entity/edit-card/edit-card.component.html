@@ -9,16 +9,22 @@
                 <mat-label> {{ questionLabel | titlecase }} </mat-label> 
                 <mat-form-field>
                     <input matInput #question formControlName="question" autocomplete="off">
-                    <button *ngIf="question.value" matSuffix mat-icon-button (click)="clearQuestion()">
+                    <button *ngIf="question.value" class="round-button" matSuffix mat-icon-button (click)="clearQuestion()">
                         <mat-icon>close</mat-icon>
                     </button>
                     <mat-hint align="end"> {{ question.value.length }}/{{ maxLength }} </mat-hint>
                 </mat-form-field>
+
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <button mat-icon-button (click)="turnCard()">
+                        <mat-icon>swap_vert</mat-icon>
+                    </button>
+                </div>
     
                 <mat-label> {{ answerLabel | titlecase }} </mat-label> 
                 <mat-form-field>
                     <input matInput #answer formControlName="answer" autocomplete="off">
-                    <button *ngIf="answer.value" matSuffix mat-icon-button (click)="clearAnswer()">
+                    <button *ngIf="answer.value" class="round-button" matSuffix mat-icon-button (click)="clearAnswer()">
                         <mat-icon>close</mat-icon>
                     </button>
                     <mat-hint align="end"> {{ answer.value.length }}/{{ maxLength }} </mat-hint>
@@ -26,7 +32,9 @@
             </form>
 
             <div fxFlex="15" fxLayoutAlign="center center">
-                <button mat-flat-button color="primary" [disabled]="!editCardForm.valid" (click)="saveCard()"> Zapisz </button>
+                <button class="round-button" mat-flat-button color="primary" [disabled]="!editCardForm.valid" (click)="saveCard()"> 
+                    Zapisz 
+                </button>
             </div>
 
         </div>

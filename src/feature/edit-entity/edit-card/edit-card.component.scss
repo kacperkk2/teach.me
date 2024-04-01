@@ -2,8 +2,14 @@
     height: 100dvh; 
 }
 
-button {
+.round-button {
     width: 100% !important;
+    height: 50px;
+    border-radius: 25px !important;
+}
+
+.a {
+
     height: 50px;
     border-radius: 25px !important;
 }

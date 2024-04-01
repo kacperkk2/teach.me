@@ -4,7 +4,7 @@ import { Action, Store } from "@ngrx/store";
 import { Observable, concatMap, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { StorageManagerService } from "../../../services/storage-manager/storage-manager.service";
 import { removeCardIdFromLesson, updateLessonWithCardsIds } from "../lessons/lessons.action";
-import { addCards, loadCardsState, removeCard, removeCards, updateCard } from "./cards.action";
+import { addCards, loadCardsState, removeCard, removeCards, updateCard, updateCards } from "./cards.action";
 import { IdGeneratorService } from "../../../services/id-generator/id-generator.service";
 import { selectCardsList } from "./cards.selector";
 import { saveAppState } from "../app/app.action";
@@ -40,7 +40,7 @@ export class CardsEffects {
 
     saveAppState$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
-            ofType(removeCards, updateCard),
+            ofType(removeCards, updateCard, updateCards),
             switchMap(() => of(saveAppState()))
         )
     );

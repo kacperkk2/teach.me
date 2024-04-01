@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from "@ngrx/store";
 import { CardsState, initializeState } from "./cards.state";
-import { addCards, loadCardsState, removeCard, removeCards, updateCard } from "./cards.action";
+import { addCards, loadCardsState, removeCard, removeCards, updateCard, updateCards } from "./cards.action";
 import { Card } from "../../model/card";
 
 
@@ -26,6 +26,11 @@ export const cardsReducer = createReducer<CardsState>(
     on(updateCard, (state, { card }) => {
         const updatedCard = Object.assign({}, card);
         return {...state, cards: {...state.cards, [card.id]: updatedCard }}
+    }),
+    on(updateCards, (state, { cards }) => {
+        const updatedCards = { ...state.cards };
+        cards.forEach(card => updatedCards[card.id] = card)
+        return {...state, cards: updatedCards}
     }),
     on(removeCard, (state, { cardId }) => {
         const updatedCards = { ...state.cards };

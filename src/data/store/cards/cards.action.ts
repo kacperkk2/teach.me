@@ -23,6 +23,11 @@ export const updateCard = createAction(
     props<{ card: Card }>()
 )
 
+export const updateCards = createAction(
+    '[Cards] Update Cards', 
+    props<{ cards: Card[] }>()
+)
+
 export const removeCard = createAction(
     '[Cards] Remove Card', 
     props<{ cardId: number, lesson: Lesson }>()

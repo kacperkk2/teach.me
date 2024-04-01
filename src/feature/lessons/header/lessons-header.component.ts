@@ -14,6 +14,8 @@ import { selectCardsByIds, selectCardsByLessonId, selectCardsByLessonIds } from 
 import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/export-dialog';
 import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
 import { CodecService } from '../../../services/codec/codec.service';
+import { TurnCardService } from '../../../services/turn-card/turn-card.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-lessons-header',
@@ -26,7 +28,8 @@ export class LessonsHeaderComponent implements OnInit {
   constructor(private location: Location, private router: Router, 
     private route: ActivatedRoute, private store: Store, 
     public dialog: MatDialog, private migrationService: MigrationService,
-    private urlShortener: UrlShortenerService, private codec: CodecService) {
+    private urlShortener: UrlShortenerService, private codec: CodecService,
+    private turnCardService: TurnCardService, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -79,9 +82,31 @@ export class LessonsHeaderComponent implements OnInit {
     });
   }
   
+  turnCourseCards() {
+    this.turnCardService.turnCourseCards(this.course.id);
+    this.showSnackBar(this.turnCourseCardsSnackBarLabel);
+
+    // const dialogRef = this.dialog.open(ConfirmDialog, {data: "Odwrócić karty?", width: '90%', maxWidth: '600px', autoFocus: false});
+    // dialogRef.afterClosed().subscribe(result => {
+    //     if (result == true) {
+    //       this.turnCardService.turnLessonCards(this.lesson.id);
+    //     }
+    // });
+  }
+
+  showSnackBar(label: string) {
+    this.snackBar.open(label, 'Zamknij', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3 * 1000,
+    });
+  }
+
   title: string = CONFIG.LABELS.course;
   removeCourseLabel: string = CONFIG.LABELS.removeCourse;
   editCourseLabel: string = CONFIG.LABELS.editCourse;
   deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
   exportCourseLabel: string = CONFIG.LABELS.exportCourse;
+  turnCourseCardsLabel: string = CONFIG.LABELS.turnCards;
+  turnCourseCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
 }

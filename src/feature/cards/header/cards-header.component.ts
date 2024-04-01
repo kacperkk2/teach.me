@@ -15,6 +15,9 @@ import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/
 import { CodecService } from '../../../services/codec/codec.service';
 import { selectCardsByLessonId } from '../../../data/store/cards/cards.selector';
 import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
+import { TurnCardService } from '../../../services/turn-card/turn-card.service';
+import { ConfirmDialog } from '../../../commons/confirm-dialog/confirm-dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cards-header',
@@ -29,7 +32,8 @@ export class CardsHeaderComponent {
   constructor(private location: Location, private router: Router, 
     private route: ActivatedRoute, private store: Store, 
     public dialog: MatDialog, private migrationService: MigrationService, 
-    private codec: CodecService, private urlShortener: UrlShortenerService) {
+    private codec: CodecService, private urlShortener: UrlShortenerService,
+    private turnCardService: TurnCardService, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -77,8 +81,28 @@ export class CardsHeaderComponent {
         const data = new ExportDialogInput(this.lesson.name, finalUrl);
         const dialogRef = this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
         dialogRef.afterClosed().subscribe();
-        // todo snackbar po kliknieu w kopiuj link
       })
+    });
+  }
+
+  turnLessonCards() {
+    this.turnCardService.turnLessonCards(this.lesson.id);
+    this.showSnackBar(this.turnLessonCardsSnackBarLabel);
+
+    // const dialogRef = this.dialog.open(ConfirmDialog, {data: "Odwrócić karty?", width: '90%', maxWidth: '600px', autoFocus: false});
+    // dialogRef.afterClosed().subscribe(result => {
+    //     if (result == true) {
+    //       this.turnCardService.turnLessonCards(this.lesson.id);
+    //     }
+    // });
+  }
+
+  // todo snackbar service
+  showSnackBar(label: string) {
+    this.snackBar.open(label, 'Zamknij', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3 * 1000,
     });
   }
   
@@ -87,4 +111,6 @@ export class CardsHeaderComponent {
   editLessonLabel: string = CONFIG.LABELS.editLesson;
   deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
   exportLessonLabel: string = CONFIG.LABELS.exportLesson;
+  turnLessonCardsLabel: string = CONFIG.LABELS.turnCards;
+  turnLessonCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
 }

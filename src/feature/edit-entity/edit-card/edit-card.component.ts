@@ -83,6 +83,12 @@ export class EditCardComponent implements OnInit {
     this.location.back();
   }
 
+  turnCard() {
+    const question = this.questionFormControl.value;
+    this.questionFormControl.patchValue(this.answerFormControl.value);
+    this.answerFormControl.patchValue(question);
+  }
+
   headerTitle: string = CONFIG.LABELS.editCard;
   questionLabel: string = CONFIG.LABELS.question;
   answerLabel: string = CONFIG.LABELS.answer;
