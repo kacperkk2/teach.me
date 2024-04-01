@@ -77,7 +77,8 @@ export class EditCardComponent implements OnInit {
     const updatedCard: Card = {
       id: this.card.id,
       question: this.questionFormControl.value,
-      answer: this.answerFormControl.value
+      answer: this.answerFormControl.value,
+      isMarked: this.card.isMarked
     }
     this.store.dispatch(updateCard({card: updatedCard}));
     this.location.back();

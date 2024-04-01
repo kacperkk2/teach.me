@@ -13,7 +13,7 @@
             <app-cards-learn [lesson]="lesson" [course]="(course$ | async)!" (learnClicked)="learnClicked($any($event))"></app-cards-learn>
         </mat-tab>
         <mat-tab [label]="(cardsTabLabel | titlecase) + ' (' + (cards$ | async)?.length + ')'"> 
-            <app-cards-list [cards]="(cards$ | async)!"></app-cards-list>
+            <app-cards-list [cards]="(cards$ | async)!" (toggleCardIsMarked)="toggleCardIsMarked($any($event))"></app-cards-list>
         </mat-tab>
     </mat-tab-group>
     

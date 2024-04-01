@@ -1,19 +1,5 @@
 @import "../../../styles.scss";
 
-// todo zdecydowac czy mat-card czy customowy kafelek jak dla gier
-
-// mat-card {
-//     font-size: large;
-//     box-shadow: 0 0 10px 2px $dark-grey;
-//     border-radius: 25px;
-//     font-size: medium;
-//     background-color: transparent;
-// }
-
-// .wrapper {
-//     width: 95%;
-// }
-
-// .mat-card-content{
-//     background-color: none !important;
-// }
+.primary-color {
+    color: $primary-color
+}

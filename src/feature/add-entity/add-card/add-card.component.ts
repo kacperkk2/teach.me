@@ -141,7 +141,8 @@ export class AddCardComponent implements OnInit {
       return {
         id: this.idGenerator.nextIdForCards(),
         question: cardFormGroup.controls["question"].value.trim(),
-        answer: cardFormGroup.controls["answer"].value.trim()
+        answer: cardFormGroup.controls["answer"].value.trim(),
+        isMarked: false
       }
     });
     this.store.dispatch(addCards({cards: cards, lesson: this.lesson}));

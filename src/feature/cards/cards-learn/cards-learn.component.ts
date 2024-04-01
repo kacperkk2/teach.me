@@ -17,13 +17,17 @@ export class CardsLearnComponent implements OnInit {
   @Input({required: true}) course: Course;
   @Output() learnClicked = new EventEmitter<LearnData>();
   cards: Card[];
+  markedCards: Card[];
   wrongPreviouslyCards: Card[];
 
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
-    this.store.select(selectCardsByIds(this.lesson.cardIds)).subscribe(lessonCards => this.cards = lessonCards);
+    this.store.select(selectCardsByIds(this.lesson.cardIds)).subscribe(lessonCards => {
+      this.cards = lessonCards;
+      this.markedCards = lessonCards.filter(card => card.isMarked);
+    });
     this.store.select(selectCardsByIds(this.lesson.wrongPreviouslyCardIds)).subscribe(
       wrongCards => this.wrongPreviouslyCards = wrongCards
     );
@@ -39,6 +43,10 @@ export class CardsLearnComponent implements OnInit {
 
   startPreviouslyFailedGame() {
     this.learnClicked.emit(new LearnData([...this.wrongPreviouslyCards]));
+  }
+
+  startOnlyMarkedGame() {
+    this.learnClicked.emit(new LearnData([...this.markedCards]));
   }
 }
 

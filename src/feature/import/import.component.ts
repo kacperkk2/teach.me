@@ -67,7 +67,8 @@ export class ImportComponent implements OnInit {
       return {
         id: this.idGenerator.nextIdForCards(),
         question: card.question,
-        answer: card.answer
+        answer: card.answer,
+        isMarked: false
       }
     })
     this.store.dispatch(addCards({cards: cards, lesson: lesson}))
@@ -94,7 +95,8 @@ export class ImportComponent implements OnInit {
         return {
           id: this.idGenerator.nextIdForCards(),
           question: card.question,
-          answer: card.answer
+          answer: card.answer,
+          isMarked: false
         }
       })
       const lesson: Lesson = {

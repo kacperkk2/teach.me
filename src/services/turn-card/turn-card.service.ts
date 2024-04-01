@@ -35,6 +35,7 @@ export class TurnCardService {
       id: card.id,
       question: card.answer,
       answer: card.question,
+      isMarked: card.isMarked
     }
   }
 }

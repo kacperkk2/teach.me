@@ -26,12 +26,20 @@
         </app-learn-type-tile>
 
         <app-learn-type-tile 
+            label="Tylko oznaczone" 
+            icon="bookmark_outline"
+            buttonLabel="Ucz się"
+            [cardsCount]="markedCards.length"
+            (actionClicked)="startOnlyMarkedGame()">
+        </app-learn-type-tile> 
+
+        <app-learn-type-tile 
             label="Błędne poprzednim razem" 
             icon="repeat"
             buttonLabel="Ucz się"
             [cardsCount]="wrongPreviouslyCards.length"
             (actionClicked)="startPreviouslyFailedGame()">
         </app-learn-type-tile>
-        <!-- sync_problem -->    
+        <!-- sync_problem -->   
     </div>
 </div>

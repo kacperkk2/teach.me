@@ -12,6 +12,7 @@ import { selectCourse } from '../../data/store/courses/courses.selector';
 import { LearnEndData, LearnEndState } from '../learn/learn.component';
 import { LearnData } from './cards-learn/cards-learn.component';
 import { updateLesson } from '../../data/store/lessons/lessons.action';
+import { updateCard } from '../../data/store/cards/cards.action';
 
 @Component({
   selector: 'app-cards',
@@ -60,6 +61,16 @@ export class CardsComponent implements OnInit {
   learnClicked(learnData: LearnData) {
     this.cardsToLearn = learnData.cards;
     this.isLearning = true;
+  }
+
+  toggleCardIsMarked(card: Card) {
+    const updatedCard: Card = {
+      id: card.id,
+      question: card.question,
+      answer: card.answer,
+      isMarked: !card.isMarked
+    }
+    this.store.dispatch(updateCard({card: updatedCard}));
   }
 
   teachTabLabel: string = CONFIG.LABELS.teachTab;
