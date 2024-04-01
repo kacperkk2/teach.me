@@ -61,8 +61,10 @@ mat-label {
     margin-bottom: 30px
 }
 
-.delete-card-icon {
-    margin-right: 20px;
+.delete-card-button {
+    margin-right: 10px;
+    margin-bottom: -20px;
+    margin-top: -10px;
 }
 
 .mode-right {
@@ -77,4 +79,9 @@ mat-label {
 
 .active-mode {
     color: $primary-color;
+}
+
+.swap-button {
+    margin-top: -15px; 
+    margin-bottom: -20px;
 }

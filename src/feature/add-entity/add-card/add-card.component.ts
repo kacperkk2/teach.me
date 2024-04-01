@@ -129,6 +129,13 @@ export class AddCardComponent implements OnInit {
     this.cardsFormArray.removeAt(index);
   }
 
+  turnCard(index: number) {
+    const group = this.cardsFormArray.at(index) as FormGroup;
+    const question = group.controls['question'].value;
+    group.controls['question'].patchValue(group.controls['answer'].value);
+    group.controls['answer'].patchValue(question);
+  }
+
   save() {
     const cards: Card[] = (this.cardsFormArray.controls as FormGroup[]).map((cardFormGroup: FormGroup) => {
       return {

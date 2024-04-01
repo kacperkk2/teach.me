@@ -33,7 +33,9 @@
 
                                 <div fxLayout="row" fxLayoutAlign="end center">
                                     <!-- dodac animacje usuwania karty -->
-                                    <mat-icon class="delete-card-icon" *ngIf="cardsFormArray.controls.length > 1" (click)="deleteCard(i)"> delete_outline </mat-icon>
+                                    <button mat-icon-button class="delete-card-button" *ngIf="cardsFormArray.controls.length > 1" (click)="deleteCard(i)">
+                                        <mat-icon> delete_outline </mat-icon>
+                                    </button>
                                 </div>
 
                                 <div fxLayout="column" fxLayoutAlign="center center">
@@ -47,6 +49,13 @@
                                             </button>
                                             <mat-hint align="end"> {{ question.value.length }}/{{ maxLength }} </mat-hint>
                                         </mat-form-field>
+                                    </div>
+
+
+                                    <div fxLayout="row" fxLayoutAlign="center center">
+                                        <button mat-icon-button class="swap-button" (click)="turnCard(i)">
+                                            <mat-icon>swap_vert</mat-icon>
+                                        </button>
                                     </div>
     
                                     <div class="form-field-holder">
