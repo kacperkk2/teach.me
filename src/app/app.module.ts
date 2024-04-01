@@ -64,6 +64,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ImportCourseComponent } from '../feature/import/import-summary/import-course/import-course.component';
 import { NewCourseDialog } from '../commons/new-course-dialog/new-course-dialog';
 import { CardIconComponent } from '../commons/card-icon/card-icon.component';
+import { LearnSettingsDialog } from '../commons/learn-settings-dialog/learn-settings-dialog';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { CardIconComponent } from '../commons/card-icon/card-icon.component';
     ImportLessonComponent,
     ImportCourseComponent,
     NewCourseDialog,
-    CardIconComponent
+    CardIconComponent,
+    LearnSettingsDialog
   ],
   imports: [
     BrowserModule,

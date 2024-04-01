@@ -14,6 +14,7 @@ import { selectCardsByIds, selectCardsByLessonId, selectCardsByLessonIds } from 
 import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/export-dialog';
 import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
 import { CodecService } from '../../../services/codec/codec.service';
+import { LearnSettingsDialog } from '../../../commons/learn-settings-dialog/learn-settings-dialog';
 
 @Component({
   selector: 'app-lessons-header',
@@ -78,10 +79,16 @@ export class LessonsHeaderComponent implements OnInit {
       });
     });
   }
+
+  learnSettingsClicked() {
+    const dialogRef = this.dialog.open(LearnSettingsDialog, {width: '90%', maxWidth: '650px', autoFocus: false});
+    dialogRef.afterClosed().subscribe();
+  }
   
   title: string = CONFIG.LABELS.course;
   removeCourseLabel: string = CONFIG.LABELS.removeCourse;
   editCourseLabel: string = CONFIG.LABELS.editCourse;
   deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
   exportCourseLabel: string = CONFIG.LABELS.exportCourse;
+  learnSettingsLabel: string = CONFIG.LABELS.learnSettings;
 }

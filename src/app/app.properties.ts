@@ -72,5 +72,7 @@ export const CONFIG = {
         importPreview: 'podgląd',
         addToCourse: 'Dodaj do kursu',
         newCourseName: 'Nazwa nowego kursu',
+
+        learnSettings: 'Ustawienia nauki',
     }
 }

@@ -1,0 +1,36 @@
+<mat-dialog-content>
+    <div> Kolejność wyświetlania kart: </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <!-- todo do componentu -->
+        <button class="mode-left" mat-stroked-button (click)="shuffleFormControl.patchValue(false)"> 
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <div [ngClass]="!shuffleFormControl.value ? 'active-mode' : ''"> W kolejności </div>
+            </div>
+        </button>
+        <button class="mode-right" mat-stroked-button (click)="shuffleFormControl.patchValue(true)">
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <div [ngClass]="shuffleFormControl.value ? 'active-mode' : ''"> Losowo </div>
+            </div>
+        </button>
+    </div>
+    
+    <div> Pokazuj najpierw część karty: </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <!-- todo do componentu -->
+        <button class="mode-left" mat-stroked-button (click)="backFirstFormControl.patchValue(false)"> 
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <div [ngClass]="!backFirstFormControl.value ? 'active-mode' : ''"> Przód </div>
+            </div>
+        </button>
+        <button class="mode-right" mat-stroked-button (click)="backFirstFormControl.patchValue(true)">
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <div [ngClass]="backFirstFormControl.value ? 'active-mode' : ''"> Tył </div>
+            </div>
+        </button>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-evenly center">
+    <button fxFlex="40" class="bottom-button" mat-stroked-button [mat-dialog-close]> Anuluj </button>
+    <button fxFlex="40" class="bottom-button" mat-flat-button color="primary" (click)="saveSettings()"> Zapisz </button>
+</mat-dialog-actions>

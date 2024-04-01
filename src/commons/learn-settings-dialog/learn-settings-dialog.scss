@@ -1,0 +1,28 @@
+@import "../../styles.scss";
+
+.bottom-button {
+    border-radius: 25px !important;
+}
+
+mat-dialog-actions {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-top: 25px;
+}
+
+.mode-right {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.mode-left {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.active-mode {
+    color: $primary-color;
+}
