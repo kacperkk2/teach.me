@@ -28,6 +28,7 @@ import { Tab } from '../cards.component';
 export class CardsHeaderComponent {
   @Input({required: true}) optionsFor: Tab;
   @Output() isReorder = new EventEmitter();
+  @Output() removeAllMarks = new EventEmitter();
 
   Tab = Tab;
   lesson: Lesson;
@@ -112,7 +113,11 @@ export class CardsHeaderComponent {
   }
 
   reorderCards() {
-    this.isReorder.emit()
+    this.isReorder.emit();
+  }
+
+  removeAllCardsMarks() {
+    this.removeAllMarks.emit();
   }
   
   title: string = CONFIG.LABELS.lesson;
@@ -123,4 +128,5 @@ export class CardsHeaderComponent {
   turnLessonCardsLabel: string = CONFIG.LABELS.turnCards;
   reorderCardsLabel: string = CONFIG.LABELS.reorderCards;
   turnLessonCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
+  removeAllCardsMarksLabel: string = CONFIG.LABELS.removeAllCardsMarks;
 }

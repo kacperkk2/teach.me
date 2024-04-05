@@ -6,7 +6,7 @@
 </ng-template>
 
 <ng-template #normalView>
-    <app-cards-header [optionsFor]="selectedTab" (isReorder)="turnOnReorder()"></app-cards-header>
+    <app-cards-header [optionsFor]="selectedTab" (isReorder)="turnOnReorder()" (removeAllMarks)="removeAllMarks()"></app-cards-header>
 
     <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab [label]="teachTabLabel | titlecase"> 

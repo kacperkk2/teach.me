@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Card } from '../../data/model/card';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectCardsByLessonId } from '../../data/store/cards/cards.selector';
@@ -12,7 +12,7 @@ import { selectCourse } from '../../data/store/courses/courses.selector';
 import { LearnEndData, LearnEndState } from '../learn/learn.component';
 import { LearnData } from './cards-learn/cards-learn.component';
 import { updateLesson } from '../../data/store/lessons/lessons.action';
-import { updateCard } from '../../data/store/cards/cards.action';
+import { updateCard, updateCards } from '../../data/store/cards/cards.action';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
@@ -86,6 +86,14 @@ export class CardsComponent implements OnInit {
 
   turnOffReorder() {
     this.isReorder = false;
+  }
+
+  removeAllMarks() {
+    this.cards$.pipe(take(1)).subscribe(cardsToUpdate => {
+      const updatedCards: Card[] = cardsToUpdate.map(card => Object.assign({}, card));
+      updatedCards.forEach(card => card.isMarked = false);
+      this.store.dispatch(updateCards({cards: updatedCards}))
+    })
   }
 
   teachTabLabel: string = CONFIG.LABELS.teachTab;

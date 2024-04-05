@@ -80,5 +80,7 @@ export const CONFIG = {
         turnCardsSnackBar: 'Karty zostały odwrócone',
 
         reorderCards: 'Edytuj kolejność kart',
+
+        removeAllCardsMarks: 'Usuń oznaczenia kart',
     }
 }
