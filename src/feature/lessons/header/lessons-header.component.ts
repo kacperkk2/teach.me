@@ -84,7 +84,7 @@ export class LessonsHeaderComponent implements OnInit {
   
   turnCourseCards() {
     this.turnCardService.turnCourseCards(this.course.id);
-    this.showSnackBar(this.turnCourseCardsSnackBarLabel);
+    // this.showSnackBar(this.turnCourseCardsSnackBarLabel);
 
     // const dialogRef = this.dialog.open(ConfirmDialog, {data: "Odwrócić karty?", width: '90%', maxWidth: '600px', autoFocus: false});
     // dialogRef.afterClosed().subscribe(result => {

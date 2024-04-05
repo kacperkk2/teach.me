@@ -5,25 +5,40 @@
         <span> {{ title | uppercase }} </span>
     </div>
 
-    <div>
-        <button mat-icon-button [matMenuTriggerFor]="cardsMenu">
-            <mat-icon> more_vert </mat-icon>
-        </button>
+    <div *ngIf="optionsFor == Tab.LEARN then learnOptions else cardsOptions"></div>
 
-        <mat-menu #cardsMenu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="editLessonClicked()">
-                <span> {{ editLessonLabel | titlecase }} </span>
-            </button>
-            <button mat-menu-item (click)="removeLessonClicked()">
-                <span> {{ removeLessonLabel | titlecase }} </span>
-            </button>
-            <button mat-menu-item (click)="exportLessonClicked()">
-                <span> {{ exportLessonLabel | titlecase }} </span>
-            </button>
-            <button mat-menu-item (click)="turnLessonCards()">
-                <span> {{ turnLessonCardsLabel | titlecase }} </span>
-            </button>
-        </mat-menu>
-
-    </div>
 </mat-toolbar>
+
+
+<ng-template #learnOptions>
+    <button mat-icon-button [matMenuTriggerFor]="cardsMenu">
+        <mat-icon> more_vert </mat-icon>
+    </button>
+
+    <mat-menu #cardsMenu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="editLessonClicked()">
+            <span> {{ editLessonLabel | titlecase }} </span>
+        </button>
+        <button mat-menu-item (click)="removeLessonClicked()">
+            <span> {{ removeLessonLabel | titlecase }} </span>
+        </button>
+        <button mat-menu-item (click)="exportLessonClicked()">
+            <span> {{ exportLessonLabel | titlecase }} </span>
+        </button>
+    </mat-menu>
+</ng-template>
+
+<ng-template #cardsOptions>
+    <button mat-icon-button [matMenuTriggerFor]="cardsMenu">
+        <mat-icon> more_vert </mat-icon>
+    </button>
+
+    <mat-menu #cardsMenu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="turnLessonCards()">
+            <span> {{ turnLessonCardsLabel | titlecase }} </span>
+        </button>
+        <button mat-menu-item (click)="reorderCards()">
+            <span> {{ reorderCardsLabel | titlecase }} </span>
+        </button>
+    </mat-menu>
+</ng-template>

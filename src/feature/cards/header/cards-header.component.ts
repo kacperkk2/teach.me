@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CONFIG } from '../../../app/app.properties';
@@ -18,6 +18,7 @@ import { UrlShortenerService } from '../../../services/urlshortener/url-shortene
 import { TurnCardService } from '../../../services/turn-card/turn-card.service';
 import { ConfirmDialog } from '../../../commons/confirm-dialog/confirm-dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Tab } from '../cards.component';
 
 @Component({
   selector: 'app-cards-header',
@@ -25,6 +26,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './cards-header.component.scss'
 })
 export class CardsHeaderComponent {
+  @Input({required: true}) optionsFor: Tab;
+  @Output() isReorder = new EventEmitter();
+
+  Tab = Tab;
   lesson: Lesson;
   course: Course;
 
@@ -87,7 +92,7 @@ export class CardsHeaderComponent {
 
   turnLessonCards() {
     this.turnCardService.turnLessonCards(this.lesson.id);
-    this.showSnackBar(this.turnLessonCardsSnackBarLabel);
+    // this.showSnackBar(this.turnLessonCardsSnackBarLabel);
 
     // const dialogRef = this.dialog.open(ConfirmDialog, {data: "Odwrócić karty?", width: '90%', maxWidth: '600px', autoFocus: false});
     // dialogRef.afterClosed().subscribe(result => {
@@ -105,6 +110,10 @@ export class CardsHeaderComponent {
       duration: 3 * 1000,
     });
   }
+
+  reorderCards() {
+    this.isReorder.emit()
+  }
   
   title: string = CONFIG.LABELS.lesson;
   removeLessonLabel: string = CONFIG.LABELS.removeLesson;
@@ -112,5 +121,6 @@ export class CardsHeaderComponent {
   deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
   exportLessonLabel: string = CONFIG.LABELS.exportLesson;
   turnLessonCardsLabel: string = CONFIG.LABELS.turnCards;
+  reorderCardsLabel: string = CONFIG.LABELS.reorderCards;
   turnLessonCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
 }

@@ -1,14 +1,14 @@
 
-<div *ngIf="isLearning; then learnView else normalView"></div>
+<div *ngIf="isLearning; then learnView else (isReorder ? reorderView : normalView)"></div>
 
 <ng-template #learnView>
     <app-learn [cards]="cardsToLearn" [label]="lesson.name" (learnEnd)="learnEnd($any($event))"></app-learn>
 </ng-template>
 
 <ng-template #normalView>
-    <app-cards-header></app-cards-header>
+    <app-cards-header [optionsFor]="selectedTab" (isReorder)="turnOnReorder()"></app-cards-header>
 
-    <mat-tab-group dynamicHeight>
+    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab [label]="teachTabLabel | titlecase"> 
             <app-cards-learn [lesson]="lesson" [course]="(course$ | async)!" (learnClicked)="learnClicked($any($event))"></app-cards-learn>
         </mat-tab>
@@ -19,3 +19,8 @@
     
     <app-add-round-button redirectTo="new" [label]="cardsLabel"></app-add-round-button>
 </ng-template>
+
+<ng-template #reorderView>
+    <app-cards-reorder [cards]="(cards$ | async)!" (reorderFinished)="turnOffReorder()"></app-cards-reorder>
+</ng-template>
+    

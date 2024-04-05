@@ -1,0 +1,27 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-icon class="back" (click)="abort()"> close </mat-icon>
+        <span> {{ title | uppercase }} </span>
+    </div>
+    <button mat-flat-button color="primary" (click)="save()"> {{ saveLabel | titlecase }} </button>
+</mat-toolbar>
+
+<mat-list #cardsList cdkDropList (cdkDropListDropped)="drop($event)">
+    <div class="wrapper" *ngFor="let card of reorderedCards; let lastItem = last;">
+        <mat-card cdkDrag fxLayout="row" fxLayoutAlign="space-between center">
+
+            <div class="drag-placeholder" *cdkDragPlaceholder></div>
+  
+            <div fxFlex="90" fxLayout="column">
+                <span class="text-bold"> {{ card.question }} </span>
+                <span class="text-light-grey"> {{ card.answer }} </span>
+            </div>
+
+            <div fxFlex="10" cdkDragHandle>
+                <button mat-icon-button class="drag-handle">
+                    <mat-icon> drag_handle </mat-icon>
+                </button>
+            </div>
+        </mat-card>
+    </div>
+</mat-list>

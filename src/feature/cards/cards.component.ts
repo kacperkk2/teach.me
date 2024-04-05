@@ -13,6 +13,7 @@ import { LearnEndData, LearnEndState } from '../learn/learn.component';
 import { LearnData } from './cards-learn/cards-learn.component';
 import { updateLesson } from '../../data/store/lessons/lessons.action';
 import { updateCard } from '../../data/store/cards/cards.action';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-cards',
@@ -22,11 +23,13 @@ import { updateCard } from '../../data/store/cards/cards.action';
 export class CardsComponent implements OnInit {
 
   isLearning: boolean = false;
+  isReorder: boolean = false;
   cardsToLearn: Card[];
 
   course$: Observable<Course>;
   cards$: Observable<Card[]>;
   lesson: Lesson;
+  selectedTab: Tab = Tab.LEARN;
 
   constructor(private route: ActivatedRoute, private store: Store) {
   }
@@ -39,6 +42,10 @@ export class CardsComponent implements OnInit {
       this.store.select(selectLesson(lessonId)).subscribe(lesson => this.lesson = lesson);
       this.course$ = this.store.select(selectCourse(courseId));
    });
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.selectedTab = event.index == 0 ? Tab.LEARN : Tab.CARDS;
   }
 
   learnEnd(learnEndData: LearnEndData) {
@@ -73,7 +80,19 @@ export class CardsComponent implements OnInit {
     this.store.dispatch(updateCard({card: updatedCard}));
   }
 
+  turnOnReorder() {
+    this.isReorder = true;
+  }
+
+  turnOffReorder() {
+    this.isReorder = false;
+  }
+
   teachTabLabel: string = CONFIG.LABELS.teachTab;
   cardsTabLabel: string = CONFIG.LABELS.cardsTab;
   cardsLabel: string = CONFIG.LABELS.cards;
+}
+
+export enum Tab {
+  LEARN, CARDS
 }

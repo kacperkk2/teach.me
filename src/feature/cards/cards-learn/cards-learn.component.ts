@@ -42,7 +42,7 @@ export class CardsLearnComponent implements OnInit {
   }
 
   startPreviouslyFailedGame() {
-    this.learnClicked.emit(new LearnData([...this.wrongPreviouslyCards]));
+    this.learnClicked.emit(new LearnData(shuffle([...this.wrongPreviouslyCards])));
   }
 
   startOnlyMarkedGame() {

@@ -41,7 +41,7 @@ export class LessonsLearnComponent implements OnInit {
   }
 
   startPreviouslyFailedGame() {
-    this.learnClicked.emit(new LearnData([...this.wrongPreviouslyCards]));
+    this.learnClicked.emit(new LearnData(shuffle([...this.wrongPreviouslyCards])));
   }
 
   cardsLabel: string = CONFIG.LABELS.cards;

@@ -1,0 +1,30 @@
+.drag-placeholder {
+    background: none;
+    min-height: 78px;
+    margin-bottom: 10px;
+}
+
+.cdk-drag-preview {
+    color: white
+}
+
+.action-buttons {
+    height: 50px
+}
+
+mat-card  {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+
+.drag-handle {
+    cursor: move;
+}
+
+button {
+    border-radius: 25px !important;
+}
+
+mat-list {
+  height: calc(100dvh - 80px);
+}

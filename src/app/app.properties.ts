@@ -36,6 +36,9 @@ export const CONFIG = {
         editLesson: 'edytuj lekcję',
         editCourse: 'edytuj kurs',
 
+        editOrder: 'edytuj kolejność',
+        save: 'zapisz',
+
         question: 'pytanie',
         answer: 'odpowiedź',
         lessonName: 'nazwa lekcji',
@@ -75,5 +78,7 @@ export const CONFIG = {
 
         turnCards: 'Odwróć karty',
         turnCardsSnackBar: 'Karty zostały odwrócone',
+
+        reorderCards: 'Edytuj kolejność kart',
     }
 }

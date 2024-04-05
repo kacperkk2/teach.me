@@ -64,6 +64,8 @@ import { LessonsListComponent } from '../feature/lessons/lessons-list/lessons-li
 import { LessonsComponent } from '../feature/lessons/lessons.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray, CdkDragHandle, CdkDragPlaceholder} from '@angular/cdk/drag-drop';
+import { CardsReorderComponent } from '../feature/cards/cards-reorder/cards-reorder.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +103,8 @@ import { AppComponent } from './app.component';
     ImportLessonComponent,
     ImportCourseComponent,
     NewCourseDialog,
-    CardIconComponent
+    CardIconComponent,
+    CardsReorderComponent
   ],
   imports: [
     BrowserModule,
@@ -135,6 +138,10 @@ import { AppComponent } from './app.component';
     EffectsModule.forFeature(appFeatureEffects),
     EffectsModule.forRoot([]),
     MatProgressBarModule,
+    CdkDropList,
+    CdkDrag,
+    CdkDragHandle,
+    CdkDragPlaceholder
   ],
   providers: [
     provideAnimationsAsync()
@@ -142,13 +149,5 @@ import { AppComponent } from './app.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  // TODO LIST
-  // 1. zawsze na gornym pasku wyswietlac gdzie sie znajduje, jaki kurs i jakas lekcja itp
-  // 2. tak samo dla tworzenia nowych - pokazac gdzie sie to tworzy
-  // 3. ogarnac metody onInit, zrobic ladnie metoda per operacaja w init
-  // 4. jak lista jest dluga to na dole ekranu tak takiego fade out zeby bylo widac ze nizej cos jest
 
-  // POMYSLY
-  // 1. dac mozliwosc edycji wszystkich fiszek - wtedy widok jak przy dodawaniu
-  // 2. przy dodawaniu fiszek mozliwosc zmiany widoku z kart na textarea
 }
