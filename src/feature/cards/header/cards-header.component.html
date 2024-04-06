@@ -12,7 +12,7 @@
 
 <ng-template #learnOptions>
     <button mat-icon-button [matMenuTriggerFor]="cardsMenu">
-        <mat-icon> more_vert </mat-icon>
+        <app-combined-icon mainIcon="school" smallIcon="settings"></app-combined-icon>
     </button>
 
     <mat-menu #cardsMenu="matMenu" xPosition="before">
@@ -30,7 +30,7 @@
 
 <ng-template #cardsOptions>
     <button mat-icon-button [matMenuTriggerFor]="cardsMenu">
-        <mat-icon> more_vert </mat-icon>
+        <app-combined-icon mainIcon="content_copy" smallIcon="settings"></app-combined-icon>
     </button>
 
     <mat-menu #cardsMenu="matMenu" xPosition="before">

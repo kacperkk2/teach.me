@@ -66,6 +66,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray, CdkDragHandle, CdkDragPlaceholder} from '@angular/cdk/drag-drop';
 import { CardsReorderComponent } from '../feature/cards/cards-reorder/cards-reorder.component';
+import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { CardsReorderComponent } from '../feature/cards/cards-reorder/cards-reor
     ImportCourseComponent,
     NewCourseDialog,
     CardIconComponent,
-    CardsReorderComponent
+    CardsReorderComponent,
+    CombinedIconComponent
   ],
   imports: [
     BrowserModule,
