@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CONFIG } from '../../../app/app.properties';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
@@ -12,10 +12,11 @@ import { Router } from '@angular/router';
   templateUrl: './add-course.component.html',
   styleUrl: './add-course.component.scss'
 })
-export class AddCourseComponent implements OnInit {
-  
+export class AddCourseComponent implements OnInit, AfterViewInit {
+
   addCourseForm: FormGroup;
   maxLength: number = CONFIG.COURSES.nameMaxLength;
+  @ViewChild('nameInput') nameInput: ElementRef;
 
   constructor(private idGenerator: IdGeneratorService,
     private store: Store, private router: Router) {}
@@ -24,6 +25,10 @@ export class AddCourseComponent implements OnInit {
     this.addCourseForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)])
     });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.nameInput.nativeElement.focus());
   }
 
   clear() {

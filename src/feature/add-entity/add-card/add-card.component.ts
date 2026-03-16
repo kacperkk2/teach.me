@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CONFIG } from '../../../app/app.properties';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
@@ -16,7 +16,7 @@ import { TabStateService } from '../../../services/tab-state/tab-state.service';
   templateUrl: './add-card.component.html',
   styleUrl: './add-card.component.scss'
 })
-export class AddCardComponent implements OnInit {
+export class AddCardComponent implements OnInit, AfterViewInit {
   
   addCardsForm: FormGroup;
   addCardsBulkForm: FormGroup;
@@ -25,6 +25,12 @@ export class AddCardComponent implements OnInit {
   AddMode = AddMode;
   separator: string = CONFIG.CARDS.ADD_CARD.questionAnswerSeparator;
   separatorWithSpaces: string = ' ' + this.separator + ' ';
+
+  @ViewChildren('questionInput') questionInputs: QueryList<ElementRef>;
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.questionInputs.first?.nativeElement.focus());
+  }
 
   get cardsFormArray() {
     return this.addCardsForm.controls["cards"] as FormArray;

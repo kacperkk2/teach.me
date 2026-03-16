@@ -43,11 +43,11 @@
                                     <div class="form-field-holder">
                                         <mat-label> {{ questionLabel | titlecase }} </mat-label>
                                         <mat-form-field>
-                                            <input matInput #question formControlName="question" autocomplete="off" [attr.autofocus]="i === 0 ? '' : null">
-                                            <button *ngIf="question.value" matSuffix mat-icon-button (click)="question.value=''">
+                                            <input matInput #questionInput formControlName="question" autocomplete="off">
+                                            <button *ngIf="questionInput.value" matSuffix mat-icon-button (click)="questionInput.value=''">
                                                 <mat-icon>close</mat-icon>
                                             </button>
-                                            <mat-hint align="end"> {{ question.value.length }}/{{ maxLength }} </mat-hint>
+                                            <mat-hint align="end"> {{ questionInput.value.length }}/{{ maxLength }} </mat-hint>
                                         </mat-form-field>
                                     </div>
 
