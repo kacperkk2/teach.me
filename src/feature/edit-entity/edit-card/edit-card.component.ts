@@ -11,6 +11,7 @@ import { Lesson } from '../../../data/model/lesson';
 import { removeCard, updateCard } from '../../../data/store/cards/cards.action';
 import { selectCard } from '../../../data/store/cards/cards.selector';
 import { selectLesson } from '../../../data/store/lessons/lessons.selector';
+import { TabStateService } from '../../../services/tab-state/tab-state.service';
 
 @Component({
   selector: 'app-edit-card',
@@ -33,7 +34,8 @@ export class EditCardComponent implements OnInit {
   }
 
   constructor(private store: Store, private router: Router,
-    private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {}
+    private route: ActivatedRoute, private location: Location,
+    public dialog: MatDialog, private tabState: TabStateService) {}
 
   ngOnInit(): void {
     this.editCardForm = new FormGroup({
@@ -63,11 +65,17 @@ export class EditCardComponent implements OnInit {
     this.answerFormControl.patchValue("");
   }
 
+  close() {
+    this.tabState.pendingCardsTab = 1;
+    this.location.back();
+  }
+
   removeCard() {
     const dialogRef = this.dialog.open(ConfirmDeleteDialog, {data: this.deleteCardText, width: '90%', maxWidth: '600px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.store.dispatch(removeCard({cardId: this.card.id, lesson: this.lesson}));
+          this.tabState.pendingCardsTab = 1;
           this.location.back();
         }
     });
@@ -81,6 +89,7 @@ export class EditCardComponent implements OnInit {
       isMarked: this.card.isMarked
     }
     this.store.dispatch(updateCard({card: updatedCard}));
+    this.tabState.pendingCardsTab = 1;
     this.location.back();
   }
 

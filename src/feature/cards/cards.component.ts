@@ -14,6 +14,7 @@ import { LearnData } from './cards-learn/cards-learn.component';
 import { updateLesson } from '../../data/store/lessons/lessons.action';
 import { updateCard, updateCards } from '../../data/store/cards/cards.action';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { TabStateService } from '../../services/tab-state/tab-state.service';
 
 @Component({
   selector: 'app-cards',
@@ -31,10 +32,13 @@ export class CardsComponent implements OnInit {
   lesson: Lesson;
   selectedTab: Tab = Tab.LEARN;
 
-  constructor(private route: ActivatedRoute, private store: Store) {
+  constructor(private route: ActivatedRoute, private store: Store,
+    private tabState: TabStateService) {
   }
 
   ngOnInit(): void {
+    this.selectedTab = this.tabState.pendingCardsTab ?? Tab.LEARN;
+    this.tabState.pendingCardsTab = null;
     this.route.params.subscribe(params => {
       const courseId = params['courseId'];
       const lessonId = params['lessonId'];

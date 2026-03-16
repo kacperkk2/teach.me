@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,6 @@ import { Lesson } from '../../../data/model/lesson';
 import { selectCourse } from '../../../data/store/courses/courses.selector';
 import { addLesson } from '../../../data/store/lessons/lessons.action';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
-import { Location } from '@angular/common';
 import { CONFIG } from '../../../app/app.properties';
 
 @Component({
@@ -15,15 +14,16 @@ import { CONFIG } from '../../../app/app.properties';
   templateUrl: './add-lesson.component.html',
   styleUrl: './add-lesson.component.scss'
 })
-export class AddLessonComponent implements OnInit {
-  
+export class AddLessonComponent implements OnInit, AfterViewInit {
+
   addLessonForm: FormGroup;
   maxLength: number = CONFIG.COURSES.nameMaxLength;
   course: Course;
+  @ViewChild('nameInput') nameInput: ElementRef;
 
-  constructor(private idGenerator: IdGeneratorService, 
-    private store: Store, private router: Router, 
-    private route: ActivatedRoute, private location: Location) {}
+  constructor(private idGenerator: IdGeneratorService,
+    private store: Store, private router: Router,
+    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -35,6 +35,10 @@ export class AddLessonComponent implements OnInit {
     this.addLessonForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)])
     });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.nameInput.nativeElement.focus());
   }
 
   clear() {
@@ -54,7 +58,7 @@ export class AddLessonComponent implements OnInit {
       wrongPreviouslyCardIds: [],
     }
     this.store.dispatch(addLesson({lesson: lesson, course: this.course}));
-    this.location.back();
+    this.router.navigate(['/courses', this.course.id, 'lessons', lessonId, 'cards'], { replaceUrl: true });
   }
   
   headerTitle: string = CONFIG.LABELS.addLesson;

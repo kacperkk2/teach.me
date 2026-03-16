@@ -9,12 +9,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class EditHeaderComponent {
   @Input({required: true}) title: string;
   @Output() actionClicked = new EventEmitter();
+  @Output() closeClicked = new EventEmitter<void>();
 
   constructor(private location: Location) {
   }
 
   close() {
-    this.location.back();
+    if (this.closeClicked.observed) {
+      this.closeClicked.emit();
+    } else {
+      this.location.back();
+    }
   }
   
   emitActionClicked() {

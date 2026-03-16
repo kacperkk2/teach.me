@@ -9,11 +9,11 @@
             <form fxFlex="85" [formGroup]="addLessonForm">    
                 <mat-label> {{ nameLabel | titlecase }} </mat-label> 
                 <mat-form-field>
-                    <input matInput #name formControlName="name" autocomplete="off">
-                    <button *ngIf="name.value" matSuffix mat-icon-button (click)="clear()">
+                    <input matInput #nameInput formControlName="name" autocomplete="off">
+                    <button *ngIf="nameInput.value" matSuffix mat-icon-button (click)="clear()">
                         <mat-icon>close</mat-icon>
                     </button>
-                    <mat-hint align="end"> {{ name.value.length }}/{{ maxLength }} </mat-hint>
+                    <mat-hint align="end"> {{ nameInput.value.length }}/{{ maxLength }} </mat-hint>
                 </mat-form-field>
             </form>
 

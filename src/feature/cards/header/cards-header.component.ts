@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -19,6 +18,8 @@ import { TurnCardService } from '../../../services/turn-card/turn-card.service';
 import { ConfirmDialog } from '../../../commons/confirm-dialog/confirm-dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Tab } from '../cards.component';
+import { TabStateService } from '../../../services/tab-state/tab-state.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cards-header',
@@ -39,7 +40,8 @@ export class CardsHeaderComponent {
     private route: ActivatedRoute, private store: Store, 
     public dialog: MatDialog, private migrationService: MigrationService, 
     private codec: CodecService, private urlShortener: UrlShortenerService,
-    private turnCardService: TurnCardService, private snackBar: MatSnackBar) {
+    private turnCardService: TurnCardService, private snackBar: MatSnackBar,
+    private tabState: TabStateService) {
   }
 
   ngOnInit(): void {
@@ -56,6 +58,7 @@ export class CardsHeaderComponent {
   }
 
   back() {
+    this.tabState.pendingLessonsTab = 1;
     this.location.back();
   }
 
@@ -64,6 +67,7 @@ export class CardsHeaderComponent {
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.store.dispatch(removeLesson({lesson: this.lesson, cardIds: this.lesson.cardIds, course: this.course}));
+          this.tabState.pendingLessonsTab = 1;
           this.location.back();
         }
     });
