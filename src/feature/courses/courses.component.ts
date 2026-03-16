@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CONFIG } from '../../app/app.properties';
-import { Course } from '../../data/model/course';
-import { selectCoursesList } from '../../data/store/courses/courses.selector';
+import { CourseWithStats, selectCoursesWithStats } from '../../data/store/courses/courses.selector';
 
 @Component({
   selector: 'app-courses',
@@ -12,13 +12,17 @@ import { selectCoursesList } from '../../data/store/courses/courses.selector';
 })
 export class CoursesComponent implements OnInit {
 
-  courses$: Observable<Course[]>;
+  courses$: Observable<CourseWithStats[]>;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.courses$ = this.store.select(selectCoursesList);
+    this.courses$ = this.store.select(selectCoursesWithStats);
+  }
+
+  navigateToLessons(courseId: number): void {
+    this.router.navigate(['/courses', courseId, 'lessons']);
   }
 
   courseLabel: string = CONFIG.LABELS.course;
