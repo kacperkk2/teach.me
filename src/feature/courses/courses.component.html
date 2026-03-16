@@ -8,13 +8,18 @@
 </ng-template>
 
 <ng-template #normalView>
-    <mat-list #coursesList>
-        <div *ngFor="let course of courses$ | async; let lastItem = last;">
-            <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="['/courses', course.id, 'lessons']">
-                <div> {{ course.name }} </div>
-            </mat-card>
+    <div class="courses-list">
+        <div fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
+            <div *ngFor="let course of courses$ | async">
+                <app-nav-tile
+                    [name]="course.name"
+                    [lessonsCount]="course.lessonsCount"
+                    [cardsCount]="course.cardsCount"
+                    (tileClicked)="navigateToLessons(course.id)">
+                </app-nav-tile>
+            </div>
         </div>
-    </mat-list>
+    </div>
 
     <app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>
 </ng-template>

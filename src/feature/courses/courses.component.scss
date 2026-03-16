@@ -1,4 +1,5 @@
-mat-list {
-    height: calc(100dvh - 80px);
-    overflow: auto;
+.courses-list {
+    height: calc(100dvh - 72px);
+    overflow-y: auto;
 }
+

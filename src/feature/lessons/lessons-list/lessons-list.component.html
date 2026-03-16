@@ -6,11 +6,13 @@
 </ng-template>
 
 <ng-template #normalView>
-    <mat-list #lessonsList>
-        <div *ngFor="let lesson of lessons; let lastItem = last;">
-            <mat-card fxLayout="column" fxLayoutAlign="center start" [routerLink]="[lesson.id, 'cards']">
-                <div> {{ lesson.name }} </div>
-            </mat-card>
+    <div fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
+        <div *ngFor="let lesson of lessons">
+            <app-nav-tile
+                [name]="lesson.name"
+                [cardsCount]="lesson.cardIds.length"
+                (tileClicked)="navigateToCards(lesson.id)">
+            </app-nav-tile>
         </div>
-    </mat-list>
+    </div>
 </ng-template>

@@ -1,0 +1,8 @@
+<div class="tile-wrapper" (click)="tileClicked.emit()">
+    <div class="tile-main">
+        <div class="tile-name">{{ name }}</div>
+        <div class="tile-stats">
+            <ng-container *ngIf="lessonsCount !== null">{{ lessonsCount }} lekcji <span class="separator">·</span> </ng-container>{{ cardsCount }} kart
+        </div>
+    </div>
+</div>
