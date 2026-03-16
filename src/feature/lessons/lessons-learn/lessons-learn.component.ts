@@ -18,6 +18,7 @@ export class LessonsLearnComponent implements OnInit {
   @Output() learnClicked = new EventEmitter<LearnData>();
 
   cards: Card[];
+  markedCards: Card[];
   wrongPreviouslyCards: Card[];
 
   constructor(private router: Router, private store: Store) {
@@ -26,6 +27,7 @@ export class LessonsLearnComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(selectCardsByLessonIds(this.course.lessonIds)).subscribe(courseCards => {
       this.cards = courseCards;
+      this.markedCards = courseCards.filter(card => card.isMarked);
     });
     this.store.select(selectCardsByIds(this.course.wrongPreviouslyCardIds)).subscribe(wrongCards => {
       this.wrongPreviouslyCards = wrongCards
@@ -38,6 +40,14 @@ export class LessonsLearnComponent implements OnInit {
 
   startAllRandomGame() {
     this.learnClicked.emit(new LearnData(shuffle([...this.cards])));
+  }
+
+  startOnlyMarkedGame() {
+    this.learnClicked.emit(new LearnData([...this.markedCards]));
+  }
+
+  startMarkedRandomGame() {
+    this.learnClicked.emit(new LearnData(shuffle([...this.markedCards])));
   }
 
   startPreviouslyFailedGame() {

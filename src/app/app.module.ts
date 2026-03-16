@@ -6,6 +6,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -115,6 +116,7 @@ import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.co
     MatSnackBarModule,
     MatCardModule,
     BrowserAnimationsModule,
+    MatBadgeModule,
     MatButtonModule,
     FlexLayoutModule,
     MatTabsModule,
