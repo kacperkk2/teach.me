@@ -9,11 +9,9 @@ export class LearnTypeTileComponent {
 
   @Input({required: true}) label: string;
   @Input({required: true}) icon: string;
-  @Input({required: true}) buttonLabel: string;
   @Input({required: true}) cardsCount: number;
-  @Output() actionClicked = new EventEmitter();
-  
-  emitActionClicked() {
-    this.actionClicked.emit();
-  }
+  @Input() wrongCardsCount: number = 0;
+  @Output() inOrderClicked = new EventEmitter();
+  @Output() randomClicked = new EventEmitter();
+  @Output() wrongClicked = new EventEmitter();
 }

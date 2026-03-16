@@ -48,6 +48,10 @@ export class CardsLearnComponent implements OnInit {
   startOnlyMarkedGame() {
     this.learnClicked.emit(new LearnData([...this.markedCards]));
   }
+
+  startMarkedRandomGame() {
+    this.learnClicked.emit(new LearnData(shuffle([...this.markedCards])));
+  }
 }
 
 export class LearnData {
