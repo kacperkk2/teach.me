@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CONFIG } from '../../../app/app.properties';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectLesson } from '../../../data/store/lessons/lessons.selector';
 import { Lesson } from '../../../data/model/lesson';
-import { Location } from '@angular/common';
 import { Card } from '../../../data/model/card';
 import { addCards } from '../../../data/store/cards/cards.action';
+import { TabStateService } from '../../../services/tab-state/tab-state.service';
 
 @Component({
   selector: 'app-add-card',
@@ -33,9 +34,9 @@ export class AddCardComponent implements OnInit {
     return this.addCardsBulkForm.controls["cards"] as FormControl;
   }
 
-  constructor(private idGenerator: IdGeneratorService, 
-    private store: Store, private router: Router,
-    private route: ActivatedRoute, private location: Location) {}
+  constructor(private idGenerator: IdGeneratorService,
+    private store: Store, private route: ActivatedRoute,
+    private location: Location, private tabState: TabStateService) {}
 
   ngOnInit(): void {
     this.addCardsBulkForm = new FormGroup({
@@ -47,8 +48,7 @@ export class AddCardComponent implements OnInit {
     this.addEmptyCard();
 
     this.route.params.subscribe(params => {
-      const lessonId = params['lessonId'];
-      this.store.select(selectLesson(lessonId)).subscribe(lesson => {
+      this.store.select(selectLesson(params['lessonId'])).subscribe(lesson => {
         this.lesson = lesson;
       });
     });
@@ -146,6 +146,7 @@ export class AddCardComponent implements OnInit {
       }
     });
     this.store.dispatch(addCards({cards: cards, lesson: this.lesson}));
+    this.tabState.pendingCardsTab = 1;
     this.location.back();
   }
 

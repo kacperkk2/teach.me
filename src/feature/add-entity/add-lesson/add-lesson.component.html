@@ -9,7 +9,7 @@
             <form fxFlex="85" [formGroup]="addLessonForm">    
                 <mat-label> {{ nameLabel | titlecase }} </mat-label> 
                 <mat-form-field>
-                    <input matInput #name formControlName="name" autocomplete="off">
+                    <input matInput #name formControlName="name" autocomplete="off" autofocus>
                     <button *ngIf="name.value" matSuffix mat-icon-button (click)="clear()">
                         <mat-icon>close</mat-icon>
                     </button>

@@ -9,7 +9,7 @@
 <ng-template #normalView>
     <app-lessons-header></app-lessons-header>
     
-    <mat-tab-group dynamicHeight>
+    <mat-tab-group dynamicHeight [selectedIndex]="selectedTab">
         <mat-tab [label]="teachTabLabel | titlecase">  
             <app-lessons-learn [course]="course" (learnClicked)="learnClicked($any($event))"></app-lessons-learn>
         </mat-tab>

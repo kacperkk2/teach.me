@@ -7,7 +7,6 @@ import { Lesson } from '../../../data/model/lesson';
 import { selectCourse } from '../../../data/store/courses/courses.selector';
 import { addLesson } from '../../../data/store/lessons/lessons.action';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
-import { Location } from '@angular/common';
 import { CONFIG } from '../../../app/app.properties';
 
 @Component({
@@ -21,9 +20,9 @@ export class AddLessonComponent implements OnInit {
   maxLength: number = CONFIG.COURSES.nameMaxLength;
   course: Course;
 
-  constructor(private idGenerator: IdGeneratorService, 
-    private store: Store, private router: Router, 
-    private route: ActivatedRoute, private location: Location) {}
+  constructor(private idGenerator: IdGeneratorService,
+    private store: Store, private router: Router,
+    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -54,7 +53,7 @@ export class AddLessonComponent implements OnInit {
       wrongPreviouslyCardIds: [],
     }
     this.store.dispatch(addLesson({lesson: lesson, course: this.course}));
-    this.location.back();
+    this.router.navigate(['/courses', this.course.id, 'lessons', lessonId, 'cards'], { replaceUrl: true });
   }
   
   headerTitle: string = CONFIG.LABELS.addLesson;

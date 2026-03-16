@@ -43,7 +43,7 @@
                                     <div class="form-field-holder">
                                         <mat-label> {{ questionLabel | titlecase }} </mat-label>
                                         <mat-form-field>
-                                            <input matInput #question formControlName="question" autocomplete="off">
+                                            <input matInput #question formControlName="question" autocomplete="off" [attr.autofocus]="i === 0 ? '' : null">
                                             <button *ngIf="question.value" matSuffix mat-icon-button (click)="question.value=''">
                                                 <mat-icon>close</mat-icon>
                                             </button>

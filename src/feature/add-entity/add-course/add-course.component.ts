@@ -6,7 +6,6 @@ import { Course } from '../../../data/model/course';
 import { Store } from '@ngrx/store';
 import { addCourse } from '../../../data/store/courses/courses.action';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-course',
@@ -18,8 +17,8 @@ export class AddCourseComponent implements OnInit {
   addCourseForm: FormGroup;
   maxLength: number = CONFIG.COURSES.nameMaxLength;
 
-  constructor(private idGenerator: IdGeneratorService, 
-    private store: Store, private router: Router, private location: Location) {}
+  constructor(private idGenerator: IdGeneratorService,
+    private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.addCourseForm = new FormGroup({
@@ -41,7 +40,7 @@ export class AddCourseComponent implements OnInit {
       wrongPreviouslyCardIds: []
     }
     this.store.dispatch(addCourse({course}));
-    this.location.back();
+    this.router.navigate(['/courses', course.id, 'lessons'], { replaceUrl: true });
   }
   
   headerTitle: string = CONFIG.LABELS.addCourse;

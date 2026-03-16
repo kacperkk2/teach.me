@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TabStateService } from '../../services/tab-state/tab-state.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Course } from '../../data/model/course';
@@ -25,10 +26,15 @@ export class LessonsComponent implements OnInit {
   course: Course;
   lessons$: Observable<Lesson[]>;
 
-  constructor(private route: ActivatedRoute, private store: Store) {
+  selectedTab: number = 0;
+
+  constructor(private route: ActivatedRoute, private store: Store,
+    private tabState: TabStateService) {
   }
 
   ngOnInit(): void {
+    this.selectedTab = this.tabState.pendingLessonsTab ?? 0;
+    this.tabState.pendingLessonsTab = null;
     this.route.params.subscribe(params => {
       const courseId = params['courseId'];
       this.store.select(selectCourse(courseId)).subscribe(course => this.course = course);
