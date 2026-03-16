@@ -12,6 +12,19 @@ ng test --include='**/foo.spec.ts'  # Run a single test file
 ng generate component feature/my-component  # Generate a component
 ```
 
+## GitHub Pages deployment
+
+Before every commit, ask the user whether they also want to build and deploy files for GitHub Pages. If yes, run these commands in order:
+
+```bash
+ng build --output-path docs --base-href /teach.me/
+cp docs/browser/* docs/
+rm -rf docs/browser
+cp docs/index.html docs/404.html
+```
+
+Then include the updated `docs/` in the commit.
+
 ## Architecture
 
 **TeachMe** is an Angular 17 flashcard learning app. Data is organized hierarchically: **Courses → Lessons → Cards**. All state is persisted to `localStorage` via NgRx effects.
