@@ -2,7 +2,10 @@
 
     <div fxLayout="row" fxLayoutAlign="center center">
         <mat-icon class="back" (click)="back()"> arrow_back </mat-icon>
-        <span> {{ title | uppercase }} </span>
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <span class="context-label">{{ title | uppercase }}</span>
+            <span class="course-name">{{ course.name }}</span>
+        </div>
     </div>
 
     <div>

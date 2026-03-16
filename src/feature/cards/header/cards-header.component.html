@@ -2,7 +2,10 @@
 
     <div fxLayout="row" fxLayoutAlign="center center">
         <mat-icon class="back" (click)="back()"> arrow_back </mat-icon>
-        <span> {{ title | uppercase }} </span>
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <span class="context-label">{{ course.name | uppercase }}</span>
+            <span class="entity-name">{{ lesson.name }}</span>
+        </div>
     </div>
 
     <div *ngIf="optionsFor == Tab.LEARN then learnOptions else cardsOptions"></div>
