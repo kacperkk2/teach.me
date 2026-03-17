@@ -59,7 +59,10 @@ export class CardsHeaderComponent {
   }
 
   back() {
-    this.tabState.pendingLessonsTab = 1;
+    if (this.tabState.cardsOrigin === 'lessons') {
+      this.tabState.pendingLessonsTab = 1;
+    }
+    this.tabState.cardsOrigin = null;
     this.location.back();
   }
 
@@ -68,7 +71,10 @@ export class CardsHeaderComponent {
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.store.dispatch(removeLesson({lesson: this.lesson, cardIds: this.lesson.cardIds, course: this.course}));
-          this.tabState.pendingLessonsTab = 1;
+          if (this.tabState.cardsOrigin === 'lessons') {
+            this.tabState.pendingLessonsTab = 1;
+          }
+          this.tabState.cardsOrigin = null;
           this.location.back();
         }
     });

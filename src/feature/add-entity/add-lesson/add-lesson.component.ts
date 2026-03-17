@@ -8,6 +8,7 @@ import { selectCourse } from '../../../data/store/courses/courses.selector';
 import { addLesson } from '../../../data/store/lessons/lessons.action';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
 import { CONFIG } from '../../../app/app.properties';
+import { TabStateService } from '../../../services/tab-state/tab-state.service';
 
 @Component({
   selector: 'app-add-lesson',
@@ -23,7 +24,7 @@ export class AddLessonComponent implements OnInit, AfterViewInit {
 
   constructor(private idGenerator: IdGeneratorService,
     private store: Store, private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute, private tabState: TabStateService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -58,6 +59,7 @@ export class AddLessonComponent implements OnInit, AfterViewInit {
       wrongPreviouslyCardIds: [],
     }
     this.store.dispatch(addLesson({lesson: lesson, course: this.course}));
+    this.tabState.cardsOrigin = 'lessons';
     this.router.navigate(['/courses', this.course.id, 'lessons', lessonId, 'cards'], { replaceUrl: true });
   }
   
