@@ -1,9 +1,9 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Card } from '../../../data/model/card';
 import { CONFIG } from '../../../app/app.properties';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ScrollService } from '../../../services/scroll/scroll.service';
 
 @Component({
   selector: 'app-cards-list',
@@ -15,10 +15,20 @@ export class CardsListComponent implements OnInit {
   @Input({required: true}) cards: Card[];
   @Output() toggleCardIsMarked = new EventEmitter<Card>();
 
-  constructor(private route: ActivatedRoute, private store: Store) {
+  constructor(private router: Router, private route: ActivatedRoute, private store: Store,
+    private scrollService: ScrollService) {
   }
 
   ngOnInit(): void {
+    this.scrollService.setScrolledDown(false);
+  }
+
+  onScroll(event: Event): void {
+    this.scrollService.setScrolledDown((event.target as HTMLElement).scrollTop > 0);
+  }
+
+  navigateToCard(cardId: number): void {
+    this.router.navigate([cardId], { relativeTo: this.route });
   }
 
   toggleIsMarked(card: Card) {

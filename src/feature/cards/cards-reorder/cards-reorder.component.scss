@@ -1,3 +1,15 @@
+mat-toolbar {
+    height: 72px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 400;
+    opacity: 0.6;
+    line-height: 1.2;
+    letter-spacing: 1px;
+}
+
 .drag-placeholder {
     background: none;
     min-height: 78px;
@@ -23,6 +35,8 @@ mat-card  {
 
 button {
     border-radius: 25px !important;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 mat-list {

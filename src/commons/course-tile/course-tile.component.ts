@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-nav-tile',
-  templateUrl: './nav-tile.component.html',
-  styleUrl: './nav-tile.component.scss'
+  selector: 'app-course-tile',
+  templateUrl: './course-tile.component.html',
+  styleUrl: './course-tile.component.scss'
 })
-export class NavTileComponent {
+export class CourseTileComponent {
 
   @Input({required: true}) name: string;
   @Input({required: true}) cardsCount: number;

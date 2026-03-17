@@ -1,10 +1,12 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 
     <div fxLayout="row" fxLayoutAlign="center center">
-        <mat-icon class="back" (click)="close()"> close </mat-icon>
-        <span> {{ title | uppercase }} </span>
+        <mat-icon class="back" (click)="close()">arrow_back</mat-icon>
+        <span class="entity-name">{{ title | uppercase }}</span>
     </div>
 
-    <mat-icon (click)="emitActionClicked()"> delete_outline </mat-icon>
+    <button mat-icon-button (click)="emitActionClicked()">
+        <mat-icon>delete_outline</mat-icon>
+    </button>
 
 </mat-toolbar>

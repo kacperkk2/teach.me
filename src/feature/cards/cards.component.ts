@@ -100,6 +100,14 @@ export class CardsComponent implements OnInit {
     })
   }
 
+  markAllCards() {
+    this.cards$.pipe(take(1)).subscribe(cardsToUpdate => {
+      const updatedCards: Card[] = cardsToUpdate.map(card => Object.assign({}, card));
+      updatedCards.forEach(card => card.isMarked = true);
+      this.store.dispatch(updateCards({cards: updatedCards}))
+    })
+  }
+
   teachTabLabel: string = CONFIG.LABELS.teachTab;
   cardsTabLabel: string = CONFIG.LABELS.cardsTab;
   cardsLabel: string = CONFIG.LABELS.cards;
