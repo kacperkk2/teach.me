@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Card } from '../../../data/model/card';
@@ -10,9 +10,10 @@ import { ScrollService } from '../../../services/scroll/scroll.service';
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss'
 })
-export class CardsListComponent implements OnInit {
+export class CardsListComponent implements OnInit, AfterViewInit {
 
   @Input({required: true}) cards: Card[];
+  @Input() scrollToCardId: number | null = null;
   @Output() toggleCardIsMarked = new EventEmitter<Card>();
 
   constructor(private router: Router, private route: ActivatedRoute, private store: Store,
@@ -21,6 +22,13 @@ export class CardsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.scrollService.setScrolledDown(false);
+  }
+
+  ngAfterViewInit(): void {
+    if (this.scrollToCardId === null) return;
+    setTimeout(() => {
+      document.getElementById(`card-${this.scrollToCardId}`)?.scrollIntoView({ block: 'center' });
+    });
   }
 
   onScroll(event: Event): void {

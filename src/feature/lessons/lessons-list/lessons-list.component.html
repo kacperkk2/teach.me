@@ -13,7 +13,8 @@
                     [name]="lesson.name"
                     [cardsCount]="lesson.cardIds.length"
                     [cards]="getCardsForLesson(lesson, cards)"
-                    (tileClicked)="navigateToCards(lesson.id)">
+                    (tileClicked)="navigateToCards(lesson.id)"
+                    (cardClicked)="navigateToCardsTab(lesson.id, $event)">
                 </app-lesson-tile>
             </div>
         </div>

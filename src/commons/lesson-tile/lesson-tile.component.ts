@@ -20,6 +20,7 @@ export class LessonTileComponent {
   @Input({required: true}) cardsCount: number;
   @Input() cards: Card[] = [];
   @Output() tileClicked = new EventEmitter();
+  @Output() cardClicked = new EventEmitter<number>();
 
   isExpanded = false;
 

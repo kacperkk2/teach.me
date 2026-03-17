@@ -7,7 +7,7 @@
 
 <ng-template #normalView>
     <div class="scrollable-list" (scroll)="onScroll($event)" fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
-        <div *ngFor="let card of cards">
+        <div *ngFor="let card of cards" [id]="'card-' + card.id">
             <app-card-tile
                 [question]="card.question"
                 [answer]="card.answer"

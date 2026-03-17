@@ -13,7 +13,8 @@
     <div [@slideDown]="isExpanded ? 'expanded' : 'collapsed'" class="tile-secondary">
         <div fxLayout="column" class="cards-list">
             <ng-container *ngFor="let card of cards; let last = last">
-                <div class="card-item" fxLayout="column">
+                <div class="card-item" fxLayout="column"
+                    (click)="cardClicked.emit(card.id); $event.stopPropagation()">
                     <span class="card-question">{{ card.question }}</span>
                     <span class="card-answer">{{ card.answer }}</span>
                 </div>
