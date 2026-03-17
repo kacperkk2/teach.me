@@ -6,13 +6,16 @@
 </ng-template>
 
 <ng-template #normalView>
-    <div class="scrollable-list" (scroll)="onScroll($event)" fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
-        <div *ngFor="let lesson of lessons">
-            <app-lesson-tile
-                [name]="lesson.name"
-                [cardsCount]="lesson.cardIds.length"
-                (tileClicked)="navigateToCards(lesson.id)">
-            </app-lesson-tile>
+    <ng-container *ngIf="cards$ | async as cards">
+        <div class="scrollable-list" (scroll)="onScroll($event)" fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
+            <div *ngFor="let lesson of lessons">
+                <app-lesson-tile
+                    [name]="lesson.name"
+                    [cardsCount]="lesson.cardIds.length"
+                    [cards]="getCardsForLesson(lesson, cards)"
+                    (tileClicked)="navigateToCards(lesson.id)">
+                </app-lesson-tile>
+            </div>
         </div>
-    </div>
+    </ng-container>
 </ng-template>
