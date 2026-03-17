@@ -10,10 +10,21 @@ mat-progress-bar {
 }
 
 .card {
+    position: relative;
     font-size: large;
     width: 90%;
     box-shadow: 0 0 10px 2px $dark-grey;
     border-radius: 25px;
+}
+
+.question-hint {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    text-align: center;
+    color: $light-grey;
+    font-size: medium;
 }
 
 button {
@@ -22,9 +33,19 @@ button {
     border-radius: 25px !important;
 }
 
-.turn-card-icon {
-    padding-bottom: 10px;
-    padding-right: 10px;
+.card-content {
+    padding: 0 20px;
+    text-align: center;
+}
+
+.bookmark-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.primary-color {
+    color: $primary-color;
 }
 
 .status-holder {
