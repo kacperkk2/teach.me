@@ -50,6 +50,9 @@ import { CardsComponent } from '../feature/cards/cards.component';
 import { CardsHeaderComponent } from '../feature/cards/header/cards-header.component';
 import { CoursesComponent } from '../feature/courses/courses.component';
 import { CoursesHeaderComponent } from '../feature/courses/header/courses-header.component';
+import { SearchResultsComponent } from '../feature/courses/search-results/search-results.component';
+import { SearchResultTileComponent } from '../commons/search-result-tile/search-result-tile.component';
+import { HighlightPipe } from '../commons/highlight/highlight.pipe';
 import { EditCardComponent } from '../feature/edit-entity/edit-card/edit-card.component';
 import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-course.component';
 import { EditHeaderComponent } from '../feature/edit-entity/edit-header/edit-header.component';
@@ -113,7 +116,10 @@ import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.co
     NewCourseDialog,
     CardIconComponent,
     CardsReorderComponent,
-    CombinedIconComponent
+    CombinedIconComponent,
+    SearchResultsComponent,
+    SearchResultTileComponent,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,

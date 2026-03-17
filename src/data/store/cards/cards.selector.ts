@@ -4,6 +4,14 @@ import { CardsState } from "./cards.state";
 import { selectLesson, selectLessonsByIds } from "../lessons/lessons.selector";
 import { selectCourse } from "../courses/courses.selector";
 import { Card } from "../../model/card";
+import { Lesson } from "../../model/lesson";
+import { Course } from "../../model/course";
+
+export interface CardSearchResult {
+    card: Card;
+    lesson: Lesson;
+    course: Course;
+}
 
 const stateSelector = createFeatureSelector<AppFeatureState>('appFeatureKey');
 export const selectCardsState = createSelector(
@@ -46,5 +54,27 @@ export const selectCardsByLessonIds = (ids: number[]) => createSelector(
             allCards = [...allCards, ...lesson.cardIds.map(id => cards[id])]
         })
         return allCards;
+    }
+);
+
+export const selectCardSearchResults = (query: string) => createSelector(
+    stateSelector,
+    (state: AppFeatureState): CardSearchResult[] => {
+        const q = query.toLowerCase();
+        const results: CardSearchResult[] = [];
+        Object.values(state.courses.courses).forEach(course => {
+            course.lessonIds.forEach(lessonId => {
+                const lesson = state.lessons.lessons[lessonId];
+                if (!lesson) return;
+                lesson.cardIds.forEach(cardId => {
+                    const card = state.cards.cards[cardId];
+                    if (!card) return;
+                    if (card.question.toLowerCase().includes(q) || card.answer.toLowerCase().includes(q)) {
+                        results.push({ card, lesson, course });
+                    }
+                });
+            });
+        });
+        return results;
     }
 );

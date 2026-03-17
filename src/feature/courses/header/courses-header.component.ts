@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CONFIG } from '../../../app/app.properties';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
   styleUrl: './courses-header.component.scss'
 })
 export class CoursesHeaderComponent {
+
+  @Input() isSearchActive: boolean = false;
+  @Output() searchToggled = new EventEmitter<void>();
 
   constructor(public dialog: MatDialog, private store: Store, private router: Router) {
   }

@@ -1,0 +1,5 @@
+<div class="tile-wrapper" fxLayout="column" (click)="tileClicked.emit()">
+    <span class="tile-breadcrumb">{{ courseName }} › {{ lessonName }}</span>
+    <span class="tile-question" [innerHTML]="question | highlight:query"></span>
+    <span class="tile-answer" [innerHTML]="answer | highlight:query"></span>
+</div>
