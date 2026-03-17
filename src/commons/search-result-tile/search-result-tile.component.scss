@@ -1,0 +1,28 @@
+@import "../../styles.scss";
+
+.tile-wrapper {
+    box-shadow: var(--mdc-elevated-card-container-elevation);
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: var(--mdc-elevated-card-container-color);
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.tile-breadcrumb {
+    font-size: 11px;
+    color: $light-grey;
+    padding-bottom: 4px;
+}
+
+.tile-question {
+    font-weight: 500;
+    line-height: 1.4;
+    padding-top: 2px;
+}
+
+.tile-answer {
+    color: $light-grey;
+    line-height: 1.4;
+    padding-top: 2px;
+}

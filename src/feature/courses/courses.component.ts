@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -12,7 +13,19 @@ import { TabStateService } from '../../services/tab-state/tab-state.service';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrl: './courses.component.scss'
+  styleUrl: './courses.component.scss',
+  animations: [
+    trigger('slideDown', [
+      transition(':enter', [
+        style({ height: '0px', overflow: 'hidden' }),
+        animate('200ms ease-out', style({ height: '*' }))
+      ]),
+      transition(':leave', [
+        style({ overflow: 'hidden' }),
+        animate('200ms ease-in', style({ height: '0px' }))
+      ])
+    ])
+  ]
 })
 export class CoursesComponent implements OnInit {
 
@@ -44,7 +57,25 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['/courses', courseId, 'lessons', lessonId, 'cards']);
   }
 
+  searchQuery: string = '';
+  isSearchActive: boolean = false;
+
+  toggleSearch(): void {
+    this.isSearchActive = !this.isSearchActive;
+    if (!this.isSearchActive) {
+      this.searchQuery = '';
+    }
+  }
+
+  navigateToCard(courseId: number, lessonId: number, cardId: number): void {
+    this.tabState.cardsOrigin = 'courses';
+    this.tabState.pendingCardsTab = 1;
+    this.tabState.pendingCardId = cardId;
+    this.router.navigate(['/courses', courseId, 'lessons', lessonId, 'cards']);
+  }
+
   courseLabel: string = CONFIG.LABELS.course;
   emptyCoursesLabel: string = CONFIG.LABELS.emptyCourses;
   emptyCoursesSubLabel: string = CONFIG.LABELS.emptyCoursesSub;
+  searchPlaceholder: string = CONFIG.LABELS.searchPlaceholder;
 }

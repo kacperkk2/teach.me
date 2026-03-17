@@ -1,29 +1,48 @@
-<app-courses-header></app-courses-header>
+<app-courses-header [isSearchActive]="isSearchActive" (searchToggled)="toggleSearch()"></app-courses-header>
 
 <div *ngIf="(courses$ | async)!.length == 0; then emptyView else normalView"></div>
 
 <ng-template #emptyView>
-    <app-empty-view [mainLabel]="emptyCoursesLabel" 
+    <app-empty-view [mainLabel]="emptyCoursesLabel"
         [subLabel]="emptyCoursesSubLabel" redirectTo="/courses/new" [showButton]="true"></app-empty-view>
 </ng-template>
 
 <ng-template #normalView>
-    <ng-container *ngIf="lessons$ | async as lessons">
-        <div class="courses-list" (scroll)="onScroll($event)">
-            <div fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
-                <div *ngFor="let course of courses$ | async">
-                    <app-course-tile
-                        [name]="course.name"
-                        [lessonsCount]="course.lessonsCount"
-                        [cardsCount]="course.cardsCount"
-                        [lessons]="getLessonsForCourse(course, lessons)"
-                        (tileClicked)="navigateToLessons(course.id)"
-                        (lessonClicked)="navigateToCards(course.id, $event)">
-                    </app-course-tile>
-                </div>
-            </div>
+    <div class="content-wrapper">
+        <div class="search-bar-wrapper" *ngIf="isSearchActive" @slideDown>
+            <mat-form-field class="search-field" subscriptSizing="dynamic">
+                <input matInput [placeholder]="searchPlaceholder" [(ngModel)]="searchQuery">
+                <button *ngIf="searchQuery" matSuffix mat-icon-button (click)="searchQuery = ''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
         </div>
 
-        <app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>
-    </ng-container>
+        <ng-container *ngIf="isSearchActive && searchQuery.length >= 2; else coursesView">
+            <app-search-results [query]="searchQuery"
+                (cardClicked)="navigateToCard($event.courseId, $event.lessonId, $event.cardId)">
+            </app-search-results>
+        </ng-container>
+
+        <ng-template #coursesView>
+            <ng-container *ngIf="lessons$ | async as lessons">
+                <div class="courses-list" (scroll)="onScroll($event)">
+                    <div fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
+                        <div *ngFor="let course of courses$ | async">
+                            <app-course-tile
+                                [name]="course.name"
+                                [lessonsCount]="course.lessonsCount"
+                                [cardsCount]="course.cardsCount"
+                                [lessons]="getLessonsForCourse(course, lessons)"
+                                (tileClicked)="navigateToLessons(course.id)"
+                                (lessonClicked)="navigateToCards(course.id, $event)">
+                            </app-course-tile>
+                        </div>
+                    </div>
+                </div>
+
+                <app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>
+            </ng-container>
+        </ng-template>
+    </div>
 </ng-template>

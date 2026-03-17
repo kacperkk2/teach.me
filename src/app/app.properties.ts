@@ -84,5 +84,7 @@ export const CONFIG = {
         removeAllCardsMarks: 'Usuń oznaczenia kart',
 
         markAllCards: 'Zaznacz wszystkie karty',
+
+        searchPlaceholder: 'Szukaj w kartach...',
     }
 }

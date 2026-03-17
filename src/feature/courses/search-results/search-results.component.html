@@ -1,0 +1,17 @@
+<ng-container *ngIf="results$ | async as results">
+    <div class="results-list" *ngIf="results.length > 0; else noResults">
+        <div *ngFor="let result of results" style="padding: 4px 8px;">
+            <app-search-result-tile
+                [question]="result.card.question"
+                [answer]="result.card.answer"
+                [courseName]="result.course.name"
+                [lessonName]="result.lesson.name"
+                [query]="currentQuery"
+                (tileClicked)="cardClicked.emit({ courseId: result.course.id, lessonId: result.lesson.id, cardId: result.card.id })">
+            </app-search-result-tile>
+        </div>
+    </div>
+    <ng-template #noResults>
+        <div class="no-results">Brak wyników</div>
+    </ng-template>
+</ng-container>
