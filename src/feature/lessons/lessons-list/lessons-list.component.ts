@@ -34,10 +34,12 @@ export class LessonsListComponent implements OnInit {
   }
 
   navigateToCards(lessonId: number): void {
+    this.tabState.cardsOrigin = 'lessons';
     this.router.navigate([lessonId, 'cards'], { relativeTo: this.route });
   }
 
   navigateToCardsTab(lessonId: number, cardId: number): void {
+    this.tabState.cardsOrigin = 'lessons';
     this.tabState.pendingCardsTab = 1;
     this.tabState.pendingCardId = cardId;
     this.router.navigate([lessonId, 'cards'], { relativeTo: this.route });

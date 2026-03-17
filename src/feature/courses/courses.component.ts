@@ -7,6 +7,7 @@ import { Lesson } from '../../data/model/lesson';
 import { CourseWithStats, selectCoursesWithStats } from '../../data/store/courses/courses.selector';
 import { selectLessons } from '../../data/store/lessons/lessons.selector';
 import { ScrollService } from '../../services/scroll/scroll.service';
+import { TabStateService } from '../../services/tab-state/tab-state.service';
 
 @Component({
   selector: 'app-courses',
@@ -22,7 +23,7 @@ export class CoursesComponent implements OnInit {
     return course.lessonIds.map(id => lessons[id]).filter(Boolean);
   }
 
-  constructor(private store: Store, private router: Router, private scrollService: ScrollService) {
+  constructor(private store: Store, private router: Router, private scrollService: ScrollService, private tabState: TabStateService) {
   }
 
   ngOnInit(): void {
@@ -39,6 +40,7 @@ export class CoursesComponent implements OnInit {
   }
 
   navigateToCards(courseId: number, lessonId: number): void {
+    this.tabState.cardsOrigin = 'courses';
     this.router.navigate(['/courses', courseId, 'lessons', lessonId, 'cards']);
   }
 
