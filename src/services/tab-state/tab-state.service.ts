@@ -4,4 +4,5 @@ import { Injectable } from '@angular/core';
 export class TabStateService {
   pendingLessonsTab: number | null = null;
   pendingCardsTab: number | null = null;
+  pendingCardId: number | null = null;
 }

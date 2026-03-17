@@ -21,6 +21,7 @@ export class CourseTileComponent {
   @Input() lessonsCount: number | null = null;
   @Input() lessons: Lesson[] = [];
   @Output() tileClicked = new EventEmitter();
+  @Output() lessonClicked = new EventEmitter<number>();
 
   isExpanded = false;
 

@@ -31,6 +31,7 @@ export class CardsComponent implements OnInit {
   cards$: Observable<Card[]>;
   lesson: Lesson;
   selectedTab: Tab = Tab.LEARN;
+  scrollToCardId: number | null = null;
 
   constructor(private route: ActivatedRoute, private store: Store,
     private tabState: TabStateService) {
@@ -39,6 +40,8 @@ export class CardsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedTab = this.tabState.pendingCardsTab ?? Tab.LEARN;
     this.tabState.pendingCardsTab = null;
+    this.scrollToCardId = this.tabState.pendingCardId;
+    this.tabState.pendingCardId = null;
     this.route.params.subscribe(params => {
       const courseId = params['courseId'];
       const lessonId = params['lessonId'];

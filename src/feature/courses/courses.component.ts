@@ -38,6 +38,10 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['/courses', courseId, 'lessons']);
   }
 
+  navigateToCards(courseId: number, lessonId: number): void {
+    this.router.navigate(['/courses', courseId, 'lessons', lessonId, 'cards']);
+  }
+
   courseLabel: string = CONFIG.LABELS.course;
   emptyCoursesLabel: string = CONFIG.LABELS.emptyCourses;
   emptyCoursesSubLabel: string = CONFIG.LABELS.emptyCoursesSub;

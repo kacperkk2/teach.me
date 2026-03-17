@@ -6,6 +6,7 @@ import { Lesson } from '../../../data/model/lesson';
 import { selectCards } from '../../../data/store/cards/cards.selector';
 import { CONFIG } from '../../../app/app.properties';
 import { ScrollService } from '../../../services/scroll/scroll.service';
+import { TabStateService } from '../../../services/tab-state/tab-state.service';
 
 @Component({
   selector: 'app-lessons-list',
@@ -18,7 +19,7 @@ export class LessonsListComponent implements OnInit {
 
   cards$ = this.store.select(selectCards);
 
-  constructor(private router: Router, private route: ActivatedRoute, private scrollService: ScrollService, private store: Store) {}
+  constructor(private router: Router, private route: ActivatedRoute, private scrollService: ScrollService, private store: Store, private tabState: TabStateService) {}
 
   getCardsForLesson(lesson: Lesson, cards: {[id: number]: Card}): Card[] {
     return lesson.cardIds.map(id => cards[id]).filter(Boolean);
@@ -33,6 +34,12 @@ export class LessonsListComponent implements OnInit {
   }
 
   navigateToCards(lessonId: number): void {
+    this.router.navigate([lessonId, 'cards'], { relativeTo: this.route });
+  }
+
+  navigateToCardsTab(lessonId: number, cardId: number): void {
+    this.tabState.pendingCardsTab = 1;
+    this.tabState.pendingCardId = cardId;
     this.router.navigate([lessonId, 'cards'], { relativeTo: this.route });
   }
 

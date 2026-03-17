@@ -15,7 +15,8 @@
     <div [@slideDown]="isExpanded ? 'expanded' : 'collapsed'" class="tile-secondary">
         <div fxLayout="column" class="lessons-list">
             <ng-container *ngFor="let lesson of lessons; let last = last">
-                <div class="lesson-item" fxLayout="row" fxLayoutAlign="start center">
+                <div class="lesson-item" fxLayout="row" fxLayoutAlign="start center"
+                    (click)="lessonClicked.emit(lesson.id); $event.stopPropagation()">
                     <span fxFlex class="lesson-name">{{ lesson.name }}</span>
                     <span class="lesson-stats">{{ lesson.cardIds.length }} kart</span>
                 </div>
