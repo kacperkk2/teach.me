@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Card } from '../../../data/model/card';
+import { updateCard } from '../../../data/store/cards/cards.action';
 
 @Component({
   selector: 'app-round',
@@ -58,20 +59,17 @@ export class RoundComponent {
     }
   }
 
-  toggleCardSide() {
-    if (this.cardState == CardState.QUESTION) {
-      this.cardState = CardState.ANSWER
-    }
-    else {
-      this.cardState = CardState.QUESTION
-    }
-  }
-
   private endRound() {
     // todo pokazac jak sie pasek dopelnia
     // setTimeout(() => {
       this.roundSummary.emit(new RoundSummary(RoundAction.NEXT, this.correct, this.wrong));
     // }, 5000);
+  }
+
+  toggleMark() {
+    const updatedCard = { ...this.cards[this.index - 1], isMarked: !this.cards[this.index - 1].isMarked };
+    this.store.dispatch(updateCard({ card: updatedCard }));
+    this.cards[this.index - 1] = updatedCard;
   }
 
   abortRound() {
