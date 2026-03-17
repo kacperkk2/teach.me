@@ -8,18 +8,21 @@
 </ng-template>
 
 <ng-template #normalView>
-    <div class="courses-list" (scroll)="onScroll($event)">
-        <div fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
-            <div *ngFor="let course of courses$ | async">
-                <app-course-tile
-                    [name]="course.name"
-                    [lessonsCount]="course.lessonsCount"
-                    [cardsCount]="course.cardsCount"
-                    (tileClicked)="navigateToLessons(course.id)">
-                </app-course-tile>
+    <ng-container *ngIf="lessons$ | async as lessons">
+        <div class="courses-list" (scroll)="onScroll($event)">
+            <div fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
+                <div *ngFor="let course of courses$ | async">
+                    <app-course-tile
+                        [name]="course.name"
+                        [lessonsCount]="course.lessonsCount"
+                        [cardsCount]="course.cardsCount"
+                        [lessons]="getLessonsForCourse(course, lessons)"
+                        (tileClicked)="navigateToLessons(course.id)">
+                    </app-course-tile>
+                </div>
             </div>
         </div>
-    </div>
 
-    <app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>
+        <app-add-round-button redirectTo="/courses/new" [label]="courseLabel"></app-add-round-button>
+    </ng-container>
 </ng-template>

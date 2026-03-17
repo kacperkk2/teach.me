@@ -1,8 +1,26 @@
-<div class="tile-wrapper" (click)="tileClicked.emit()">
-    <div class="tile-main">
-        <div class="tile-name">{{ name }}</div>
-        <div class="tile-stats">
-            <ng-container *ngIf="lessonsCount !== null">{{ lessonsCount }} lekcji <span class="separator">·</span> </ng-container>{{ cardsCount }} kart
+<div class="tile-wrapper">
+    <div class="tile-main" fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex fxLayout="column" (click)="tileClicked.emit()" class="tile-clickable">
+            <div class="tile-name">{{ name }}</div>
+            <div class="tile-stats">
+                <ng-container *ngIf="lessonsCount !== null">{{ lessonsCount }} lekcji <span class="separator">·</span> </ng-container>{{ cardsCount }} kart
+            </div>
+        </div>
+        <button *ngIf="lessons.length > 0" mat-icon-button class="expand-btn"
+            (click)="toggleExpanded(); $event.stopPropagation()">
+            <mat-icon [class.rotated]="isExpanded">expand_more</mat-icon>
+        </button>
+    </div>
+
+    <div [@slideDown]="isExpanded ? 'expanded' : 'collapsed'" class="tile-secondary">
+        <div fxLayout="column" class="lessons-list">
+            <ng-container *ngFor="let lesson of lessons; let last = last">
+                <div class="lesson-item" fxLayout="row" fxLayoutAlign="start center">
+                    <span fxFlex class="lesson-name">{{ lesson.name }}</span>
+                    <span class="lesson-stats">{{ lesson.cardIds.length }} kart</span>
+                </div>
+                <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
         </div>
     </div>
 </div>

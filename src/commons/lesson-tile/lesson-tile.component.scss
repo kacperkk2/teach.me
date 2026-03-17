@@ -2,7 +2,6 @@
 
 .tile-wrapper {
     position: relative;
-    cursor: pointer;
 }
 
 .tile-main {
@@ -12,7 +11,11 @@
     border-radius: 15px;
     overflow: hidden;
     background-color: var(--mdc-elevated-card-container-color);
-    padding: 15px 20px;
+    padding: 15px 8px 15px 20px;
+}
+
+.tile-clickable {
+    cursor: pointer;
 }
 
 .tile-name {
@@ -24,4 +27,43 @@
     font-size: small;
     color: $light-grey;
     margin-top: 4px;
+}
+
+.expand-btn {
+    mat-icon {
+        transition: transform 250ms ease-in-out;
+    }
+
+    .rotated {
+        transform: rotate(180deg);
+    }
+}
+
+.tile-secondary {
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--mat-toolbar-container-background-color), white 4%);
+    border-radius: 0 0 15px 15px;
+}
+
+.cards-list {
+    padding: 20px 12px 10px;
+}
+
+.card-item {
+    padding: 4px 10px;
+}
+
+.card-question {
+    font-weight: 500;
+    font-size: small;
+    line-height: 1.4;
+}
+
+.card-answer {
+    color: $light-grey;
+    font-size: small;
+    line-height: 1.4;
+    margin-top: 2px;
 }

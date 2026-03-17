@@ -5,6 +5,7 @@ import { CoursesState } from "./courses.state";
 export interface CourseWithStats {
     id: number;
     name: string;
+    lessonIds: number[];
     lessonsCount: number;
     cardsCount: number;
 }
@@ -36,6 +37,7 @@ export const selectCoursesWithStats = createSelector(
     (courses, state): CourseWithStats[] => courses.map(course => ({
         id: course.id,
         name: course.name,
+        lessonIds: course.lessonIds,
         lessonsCount: course.lessonIds.length,
         cardsCount: course.lessonIds.reduce((sum, id) => sum + (state.lessons.lessons[id]?.cardIds.length ?? 0), 0)
     }))
