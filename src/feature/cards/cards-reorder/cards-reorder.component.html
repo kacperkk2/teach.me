@@ -1,9 +1,9 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayout="row" fxLayoutAlign="center center">
         <mat-icon class="back" (click)="abort()"> close </mat-icon>
-        <span> {{ title | uppercase }} </span>
+        <span class="title"> {{ title | uppercase }} </span>
     </div>
-    <button mat-flat-button color="primary" (click)="save()"> {{ saveLabel | titlecase }} </button>
+    <button mat-flat-button color="primary" (click)="save()"> {{ saveLabel | titlecase }}</button>
 </mat-toolbar>
 
 <mat-list #cardsList cdkDropList (cdkDropListDropped)="drop($event)">

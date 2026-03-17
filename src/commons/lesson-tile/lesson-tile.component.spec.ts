@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavTileComponent } from './nav-tile.component';
+import { LessonTileComponent } from './lesson-tile.component';
 
-describe('NavTileComponent', () => {
-  let component: NavTileComponent;
-  let fixture: ComponentFixture<NavTileComponent>;
+describe('LessonTileComponent', () => {
+  let component: LessonTileComponent;
+  let fixture: ComponentFixture<LessonTileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NavTileComponent]
+      declarations: [LessonTileComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NavTileComponent);
+    fixture = TestBed.createComponent(LessonTileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

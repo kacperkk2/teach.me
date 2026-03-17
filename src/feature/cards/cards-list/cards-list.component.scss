@@ -8,3 +8,8 @@ mat-card  {
     padding-top: 15px !important;
     padding-bottom: 15px !important;
 }
+
+.scrollable-list {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}

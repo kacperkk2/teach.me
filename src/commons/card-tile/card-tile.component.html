@@ -1,0 +1,9 @@
+<div class="tile-wrapper" fxLayout="row" fxLayoutAlign="start center" (click)="tileClicked.emit()">
+    <div fxFlex fxLayout="column">
+        <span class="tile-question">{{ question }}</span>
+<span class="tile-answer">{{ answer }}</span>
+    </div>
+    <button mat-icon-button (click)="bookmarkClicked.emit(); $event.stopPropagation()">
+        <mat-icon [ngClass]="isMarked ? 'primary-color' : 'text-light-grey'">bookmark_outline</mat-icon>
+    </button>
+</div>

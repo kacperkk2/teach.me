@@ -6,13 +6,13 @@
 </ng-template>
 
 <ng-template #normalView>
-    <div fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
+    <div class="scrollable-list" (scroll)="onScroll($event)" fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
         <div *ngFor="let lesson of lessons">
-            <app-nav-tile
+            <app-lesson-tile
                 [name]="lesson.name"
                 [cardsCount]="lesson.cardIds.length"
                 (tileClicked)="navigateToCards(lesson.id)">
-            </app-nav-tile>
+            </app-lesson-tile>
         </div>
     </div>
 </ng-template>

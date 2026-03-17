@@ -30,6 +30,7 @@ export class CardsHeaderComponent {
   @Input({required: true}) optionsFor: Tab;
   @Output() isReorder = new EventEmitter();
   @Output() removeAllMarks = new EventEmitter();
+  @Output() markAll = new EventEmitter();
 
   Tab = Tab;
   lesson: Lesson;
@@ -123,6 +124,10 @@ export class CardsHeaderComponent {
   removeAllCardsMarks() {
     this.removeAllMarks.emit();
   }
+
+  markAllCards() {
+    this.markAll.emit();
+  }
   
   title: string = CONFIG.LABELS.lesson;
   removeLessonLabel: string = CONFIG.LABELS.removeLesson;
@@ -133,4 +138,5 @@ export class CardsHeaderComponent {
   reorderCardsLabel: string = CONFIG.LABELS.reorderCards;
   turnLessonCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
   removeAllCardsMarksLabel: string = CONFIG.LABELS.removeAllCardsMarks;
+  markAllCardsLabel: string = CONFIG.LABELS.markAllCards;
 }

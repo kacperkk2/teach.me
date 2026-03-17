@@ -32,9 +32,9 @@ export const CONFIG = {
         addLesson: 'nowa lekcja',
         addCards: 'nowe karty',
 
-        editCard: 'edytuj kartę',
-        editLesson: 'edytuj lekcję',
-        editCourse: 'edytuj kurs',
+        editCard: 'edycja karty',
+        editLesson: 'edycja lekcji',
+        editCourse: 'edycja kursu',
 
         editOrder: 'edytuj kolejność',
         save: 'zapisz',
@@ -82,5 +82,7 @@ export const CONFIG = {
         reorderCards: 'Edytuj kolejność kart',
 
         removeAllCardsMarks: 'Usuń oznaczenia kart',
+
+        markAllCards: 'Zaznacz wszystkie karty',
     }
 }

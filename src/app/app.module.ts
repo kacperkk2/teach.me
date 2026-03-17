@@ -35,7 +35,9 @@ import { ConfirmDialog } from '../commons/confirm-dialog/confirm-dialog';
 import { EmptyViewComponent } from '../commons/empty-view/empty-view.component';
 import { ExportDialog } from '../commons/export-dialog/export-dialog';
 import { LearnTypeTileComponent } from '../commons/learn-type-tile/learn-type-tile.component';
-import { NavTileComponent } from '../commons/nav-tile/nav-tile.component';
+import { LessonTileComponent } from '../commons/lesson-tile/lesson-tile.component';
+import { CourseTileComponent } from '../commons/course-tile/course-tile.component';
+import { CardTileComponent } from '../commons/card-tile/card-tile.component';
 import { NewCourseDialog } from '../commons/new-course-dialog/new-course-dialog';
 import { appFeatureEffects, appFeatureKey, appFeatureReducers } from '../data/store';
 import { AddCardComponent } from '../feature/add-entity/add-card/add-card.component';
@@ -91,7 +93,9 @@ import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.co
     SummaryComponent,
     AddRoundButtonComponent,
     LearnTypeTileComponent,
-    NavTileComponent,
+    LessonTileComponent,
+    CourseTileComponent,
+    CardTileComponent,
     EditCardComponent,
     EditHeaderComponent,
     ConfirmDialog,

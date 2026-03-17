@@ -6,21 +6,15 @@
 </ng-template>
 
 <ng-template #normalView>
-    <mat-list #cardsList>
-        <div class="wrapper" *ngFor="let card of cards; let lastItem = last;">
-            <mat-card fxLayout="row" fxLayoutAlign="space-between center">
-                <div fxFlex="90" fxLayout="column" [routerLink]="[card.id]">
-                    <span class="text-bold"> {{ card.question }} </span>
-                    <span class="text-light-grey"> {{ card.answer }} </span>
-                </div>
-                
-                <div fxFlex="10">
-                    <button mat-icon-button (click)="toggleIsMarked(card)">
-                        <mat-icon [ngClass]="card.isMarked ? 'primary-color' : 'text-light-grey'"> bookmark_outline </mat-icon>
-                    </button>
-                </div>
-            </mat-card>
+    <div class="scrollable-list" (scroll)="onScroll($event)" fxLayout="column" fxLayoutGap="8px" style="padding: 8px;">
+        <div *ngFor="let card of cards">
+            <app-card-tile
+                [question]="card.question"
+                [answer]="card.answer"
+                [isMarked]="card.isMarked"
+                (tileClicked)="navigateToCard(card.id)"
+                (bookmarkClicked)="toggleIsMarked(card)">
+            </app-card-tile>
         </div>
-    </mat-list>
+    </div>
 </ng-template>
-
