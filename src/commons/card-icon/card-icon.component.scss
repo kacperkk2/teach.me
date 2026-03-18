@@ -3,14 +3,15 @@
 .number {
     font-size: small;
     color: $light-grey;
+    text-align: center;
 }
 
 .card-icon {
-    margin-right: 15px;
+    width: 22px;
+    flex-shrink: 0;
+    margin-right: 8px;
     box-shadow: 0 0 10px 2px $dark-grey;
     border-radius: 5px;
-    padding-right: 5px;
-    padding-left: 5px;
     padding-top: 8px;
     padding-bottom: 8px;
 }

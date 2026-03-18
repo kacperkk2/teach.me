@@ -22,7 +22,11 @@ export const CONFIG = {
         }
     },
 
-    LABELS: {
+    QUICK_LEARN: {
+        minCards: 10
+    },
+
+LABELS: {
         appTitle: 'TeachMe',
         course: 'kurs',
         lesson: 'lekcja',

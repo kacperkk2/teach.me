@@ -7,10 +7,8 @@
             label="Wszystkie karty"
             icon="layers"
             [cardsCount]="cards.length"
-            [wrongCardsCount]="wrongPreviouslyCards.length"
             (inOrderClicked)="startAllInOrderGame()"
-            (randomClicked)="startAllRandomGame()"
-            (wrongClicked)="startPreviouslyFailedGame()">
+            (randomClicked)="startAllRandomGame()">
         </app-learn-type-tile>
 
         <app-learn-type-tile
@@ -20,6 +18,18 @@
             (inOrderClicked)="startOnlyMarkedGame()"
             (randomClicked)="startMarkedRandomGame()">
         </app-learn-type-tile>
+
+        <app-quick-learn-tile
+            *ngIf="cards.length >= quickLearnMinCards"
+            [totalCards]="cards.length"
+            (quickLearnClicked)="startQuickGame($event)">
+        </app-quick-learn-tile>
+
+        <app-wrong-cards-tile
+            *ngIf="wrongPreviouslyCards.length > 0"
+            [wrongCardsCount]="wrongPreviouslyCards.length"
+            (wrongClicked)="startPreviouslyFailedGame()">
+        </app-wrong-cards-tile>
 
     </div>
 </div>

@@ -7,6 +7,7 @@ import { Card } from '../../../data/model/card';
 import { Course } from '../../../data/model/course';
 import { selectCardsByIds, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
 import { LearnData } from '../../cards/cards-learn/cards-learn.component';
+import { LearningPreferencesService } from '../../../services/learning-preferences/learning-preferences.service';
 
 @Component({
   selector: 'app-lessons-learn',
@@ -21,7 +22,7 @@ export class LessonsLearnComponent implements OnInit {
   markedCards: Card[];
   wrongPreviouslyCards: Card[];
 
-  constructor(private router: Router, private store: Store) {
+  constructor(private router: Router, private store: Store, public prefs: LearningPreferencesService) {
   }
 
   ngOnInit(): void {
@@ -54,5 +55,11 @@ export class LessonsLearnComponent implements OnInit {
     this.learnClicked.emit(new LearnData(shuffle([...this.wrongPreviouslyCards])));
   }
 
+  startQuickGame(count: number) {
+    const picked = shuffle([...this.cards]).slice(0, count);
+    this.learnClicked.emit(new LearnData(picked));
+  }
+
+  quickLearnMinCards: number = CONFIG.QUICK_LEARN.minCards;
   cardsLabel: string = CONFIG.LABELS.cards;
 }

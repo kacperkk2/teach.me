@@ -19,16 +19,4 @@
             </button>
         </div>
     </div>
-
-    <div *ngIf="wrongCardsCount > 0" class="tile-secondary" fxLayout="row" fxLayoutAlign="center center">
-        <button mat-button color="primary" (click)="wrongClicked.emit()">
-            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8px">
-                <span class="icon-with-count">
-                    <mat-icon>repeat</mat-icon>
-                    <sup class="wrong-count">{{ wrongCardsCount }}</sup>
-                </span>
-                <span>Błędne poprzednim razem</span>
-            </div>
-        </button>
-    </div>
 </div>

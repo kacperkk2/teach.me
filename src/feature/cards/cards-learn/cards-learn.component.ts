@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { CONFIG } from '../../../app/app.properties';
 import { shuffle } from '../../../commons/utils';
 import { Card } from '../../../data/model/card';
 import { Course } from '../../../data/model/course';
 import { Lesson } from '../../../data/model/lesson';
 import { selectCardsByIds } from '../../../data/store/cards/cards.selector';
+import { LearningPreferencesService } from '../../../services/learning-preferences/learning-preferences.service';
 
 @Component({
   selector: 'app-cards-learn',
@@ -20,7 +22,7 @@ export class CardsLearnComponent implements OnInit {
   markedCards: Card[];
   wrongPreviouslyCards: Card[];
 
-  constructor(private store: Store) {
+  constructor(private store: Store, public prefs: LearningPreferencesService) {
   }
 
   ngOnInit(): void {
@@ -52,6 +54,13 @@ export class CardsLearnComponent implements OnInit {
   startMarkedRandomGame() {
     this.learnClicked.emit(new LearnData(shuffle([...this.markedCards])));
   }
+
+  startQuickGame(count: number) {
+    const picked = shuffle([...this.cards]).slice(0, count);
+    this.learnClicked.emit(new LearnData(picked));
+  }
+
+  quickLearnMinCards: number = CONFIG.QUICK_LEARN.minCards;
 }
 
 export class LearnData {

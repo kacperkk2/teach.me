@@ -1,0 +1,16 @@
+<div class="tile-wrapper">
+    <div class="tile-main" fxLayout="column">
+        <div class="card-header" fxLayout="row" fxLayoutAlign="start center">
+            <div fxFlex="13" fxLayoutAlign="center center">
+                <mat-icon class="side-icon text-light-grey">bolt</mat-icon>
+            </div>
+            <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                <app-card-icon [count]="quickCount"></app-card-icon>
+                <span>Szybka powtórka</span>
+            </div>
+            <button mat-icon-button color="primary" (click)="quickLearnClicked.emit(quickCount)">
+                <mat-icon>play_arrow</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

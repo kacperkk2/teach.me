@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Card } from '../../../data/model/card';
 import { updateCard } from '../../../data/store/cards/cards.action';
+import { LearningPreferencesService } from '../../../services/learning-preferences/learning-preferences.service';
 
 @Component({
   selector: 'app-round',
@@ -23,14 +24,16 @@ export class RoundComponent {
   AnswerState = AnswerState;
   correct: Card[];
   wrong: Card[];
-  
-  constructor(private route: ActivatedRoute, private store: Store, private location: Location) {
+  isReversed: boolean;
+
+  constructor(private route: ActivatedRoute, private store: Store, private location: Location, private prefs: LearningPreferencesService) {
   }
 
   ngOnInit(): void {
     this.index = 1;
     this.correct = [];
     this.wrong = [];
+    this.isReversed = this.prefs.reversedMode;
   }
 
   showAnswer() {
@@ -64,6 +67,11 @@ export class RoundComponent {
     // setTimeout(() => {
       this.roundSummary.emit(new RoundSummary(RoundAction.NEXT, this.correct, this.wrong));
     // }, 5000);
+  }
+
+  toggleReversed() {
+    this.isReversed = !this.isReversed;
+    this.prefs.reversedMode = this.isReversed;
   }
 
   toggleMark() {
