@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CONFIG } from '../../../app/app.properties';
+import { Card } from '../../../data/model/card';
 import { LessonMigration } from '../../../data/model/lesson';
 
 @Component({
@@ -11,9 +12,9 @@ export class ImportPreviewComponent {
 
   @Input({required: true}) migrationLessons: LessonMigration[];
 
-  getCards() {
-    return []; //Object.values(this.migrationData.cards)
-  }
+  lessonsLabel = CONFIG.LABELS.lessonsTab;
 
-  cardsLabel: string = CONFIG.LABELS.cards;
+  getCards(lesson: LessonMigration): Card[] {
+    return lesson.cards.map(c => ({ id: 0, question: c.question, answer: c.answer, isMarked: false }));
+  }
 }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CONFIG } from '../../../../app/app.properties';
 import { ImportSummaryData } from '../../import.component';
 import { Router } from '@angular/router';
+import { LessonMigration } from '../../../../data/model/lesson';
 
 @Component({
   selector: 'app-import-course',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class ImportCourseComponent {
   @Input({required: true}) summaryData: ImportSummaryData;
+  @Input({required: true}) migrationLessons: LessonMigration[];
   @Output() importCourse = new EventEmitter<ImportCourseData>();
 
   importForm: FormGroup;

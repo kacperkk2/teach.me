@@ -1,23 +1,11 @@
-.wrapper {
-    width: 95%;
-}
-
-.main-list {
-    height: calc(100dvh - 120px);
-    overflow: auto;
-    width: 100%;
-}
-
-mat-label {
+.section-label {
     display: inline-block;
-    padding-bottom: 5px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    opacity: 0.6;
 }
 
-.lesson-label {
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-mat-card {
-    width: 100%;
+app-lesson-tile {
+    display: block;
+    margin-bottom: 8px;
 }

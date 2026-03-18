@@ -1,20 +1,9 @@
 
-<div fxLayout="column" fxLayoutAlign="center center">
-    <div class="main-list">
-        <div fxLayout="column"  fxLayoutAlign="center center" >
-            <div class="wrapper" *ngFor="let lesson of migrationLessons; let i = index">
-                <div class="lesson-label" fxLayout="column" fxLayoutAlign="center start">
-                    <mat-label> {{ lesson.name }} </mat-label> 
-                    <mat-label class="text-light-grey"> {{ cardsLabel | titlecase }}: {{ lesson.cards.length }} </mat-label> 
-                </div>
-        
-                <div *ngFor="let card of lesson.cards; let i = index" fxLayout="column" fxLayoutAlign="center center">
-                    <mat-card fxLayout="column" fxLayoutAlign="center start">
-                        <span class="text-bold"> {{ card.question }} </span>
-                        <span class="text-light-grey"> {{ card.answer }} </span>
-                    </mat-card>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<mat-label class="section-label">{{ lessonsLabel | titlecase }}</mat-label>
+
+<app-lesson-tile
+    *ngFor="let lesson of migrationLessons"
+    [name]="lesson.name"
+    [cardsCount]="lesson.cards.length"
+    [cards]="getCards(lesson)">
+</app-lesson-tile>
