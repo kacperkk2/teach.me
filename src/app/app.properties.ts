@@ -81,14 +81,19 @@ LABELS: {
         addToCourse: 'Dodaj do kursu',
         newCourseName: 'Nazwa nowego kursu',
 
-        turnCards: 'Odwróć karty',
+        turnCards: 'Odwróć wszystkie karty',
         turnCardsSnackBar: 'Karty zostały odwrócone',
+        turnCardsShort: 'Odwróć',
 
         reorderCards: 'Edytuj kolejność kart',
+        reorderShort: 'Kolejność',
 
         removeAllCardsMarks: 'Usuń oznaczenia kart',
+        removeMarksShort: 'Odznacz',
 
         markAllCards: 'Zaznacz wszystkie karty',
+        markAllShort: 'Zaznacz',
+        bulkActions: 'Akcje na wszystkich kartach',
 
         searchPlaceholder: 'Szukaj w kartach...',
     }
