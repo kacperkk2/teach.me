@@ -8,43 +8,19 @@
         </div>
     </div>
 
-    <div *ngIf="optionsFor == Tab.LEARN then learnOptions else cardsOptions"></div>
+    <div>
+        <button mat-icon-button [matMenuTriggerFor]="lessonMenu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #lessonMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="editLessonClicked()">
+                <span> {{ manageLessonLabel | titlecase }} </span>
+            </button>
+            <button mat-menu-item (click)="exportLessonClicked()">
+                <span> {{ exportLessonLabel | titlecase }} </span>
+            </button>
+        </mat-menu>
+    </div>
 
 </mat-toolbar>
-
-
-<ng-template #learnOptions>
-    <button mat-icon-button [matMenuTriggerFor]="cardsMenu">
-        <app-combined-icon mainIcon="school" smallIcon="settings"></app-combined-icon>
-    </button>
-
-    <mat-menu #cardsMenu="matMenu" xPosition="before">
-        <button mat-menu-item (click)="editLessonClicked()">
-            <span> {{ manageLessonLabel | titlecase }} </span>
-        </button>
-        <button mat-menu-item (click)="exportLessonClicked()">
-            <span> {{ exportLessonLabel | titlecase }} </span>
-        </button>
-    </mat-menu>
-</ng-template>
-
-<ng-template #cardsOptions>
-    <button mat-icon-button [matMenuTriggerFor]="cardsMenu">
-        <app-combined-icon mainIcon="content_copy" smallIcon="settings"></app-combined-icon>
-    </button>
-
-    <mat-menu #cardsMenu="matMenu" xPosition="before">
-        <button mat-menu-item (click)="turnLessonCards()">
-            <span> {{ turnLessonCardsLabel | titlecase }} </span>
-        </button>
-        <button mat-menu-item (click)="removeAllCardsMarks()">
-            <span> {{ removeAllCardsMarksLabel | titlecase }} </span>
-        </button>
-        <button mat-menu-item (click)="markAllCards()">
-            <span> {{ markAllCardsLabel | titlecase }} </span>
-        </button>
-        <button mat-menu-item (click)="reorderCards()">
-            <span> {{ reorderCardsLabel | titlecase }} </span>
-        </button>
-    </mat-menu>
-</ng-template>

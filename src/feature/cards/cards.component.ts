@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Card } from '../../data/model/card';
 import { Observable, take } from 'rxjs';
@@ -15,14 +16,24 @@ import { updateLesson } from '../../data/store/lessons/lessons.action';
 import { updateCard, updateCards } from '../../data/store/cards/cards.action';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TabStateService } from '../../services/tab-state/tab-state.service';
+import { TurnCardService } from '../../services/turn-card/turn-card.service';
 
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html',
-  styleUrl: './cards.component.scss'
+  styleUrl: './cards.component.scss',
+  animations: [
+    trigger('slideDown', [
+      state('collapsed', style({ height: '0px', marginTop: '0px' })),
+      state('expanded', style({ height: '*', marginTop: '-15px' })),
+      transition('collapsed <=> expanded', animate('250ms ease-in-out'))
+    ])
+  ]
 })
 export class CardsComponent implements OnInit {
 
+  Tab = Tab;
+  isActionsExpanded = false;
   isLearning: boolean = false;
   isReorder: boolean = false;
   cardsToLearn: Card[];
@@ -34,7 +45,7 @@ export class CardsComponent implements OnInit {
   scrollToCardId: number | null = null;
 
   constructor(private route: ActivatedRoute, private store: Store,
-    private tabState: TabStateService) {
+    private tabState: TabStateService, private turnCardService: TurnCardService) {
   }
 
   ngOnInit(): void {
@@ -87,6 +98,14 @@ export class CardsComponent implements OnInit {
     this.store.dispatch(updateCard({card: updatedCard}));
   }
 
+  toggleActionsExpanded() {
+    this.isActionsExpanded = !this.isActionsExpanded;
+  }
+
+  turnLessonCards() {
+    this.turnCardService.turnLessonCards(this.lesson.id);
+  }
+
   turnOnReorder() {
     this.isReorder = true;
   }
@@ -114,6 +133,11 @@ export class CardsComponent implements OnInit {
   teachTabLabel: string = CONFIG.LABELS.teachTab;
   cardsTabLabel: string = CONFIG.LABELS.cardsTab;
   cardsLabel: string = CONFIG.LABELS.cards;
+  turnLessonCardsLabel: string = CONFIG.LABELS.turnCards;
+  reorderCardsLabel: string = CONFIG.LABELS.reorderCards;
+  removeAllCardsMarksLabel: string = CONFIG.LABELS.removeAllCardsMarks;
+  markAllCardsLabel: string = CONFIG.LABELS.markAllCards;
+  bulkActionsLabel: string = CONFIG.LABELS.bulkActions;
 }
 
 export enum Tab {

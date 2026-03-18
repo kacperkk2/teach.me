@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CONFIG } from '../../../app/app.properties';
@@ -12,10 +12,6 @@ import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/
 import { CodecService } from '../../../services/codec/codec.service';
 import { selectCardsByLessonId } from '../../../data/store/cards/cards.selector';
 import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
-import { TurnCardService } from '../../../services/turn-card/turn-card.service';
-import { ConfirmDialog } from '../../../commons/confirm-dialog/confirm-dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Tab } from '../cards.component';
 import { TabStateService } from '../../../services/tab-state/tab-state.service';
 import { Location } from '@angular/common';
 
@@ -25,21 +21,14 @@ import { Location } from '@angular/common';
   styleUrl: './cards-header.component.scss'
 })
 export class CardsHeaderComponent {
-  @Input({required: true}) optionsFor: Tab;
-  @Output() isReorder = new EventEmitter();
-  @Output() removeAllMarks = new EventEmitter();
-  @Output() markAll = new EventEmitter();
-
-  Tab = Tab;
   lesson: Lesson;
   course: Course;
 
   // todo zrobic dumb component z tego, menu klikniecia zwracane jako akcje wyzej
-  constructor(private location: Location, private router: Router, 
-    private route: ActivatedRoute, private store: Store, 
-    public dialog: MatDialog, private migrationService: MigrationService, 
+  constructor(private location: Location, private router: Router,
+    private route: ActivatedRoute, private store: Store,
+    public dialog: MatDialog, private migrationService: MigrationService,
     private codec: CodecService, private urlShortener: UrlShortenerService,
-    private turnCardService: TurnCardService, private snackBar: MatSnackBar,
     private tabState: TabStateService) {
   }
 
@@ -86,45 +75,6 @@ export class CardsHeaderComponent {
     });
   }
 
-  turnLessonCards() {
-    this.turnCardService.turnLessonCards(this.lesson.id);
-    // this.showSnackBar(this.turnLessonCardsSnackBarLabel);
-
-    // const dialogRef = this.dialog.open(ConfirmDialog, {data: "Odwrócić karty?", width: '90%', maxWidth: '600px', autoFocus: false});
-    // dialogRef.afterClosed().subscribe(result => {
-    //     if (result == true) {
-    //       this.turnCardService.turnLessonCards(this.lesson.id);
-    //     }
-    // });
-  }
-
-  // todo snackbar service
-  showSnackBar(label: string) {
-    this.snackBar.open(label, 'Zamknij', {
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      duration: 3 * 1000,
-    });
-  }
-
-  reorderCards() {
-    this.isReorder.emit();
-  }
-
-  removeAllCardsMarks() {
-    this.removeAllMarks.emit();
-  }
-
-  markAllCards() {
-    this.markAll.emit();
-  }
-  
-  title: string = CONFIG.LABELS.lesson;
   manageLessonLabel: string = CONFIG.LABELS.manageLesson;
   exportLessonLabel: string = CONFIG.LABELS.exportLesson;
-  turnLessonCardsLabel: string = CONFIG.LABELS.turnCards;
-  reorderCardsLabel: string = CONFIG.LABELS.reorderCards;
-  turnLessonCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
-  removeAllCardsMarksLabel: string = CONFIG.LABELS.removeAllCardsMarks;
-  markAllCardsLabel: string = CONFIG.LABELS.markAllCards;
 }
