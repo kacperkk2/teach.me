@@ -5,8 +5,6 @@ import { CONFIG } from '../../../app/app.properties';
 import { Store } from '@ngrx/store';
 import { selectCourse } from '../../../data/store/courses/courses.selector';
 import { Course } from '../../../data/model/course';
-import { removeCourse } from '../../../data/store/courses/courses.action';
-import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { selectLessonsByCourseId } from '../../../data/store/lessons/lessons.selector';
 import { MigrationService } from '../../../services/migration/migration.service';
@@ -43,16 +41,6 @@ export class LessonsHeaderComponent implements OnInit {
 
   back() {
     this.location.back();
-  }
-
-  removeCourseClicked() {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {data: this.deleteLessonText, width: '90%', maxWidth: '600px', autoFocus: false});
-    dialogRef.afterClosed().subscribe(result => {
-        if (result == true) {
-          this.store.dispatch(removeCourse({course: this.course, lessonIds: this.course.lessonIds}));
-          this.location.back();
-        }
-    });
   }
 
   editCourseClicked() {
@@ -103,9 +91,7 @@ export class LessonsHeaderComponent implements OnInit {
   }
 
   title: string = CONFIG.LABELS.course;
-  removeCourseLabel: string = CONFIG.LABELS.removeCourse;
-  editCourseLabel: string = CONFIG.LABELS.editCourse;
-  deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
+  manageCourseLabel: string = CONFIG.LABELS.manageCourse;
   exportCourseLabel: string = CONFIG.LABELS.exportCourse;
   turnCourseCardsLabel: string = CONFIG.LABELS.turnCards;
   turnCourseCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;

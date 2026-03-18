@@ -57,6 +57,8 @@ import { SearchResultTileComponent } from '../commons/search-result-tile/search-
 import { HighlightPipe } from '../commons/highlight/highlight.pipe';
 import { EditCardComponent } from '../feature/edit-entity/edit-card/edit-card.component';
 import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-course.component';
+import { ManageLessonTileComponent } from '../feature/edit-entity/edit-course/manage-lesson-tile/manage-lesson-tile.component';
+import { ManageCardTileComponent } from '../feature/edit-entity/edit-lesson/manage-card-tile/manage-card-tile.component';
 import { EditHeaderComponent } from '../feature/edit-entity/edit-header/edit-header.component';
 import { EditLessonComponent } from '../feature/edit-entity/edit-lesson/edit-lesson.component';
 import { ImportHeaderComponent } from '../feature/import/import-header/import-header.component';
@@ -110,6 +112,8 @@ import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.co
     EditLessonComponent,
     LessonsLearnComponent,
     EditCourseComponent,
+    ManageLessonTileComponent,
+    ManageCardTileComponent,
     EmptyViewComponent,
     ExportDialog,
     ImportComponent,

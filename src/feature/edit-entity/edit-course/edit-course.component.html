@@ -2,11 +2,11 @@
 
     <app-edit-header [title]="headerTitle" (actionClicked)="removeCourse()"></app-edit-header>
 
-    <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
-        <div fxFlex="100" style="width: 90%;" fxLayout="column">
-        
-            <form fxFlex="85" [formGroup]="editCourseForm">    
-                <mat-label> {{ nameLabel | titlecase }} </mat-label> 
+    <div class="content" fxFlex fxLayout="column">
+        <div class="inner" fxLayout="column">
+
+            <form [formGroup]="editCourseForm">
+                <mat-label> {{ nameLabel | titlecase }} </mat-label>
                 <mat-form-field>
                     <input matInput #name formControlName="name" autocomplete="off">
                     <button *ngIf="name.value" matSuffix mat-icon-button (click)="clearName()">
@@ -16,10 +16,24 @@
                 </mat-form-field>
             </form>
 
-            <div fxFlex="15" fxLayoutAlign="center center">
-                <button mat-flat-button color="primary" [disabled]="!editCourseForm.valid" (click)="saveCourse()"> Zapisz </button>
+            <span class="lessons-label">Lekcje w kursie</span>
+
+            <div class="lessons-list" *ngIf="cards$ | async as cards">
+                <app-manage-lesson-tile
+                    *ngFor="let lesson of lessons"
+                    [name]="lesson.name"
+                    [cardsCount]="lesson.cardIds.length"
+                    [cards]="getCardsForLesson(lesson, cards)"
+                    [markedForDeletion]="isMarkedForDeletion(lesson)"
+                    (deleteClicked)="toggleLessonDeletion(lesson)">
+                </app-manage-lesson-tile>
             </div>
 
         </div>
     </div>
+
+    <div class="save-button-container">
+        <button mat-flat-button color="primary" [disabled]="!editCourseForm.valid" (click)="saveCourse()"> Zapisz </button>
+    </div>
+
 </div>
