@@ -1,15 +1,8 @@
 
-<div fxLayout="column" fxLayoutAlign="center center">
-    <div style="width: 90%;" fxLayout="column">
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <div class="learn-header" fxFlex="60" fxLayout="column">
-                <span class="section-name"> {{ summaryData.entityName }} </span>
-                <!-- <span class="sub-section-name text-light-grey"> {{ course.name }} </span> -->
-            </div>
-        </div>
-
-        <form class="main-list" [formGroup]="importForm">
-            <mat-label> {{ nameLabel | titlecase }} </mat-label> 
+<div class="container">
+    <div class="main-list">
+        <form [formGroup]="importForm">
+            <mat-label> {{ nameLabel | titlecase }} </mat-label>
             <mat-form-field>
                 <input matInput #name formControlName="name" autocomplete="off">
                 <button *ngIf="name.value" matSuffix mat-icon-button (click)="clearName()">
@@ -24,9 +17,11 @@
                     <mat-option class="option-button" (click)="newCourse()"> <mat-icon>add</mat-icon> Stwórz nowy kurs </mat-option>
                     <mat-option *ngFor="let course of (courses$ | async)" [value]="course"> {{ course.name }} </mat-option>
                 </mat-select>
-              </mat-form-field>
+            </mat-form-field>
         </form>
 
-        <button class="bottom-button" mat-flat-button color="primary" [disabled]="!importForm.valid" (click)="import()"> Importuj </button>
+        <app-import-preview [migrationLessons]="migrationLessons"></app-import-preview>
     </div>
+
+    <button class="bottom-button" mat-flat-button color="primary" [disabled]="!importForm.valid" (click)="import()"> Importuj </button>
 </div>

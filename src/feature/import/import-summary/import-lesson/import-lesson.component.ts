@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CONFIG } from '../../../../app/app.properties';
 import { Course } from '../../../../data/model/course';
+import { LessonMigration } from '../../../../data/model/lesson';
 import { selectCoursesList } from '../../../../data/store/courses/courses.selector';
 import { ImportSummaryData } from '../../import.component';
 import { Router } from '@angular/router';
@@ -17,6 +18,7 @@ import { NewCourseDialog } from '../../../../commons/new-course-dialog/new-cours
 })
 export class ImportLessonComponent implements OnInit {
   @Input({required: true}) summaryData: ImportSummaryData;
+  @Input({required: true}) migrationLessons: LessonMigration[];
   @Output() importLesson = new EventEmitter<ImportLessonData>();
 
   importForm: FormGroup;

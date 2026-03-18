@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class ImportHeaderComponent {
 
   @Input({required: true}) title: string;
+  @Input({required: true}) entityName: string;
 
   constructor(private router: Router) {
   }

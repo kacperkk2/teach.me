@@ -1,26 +1,29 @@
-.learn-header {
-    margin-top: 20px;
-    margin-bottom: 50px;
+:host {
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - 72px);
 }
 
-.section-name {
-    margin-bottom: 5px;
-    font-size: x-large;
+.container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 5%;
+    overflow: hidden;
 }
 
-.sub-section-name {
-    font-size: medium;
+.main-list {
+    flex: 1;
+    overflow: auto;
+    margin-top: 24px;
 }
 
 .bottom-button {
     width: 100% !important;
     height: 50px;
     border-radius: 25px !important;
-}
-
-.main-list {
-    height: calc(100dvh - 280px);
-    overflow: auto;
+    flex-shrink: 0;
+    margin: 12px 0;
 }
 
 mat-form-field {
