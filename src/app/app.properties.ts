@@ -18,7 +18,8 @@ export const CONFIG = {
         phraseMaxLength: 70,
 
         ADD_CARD: {
-            questionAnswerSeparator: '-'
+            questionAnswerSeparators: ['-', '–'],
+            questionAnswerOutputSeparator: '-'
         }
     },
 

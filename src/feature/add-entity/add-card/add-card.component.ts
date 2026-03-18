@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CONFIG } from '../../../app/app.properties';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
@@ -23,10 +23,13 @@ export class AddCardComponent implements OnInit, AfterViewInit {
   lesson: Lesson;
   mode: AddMode = AddMode.CARD;
   AddMode = AddMode;
-  separator: string = CONFIG.CARDS.ADD_CARD.questionAnswerSeparator;
-  separatorWithSpaces: string = ' ' + this.separator + ' ';
+  separators: string[] = CONFIG.CARDS.ADD_CARD.questionAnswerSeparators;
+  outputSeparator: string = CONFIG.CARDS.ADD_CARD.questionAnswerOutputSeparator;
+  outputSeparatorWithSpaces: string = ' ' + this.outputSeparator + ' ';
+  private separatorRegex = new RegExp(`[${this.separators.join('')}]`);
 
   @ViewChildren('questionInput') questionInputs: QueryList<ElementRef>;
+  @ViewChild('bulkInput') bulkInput: ElementRef;
 
   ngAfterViewInit(): void {
     setTimeout(() => this.questionInputs.first?.nativeElement.focus());
@@ -75,11 +78,13 @@ export class AddCardComponent implements OnInit, AfterViewInit {
   private switchToBulkMode() {
     this.cardsBulkFormControl.patchValue(this.getTextFromCards());
     this.mode = AddMode.BULK;
+    setTimeout(() => this.bulkInput?.nativeElement.focus());
   }
 
   private switchToCardMode() {
     this.fillCardsFromText();
     this.mode = AddMode.CARD;
+    setTimeout(() => this.questionInputs.first?.nativeElement.focus());
   }
 
   private getTextFromCards() {
@@ -88,8 +93,8 @@ export class AddCardComponent implements OnInit, AfterViewInit {
       const answer = card.controls["answer"].value as string;
       let text = '';
       if (question.trim()) {
-        text += card.controls["question"].value 
-          + this.separatorWithSpaces;
+        text += card.controls["question"].value
+          + this.outputSeparatorWithSpaces;
       }
       if (answer.trim()) {
         text += card.controls["answer"].value;
@@ -107,8 +112,9 @@ export class AddCardComponent implements OnInit, AfterViewInit {
       if (!line.trim()) {
         return;
       }
-      const question = this.trimOrEmptyString(line.split(this.separator)[0]);
-      const answer = this.trimOrEmptyString(line.split(this.separator).slice(1).join(this.separator));
+      const parts = line.split(this.separatorRegex);
+      const question = this.trimOrEmptyString(parts[0]);
+      const answer = this.trimOrEmptyString(parts.slice(1).join(this.outputSeparator));
       this.addCard(question, answer);
     });
     if (this.cardsFormArray.length == 0) {
