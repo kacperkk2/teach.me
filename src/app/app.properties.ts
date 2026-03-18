@@ -96,5 +96,8 @@ LABELS: {
         bulkActions: 'Akcje na wszystkich kartach',
 
         searchPlaceholder: 'Szukaj w kartach...',
+
+        generatePdf: 'Generuj PDF',
+        generatePdfConfirmation: 'Czy chcesz pobrać pdf z zawartością kursu?',
     }
 }

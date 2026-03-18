@@ -8,12 +8,14 @@ import { Course } from '../../../data/model/course';
 import { MatDialog } from '@angular/material/dialog';
 import { selectLessonsByCourseId } from '../../../data/store/lessons/lessons.selector';
 import { MigrationService } from '../../../services/migration/migration.service';
-import { selectCardsByIds, selectCardsByLessonId, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
+import { selectCards, selectCardsByIds, selectCardsByLessonId, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
 import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/export-dialog';
 import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
 import { CodecService } from '../../../services/codec/codec.service';
 import { TurnCardService } from '../../../services/turn-card/turn-card.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialog } from '../../../commons/confirm-dialog/confirm-dialog';
+import { PdfGeneratorService } from '../../../services/pdf-generator/pdf-generator.service';
 
 @Component({
   selector: 'app-lessons-header',
@@ -27,7 +29,8 @@ export class LessonsHeaderComponent implements OnInit {
     private route: ActivatedRoute, private store: Store, 
     public dialog: MatDialog, private migrationService: MigrationService,
     private urlShortener: UrlShortenerService, private codec: CodecService,
-    private turnCardService: TurnCardService, private snackBar: MatSnackBar) {
+    private turnCardService: TurnCardService, private snackBar: MatSnackBar,
+    private pdfGeneratorService: PdfGeneratorService) {
   }
 
   ngOnInit(): void {
@@ -82,6 +85,20 @@ export class LessonsHeaderComponent implements OnInit {
     // });
   }
 
+  generatePdfClicked() {
+    (document.activeElement as HTMLElement)?.blur();
+    const dialogRef = this.dialog.open(ConfirmDialog, {data: this.generatePdfConfirmationLabel, width: '90%', maxWidth: '600px', autoFocus: false});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.store.select(selectLessonsByCourseId(this.course.id)).subscribe(lessons => {
+          this.store.select(selectCards).subscribe(cardsMap => {
+            this.pdfGeneratorService.generateCoursePdf(this.course, lessons, cardsMap);
+          }).unsubscribe();
+        }).unsubscribe();
+      }
+    });
+  }
+
   showSnackBar(label: string) {
     this.snackBar.open(label, 'Zamknij', {
       horizontalPosition: 'center',
@@ -95,4 +112,6 @@ export class LessonsHeaderComponent implements OnInit {
   exportCourseLabel: string = CONFIG.LABELS.exportCourse;
   turnCourseCardsLabel: string = CONFIG.LABELS.turnCards;
   turnCourseCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
+  generatePdfLabel: string = CONFIG.LABELS.generatePdf;
+  generatePdfConfirmationLabel: string = CONFIG.LABELS.generatePdfConfirmation;
 }
