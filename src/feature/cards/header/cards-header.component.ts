@@ -5,9 +5,7 @@ import { CONFIG } from '../../../app/app.properties';
 import { Course } from '../../../data/model/course';
 import { Lesson } from '../../../data/model/lesson';
 import { selectCourse } from '../../../data/store/courses/courses.selector';
-import { removeLesson } from '../../../data/store/lessons/lessons.action';
 import { selectLesson } from '../../../data/store/lessons/lessons.selector';
-import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { MigrationService } from '../../../services/migration/migration.service';
 import { ExportDialog, ExportDialogInput } from '../../../commons/export-dialog/export-dialog';
@@ -66,20 +64,6 @@ export class CardsHeaderComponent {
     this.location.back();
   }
 
-  removeLessonClicked() {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {data: this.deleteLessonText, width: '90%', maxWidth: '600px', autoFocus: false});
-    dialogRef.afterClosed().subscribe(result => {
-        if (result == true) {
-          this.store.dispatch(removeLesson({lesson: this.lesson, cardIds: this.lesson.cardIds, course: this.course}));
-          if (this.tabState.cardsOrigin === 'lessons') {
-            this.tabState.pendingLessonsTab = 1;
-          }
-          this.tabState.cardsOrigin = null;
-          this.location.back();
-        }
-    });
-  }
-
   editLessonClicked() {
     this.router.navigate(['/courses', this.course.id, 'lessons', this.lesson.id]);
   }
@@ -136,9 +120,7 @@ export class CardsHeaderComponent {
   }
   
   title: string = CONFIG.LABELS.lesson;
-  removeLessonLabel: string = CONFIG.LABELS.removeLesson;
-  editLessonLabel: string = CONFIG.LABELS.editLesson;
-  deleteLessonText: string = CONFIG.LABELS.deleteLessonConfirmation;
+  manageLessonLabel: string = CONFIG.LABELS.manageLesson;
   exportLessonLabel: string = CONFIG.LABELS.exportLesson;
   turnLessonCardsLabel: string = CONFIG.LABELS.turnCards;
   reorderCardsLabel: string = CONFIG.LABELS.reorderCards;

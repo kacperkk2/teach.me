@@ -37,8 +37,8 @@ LABELS: {
         addCards: 'nowe karty',
 
         editCard: 'edycja karty',
-        editLesson: 'edycja lekcji',
-        editCourse: 'edycja kursu',
+        manageLesson: 'zarządzaj lekcją',
+        manageCourse: 'zarządzaj kursem',
 
         editOrder: 'edytuj kolejność',
         save: 'zapisz',

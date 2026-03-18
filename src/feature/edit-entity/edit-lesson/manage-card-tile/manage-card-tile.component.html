@@ -1,0 +1,9 @@
+<div class="tile-wrapper" [class.tile-marked]="markedForDeletion" fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex fxLayout="column">
+        <span class="tile-question">{{ question }}</span>
+        <span class="tile-answer">{{ answer }}</span>
+    </div>
+    <button mat-icon-button [color]="markedForDeletion ? 'primary' : ''" (click)="deleteClicked.emit(); $event.stopPropagation()">
+        <mat-icon>delete_outline</mat-icon>
+    </button>
+</div>

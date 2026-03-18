@@ -6,9 +6,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CONFIG } from '../../../app/app.properties';
 import { ConfirmDeleteDialog } from '../../../commons/confirm-delete-dialog/confirm-delete-dialog';
+import { Card } from '../../../data/model/card';
 import { Course } from '../../../data/model/course';
+import { Lesson } from '../../../data/model/lesson';
 import { removeCourse, updateCourse } from '../../../data/store/courses/courses.action';
+import { removeLessons } from '../../../data/store/lessons/lessons.action';
 import { selectCourse } from '../../../data/store/courses/courses.selector';
+import { selectCards } from '../../../data/store/cards/cards.selector';
+import { selectLessonsByCourseId } from '../../../data/store/lessons/lessons.selector';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-course',
@@ -16,13 +22,20 @@ import { selectCourse } from '../../../data/store/courses/courses.selector';
   styleUrl: './edit-course.component.scss'
 })
 export class EditCourseComponent implements OnInit {
-  
+
   course: Course;
   editCourseForm: FormGroup;
   maxLength: number = CONFIG.COURSES.nameMaxLength;
+  lessons: Lesson[] = [];
+  cards$: Observable<{[id: number]: Card}> = this.store.select(selectCards);
+  pendingDeleteLessonIds: Set<number> = new Set();
 
   get nameFormControl() {
     return this.editCourseForm.controls["name"] as FormControl;
+  }
+
+  isMarkedForDeletion(lesson: Lesson): boolean {
+    return this.pendingDeleteLessonIds.has(lesson.id);
   }
 
   constructor(private store: Store, private router: Router,
@@ -39,11 +52,26 @@ export class EditCourseComponent implements OnInit {
         this.course = course;
         this.nameFormControl.patchValue(course.name);
       });
+      this.store.select(selectLessonsByCourseId(+courseId)).subscribe(lessons => {
+        this.lessons = lessons;
+      });
     });
+  }
+
+  getCardsForLesson(lesson: Lesson, cards: {[id: number]: Card}): Card[] {
+    return lesson.cardIds.map(id => cards[id]).filter(Boolean);
   }
 
   clearName() {
     this.nameFormControl.patchValue("");
+  }
+
+  toggleLessonDeletion(lesson: Lesson) {
+    if (this.pendingDeleteLessonIds.has(lesson.id)) {
+      this.pendingDeleteLessonIds.delete(lesson.id);
+    } else {
+      this.pendingDeleteLessonIds.add(lesson.id);
+    }
   }
 
   removeCourse() {
@@ -57,19 +85,26 @@ export class EditCourseComponent implements OnInit {
   }
 
   saveCourse() {
+    const lessonsToDelete = this.lessons.filter(l => this.pendingDeleteLessonIds.has(l.id));
+    if (lessonsToDelete.length > 0) {
+      const allCardIds = lessonsToDelete.flatMap(l => l.cardIds);
+      this.store.dispatch(removeLessons({lessons: lessonsToDelete, allCardIds}));
+    }
+
+    const remainingLessonIds = this.course.lessonIds.filter(id => !this.pendingDeleteLessonIds.has(id));
     const updatedCourse: Course = {
       id: this.course.id,
       name: this.nameFormControl.value,
       lastLearningDate: this.course.lastLearningDate,
       nextSuggestedLearningDate: this.course.nextSuggestedLearningDate,
-      lessonIds: this.course.lessonIds,
+      lessonIds: remainingLessonIds,
       wrongPreviouslyCardIds: this.course.wrongPreviouslyCardIds
     }
     this.store.dispatch(updateCourse({course: updatedCourse}));
     this.location.back();
   }
 
-  headerTitle: string = CONFIG.LABELS.editCourse;
+  headerTitle: string = CONFIG.LABELS.manageCourse;
   nameLabel: string = CONFIG.LABELS.courseName;
   deleteCourseText: string = CONFIG.LABELS.deleteCourseConfirmation;
 }

@@ -1,0 +1,27 @@
+<div class="tile-wrapper">
+    <div class="tile-main" [class.tile-marked]="markedForDeletion" fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex fxLayout="column" class="tile-info">
+            <div class="tile-name">{{ name }}</div>
+            <div class="tile-stats">{{ cardsCount }} kart</div>
+        </div>
+        <button *ngIf="cards.length > 0" mat-icon-button class="expand-btn"
+            (click)="toggleExpanded(); $event.stopPropagation()">
+            <mat-icon [class.rotated]="isExpanded">expand_more</mat-icon>
+        </button>
+        <button mat-icon-button [color]="markedForDeletion ? 'primary' : ''" (click)="deleteClicked.emit(); $event.stopPropagation()">
+            <mat-icon>delete_outline</mat-icon>
+        </button>
+    </div>
+
+    <div [@slideDown]="isExpanded ? 'expanded' : 'collapsed'" class="tile-secondary">
+        <div fxLayout="column" class="cards-list">
+            <ng-container *ngFor="let card of cards; let last = last">
+                <div class="card-item" fxLayout="column">
+                    <span class="card-question">{{ card.question }}</span>
+                    <span class="card-answer">{{ card.answer }}</span>
+                </div>
+                <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
+        </div>
+    </div>
+</div>
