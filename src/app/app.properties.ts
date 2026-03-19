@@ -3,7 +3,10 @@ export const CONFIG = {
     IMPORT: {
         importPath: "/import",
         dataParam: "data",
-        appRoot: "/teach.me"
+        appRoot: "/teach.me",
+        codesParam: "codes",
+        courseNameParam: "name",
+        codeSeparator: ","
     },
 
     COURSES: {
@@ -76,6 +79,9 @@ LABELS: {
         importFailed: 'import nieudany',
         importFailedReason: 'Niestety nie udało się odczytać danych',
         importFailedDescription: 'Dane zapisane w adresie URL są błędne',
+        importCodesFailedReason: 'Nie można wczytać danych lekcji',
+        importCodesFailedDescription: 'Serwis is.gd jest niedostępny lub link wygasł. Poproś nadawcę o ponowne wygenerowanie linku.',
+        exportCourseFailed: 'Kurs jest za duży do udostępnienia jako link. Podziel go na mniejsze lekcje.',
         importSummary: 'import',
         importPreview: 'podgląd',
         addToCourse: 'Dodaj do kursu',

@@ -14,6 +14,8 @@ import { ImportLessonData } from './import-summary/import-lesson/import-lesson.c
 import { ImportCourseData } from './import-summary/import-course/import-course.component';
 import { Course, CourseMigration } from '../../data/model/course';
 import { addCourse } from '../../data/store/courses/courses.action';
+import { UrlShortenerService, ExpandUrlResponse } from '../../services/urlshortener/url-shortener.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-import',
@@ -30,23 +32,54 @@ export class ImportComponent implements OnInit {
   DataType = DataType;
   isImportFail: boolean = false;
 
-  constructor(private codec: CodecService, private route: ActivatedRoute, 
-    private store: Store, private idGenerator: IdGeneratorService, private snackBar: MatSnackBar) {
+  constructor(private codec: CodecService, private route: ActivatedRoute,
+    private store: Store, private idGenerator: IdGeneratorService, private snackBar: MatSnackBar,
+    private urlShortener: UrlShortenerService) {
 
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const data = params['data'];
-      [this.migrationData, this.migrationType] = this.codec.unpack(data);
-      if (Object.keys(this.migrationData).length == 0) {
-        this.importFailed();
-        return;
+      const codes = params[CONFIG.IMPORT.codesParam];
+      if (codes) {
+        const codeList: string[] = codes.split(CONFIG.IMPORT.codeSeparator);
+        const courseName = decodeURIComponent(params[CONFIG.IMPORT.courseNameParam] || '');
+
+        forkJoin(codeList.map(code => this.urlShortener.expandUrl(code)))
+          .subscribe(expandResults => {
+            if (expandResults.some(r => r == null)) {
+              this.importFailedReason = CONFIG.LABELS.importCodesFailedReason;
+              this.importFailedDescription = CONFIG.LABELS.importCodesFailedDescription;
+              this.importFailed();
+              return;
+            }
+
+            const lessonMigrations: LessonMigration[] = expandResults.map(r => {
+              const expandedUrl = (r as ExpandUrlResponse).url;
+              const dataParam = new URL(expandedUrl).searchParams.get(CONFIG.IMPORT.dataParam)!;
+              const [lessonData] = this.codec.unpack(dataParam);
+              return lessonData[0] as LessonMigration;
+            });
+
+            const courseMigration: CourseMigration = { name: courseName, lessons: lessonMigrations };
+            this.migrationData = [courseMigration];
+            this.migrationType = DataType.COURSE;
+            this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
+            this.importTitle = this.getImportTitle(this.migrationType);
+            this.lessonsData = this.getLessonsData(this.migrationData, this.migrationType);
+          });
+      } else {
+        const data = params['data'];
+        [this.migrationData, this.migrationType] = this.codec.unpack(data);
+        if (Object.keys(this.migrationData).length == 0) {
+          this.importFailed();
+          return;
+        }
+        this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
+        this.importTitle = this.getImportTitle(this.migrationType);
+        this.lessonsData = this.getLessonsData(this.migrationData, this.migrationType);
       }
-      this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
-      this.importTitle = this.getImportTitle(this.migrationType);
-      this.lessonsData = this.getLessonsData(this.migrationData, this.migrationType);
-   });
+    });
   }
 
   // todo nie podoba mi sie ze zwracam nazwe lekcji i kurs, a karty biore z migration data, ale czy da sie inaczej?
@@ -173,6 +206,7 @@ export class ImportComponent implements OnInit {
   importFailedTitle: string = CONFIG.LABELS.importFailed;
   importFailedReason: string = CONFIG.LABELS.importFailedReason;
   importFailedDescription: string = CONFIG.LABELS.importFailedDescription;
+
 }
 
 export interface ImportSummaryData {

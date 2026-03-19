@@ -20,8 +20,20 @@ export class UrlShortenerService {
         })
       );
   }
+
+  expandUrl(code: string) {
+    return this.httpClient.get<ExpandUrlResponse>('https://is.gd/forward.php?format=json&shorturl=' + code)
+      .pipe(
+        timeout(3000),
+        catchError(() => of(null))
+      );
+  }
 }
 
 export interface ShortUrlResponse {
   shorturl: string;
+}
+
+export interface ExpandUrlResponse {
+  url: string;
 }

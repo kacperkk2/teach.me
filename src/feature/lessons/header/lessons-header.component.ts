@@ -16,6 +16,7 @@ import { TurnCardService } from '../../../services/turn-card/turn-card.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialog } from '../../../commons/confirm-dialog/confirm-dialog';
 import { PdfGeneratorService } from '../../../services/pdf-generator/pdf-generator.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-lessons-header',
@@ -55,20 +56,41 @@ export class LessonsHeaderComponent implements OnInit {
       const cardIds = lessons.flatMap(lesson => lesson.cardIds);
 
       this.store.select(selectCardsByIds(cardIds)).subscribe(cards => {
-        const url = this.migrationService.courseToUrl(this.course, lessons, cards);
+        const lessonShortUrlRequests = lessons.map(lesson => {
+          const lessonCards = cards.filter(card => lesson.cardIds.includes(card.id));
+          const lessonUrl = this.migrationService.lessonToUrl(lesson, lessonCards);
+          return this.urlShortener.getShortUrl(lessonUrl);
+        });
 
-        // todo url shortner w jednym miejscu a nie tu i w kursach
-        this.urlShortener.getShortUrl(url).subscribe((response) => {
-          let finalUrl = url;
-          if (response != null && response.shorturl) {
-            finalUrl = response.shorturl;
+        forkJoin(lessonShortUrlRequests).subscribe(responses => {
+          const allSucceeded = responses.every(r => r != null && r.shorturl);
+
+          if (allSucceeded) {
+            const codes = responses.map(r => r!.shorturl.split('/').pop()!);
+            const codesUrl = location.origin + CONFIG.IMPORT.appRoot + CONFIG.IMPORT.importPath
+              + '?' + CONFIG.IMPORT.codesParam + '=' + codes.join(CONFIG.IMPORT.codeSeparator)
+              + '&' + CONFIG.IMPORT.courseNameParam + '=' + encodeURIComponent(this.course.name);
+
+            this.urlShortener.getShortUrl(codesUrl).subscribe(finalResponse => {
+              const finalUrl = (finalResponse != null && finalResponse.shorturl) ? finalResponse.shorturl : codesUrl;
+              const data = new ExportDialogInput(this.course.name, finalUrl);
+              this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false})
+                .afterClosed().subscribe();
+            });
+          } else {
+            // Fallback: try old single-URL format
+            const url = this.migrationService.courseToUrl(this.course, lessons, cards);
+            this.urlShortener.getShortUrl(url).subscribe(response => {
+              if (response != null && response.shorturl) {
+                const data = new ExportDialogInput(this.course.name, response.shorturl);
+                this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false})
+                  .afterClosed().subscribe();
+              } else {
+                this.showSnackBar(this.exportCourseFailedLabel);
+              }
+            });
           }
-    
-          const data = new ExportDialogInput(this.course.name, finalUrl);
-          const dialogRef = this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
-          dialogRef.afterClosed().subscribe();
-          // todo snackbar po kliknieu w kopiuj link
-        })
+        });
       });
     });
   }
@@ -114,4 +136,5 @@ export class LessonsHeaderComponent implements OnInit {
   turnCourseCardsSnackBarLabel: string = CONFIG.LABELS.turnCardsSnackBar;
   generatePdfLabel: string = CONFIG.LABELS.generatePdf;
   generatePdfConfirmationLabel: string = CONFIG.LABELS.generatePdfConfirmation;
+  exportCourseFailedLabel: string = CONFIG.LABELS.exportCourseFailed;
 }
