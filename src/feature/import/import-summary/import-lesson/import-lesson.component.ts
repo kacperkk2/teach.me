@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { CONFIG } from '../../../../app/app.properties';
 import { Course } from '../../../../data/model/course';
 import { LessonMigration } from '../../../../data/model/lesson';
 import { selectCoursesList } from '../../../../data/store/courses/courses.selector';
+import { selectLessonsList } from '../../../../data/store/lessons/lessons.selector';
 import { ImportSummaryData } from '../../import.component';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,7 +42,10 @@ export class ImportLessonComponent implements OnInit {
       name: new FormControl('', [Validators.required, Validators.maxLength(this.maxNameLength)]),
       course: new FormControl('', [Validators.required])
     });
-    this.nameFormControl.patchValue(this.summaryData.entityName);
+    this.store.select(selectLessonsList).pipe(take(1)).subscribe(lessons => {
+      const nameExists = lessons.some(l => l.name === this.summaryData.entityName);
+      this.nameFormControl.patchValue(nameExists ? this.summaryData.entityName + ' Kopia' : this.summaryData.entityName);
+    });
     this.courses$ = this.store.select(selectCoursesList);
   }
   
