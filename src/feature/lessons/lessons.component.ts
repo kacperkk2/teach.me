@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TabStateService } from '../../services/tab-state/tab-state.service';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Course } from '../../data/model/course';
 import { selectCourse } from '../../data/store/courses/courses.selector';
 import { CONFIG } from '../../app/app.properties';
@@ -18,7 +18,7 @@ import { updateCourse } from '../../data/store/courses/courses.action';
   templateUrl: './lessons.component.html',
   styleUrl: './lessons.component.scss'
 })
-export class LessonsComponent implements OnInit {
+export class LessonsComponent implements OnInit, OnDestroy {
 
   isLearning: boolean = false;
   cardsToLearn: Card[];
@@ -28,6 +28,8 @@ export class LessonsComponent implements OnInit {
 
   selectedTab: number = 0;
 
+  private destroy$ = new Subject<void>();
+
   constructor(private route: ActivatedRoute, private store: Store,
     private tabState: TabStateService) {
   }
@@ -35,11 +37,16 @@ export class LessonsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedTab = this.tabState.pendingLessonsTab ?? 0;
     this.tabState.pendingLessonsTab = null;
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const courseId = params['courseId'];
-      this.store.select(selectCourse(courseId)).subscribe(course => this.course = course);
+      this.store.select(selectCourse(courseId)).pipe(takeUntil(this.destroy$)).subscribe(course => this.course = course);
       this.lessons$ = this.store.select(selectLessonsByCourseId(courseId));
    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   learnEnd(learnEndData: LearnEndData) {

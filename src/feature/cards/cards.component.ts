@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Card } from '../../data/model/card';
-import { Observable, take } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectCardsByLessonId } from '../../data/store/cards/cards.selector';
@@ -30,7 +30,7 @@ import { TurnCardService } from '../../services/turn-card/turn-card.service';
     ])
   ]
 })
-export class CardsComponent implements OnInit {
+export class CardsComponent implements OnInit, OnDestroy {
 
   Tab = Tab;
   isActionsExpanded = false;
@@ -44,6 +44,8 @@ export class CardsComponent implements OnInit {
   selectedTab: Tab = Tab.LEARN;
   scrollToCardId: number | null = null;
 
+  private destroy$ = new Subject<void>();
+
   constructor(private route: ActivatedRoute, private store: Store,
     private tabState: TabStateService, private turnCardService: TurnCardService) {
   }
@@ -53,13 +55,18 @@ export class CardsComponent implements OnInit {
     this.tabState.pendingCardsTab = null;
     this.scrollToCardId = this.tabState.pendingCardId;
     this.tabState.pendingCardId = null;
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const courseId = params['courseId'];
       const lessonId = params['lessonId'];
       this.cards$ = this.store.select(selectCardsByLessonId(lessonId));
-      this.store.select(selectLesson(lessonId)).subscribe(lesson => this.lesson = lesson);
+      this.store.select(selectLesson(lessonId)).pipe(takeUntil(this.destroy$)).subscribe(lesson => this.lesson = lesson);
       this.course$ = this.store.select(selectCourse(courseId));
    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onTabChange(event: MatTabChangeEvent) {

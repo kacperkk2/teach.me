@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONFIG } from '../../../app/app.properties';
 import { Store } from '@ngrx/store';
@@ -16,18 +16,20 @@ import { TurnCardService } from '../../../services/turn-card/turn-card.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialog } from '../../../commons/confirm-dialog/confirm-dialog';
 import { PdfGeneratorService } from '../../../services/pdf-generator/pdf-generator.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-lessons-header',
   templateUrl: './lessons-header.component.html',
   styleUrl: './lessons-header.component.scss'
 })
-export class LessonsHeaderComponent implements OnInit {
+export class LessonsHeaderComponent implements OnInit, OnDestroy {
   course: Course;
 
-  constructor(private location: Location, private router: Router, 
-    private route: ActivatedRoute, private store: Store, 
+  private destroy$ = new Subject<void>();
+
+  constructor(private location: Location, private router: Router,
+    private route: ActivatedRoute, private store: Store,
     public dialog: MatDialog, private migrationService: MigrationService,
     private urlShortener: UrlShortenerService, private codec: CodecService,
     private turnCardService: TurnCardService, private snackBar: MatSnackBar,
@@ -35,12 +37,17 @@ export class LessonsHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const courseId = params['courseId'];
-      this.store.select(selectCourse(courseId)).subscribe(course => {
+      this.store.select(selectCourse(courseId)).pipe(takeUntil(this.destroy$)).subscribe(course => {
         this.course = course;
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   back() {
@@ -91,8 +98,8 @@ export class LessonsHeaderComponent implements OnInit {
             });
           }
         });
-      });
-    });
+      }).unsubscribe();
+    }).unsubscribe();
   }
   
   turnCourseCards() {

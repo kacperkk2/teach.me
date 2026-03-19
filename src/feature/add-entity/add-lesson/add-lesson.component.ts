@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,33 +9,41 @@ import { addLesson } from '../../../data/store/lessons/lessons.action';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
 import { CONFIG } from '../../../app/app.properties';
 import { TabStateService } from '../../../services/tab-state/tab-state.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-lesson',
   templateUrl: './add-lesson.component.html',
   styleUrl: './add-lesson.component.scss'
 })
-export class AddLessonComponent implements OnInit, AfterViewInit {
+export class AddLessonComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addLessonForm: FormGroup;
   maxLength: number = CONFIG.COURSES.nameMaxLength;
   course: Course;
   @ViewChild('nameInput') nameInput: ElementRef;
 
+  private destroy$ = new Subject<void>();
+
   constructor(private idGenerator: IdGeneratorService,
     private store: Store, private router: Router,
     private route: ActivatedRoute, private tabState: TabStateService) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const courseId = params['courseId'];
-      this.store.select(selectCourse(courseId)).subscribe(course => {
+      this.store.select(selectCourse(courseId)).pipe(takeUntil(this.destroy$)).subscribe(course => {
         this.course = course;
       });
     });
     this.addLessonForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)])
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngAfterViewInit(): void {
