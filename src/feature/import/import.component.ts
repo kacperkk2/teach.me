@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -15,14 +15,14 @@ import { ImportCourseData } from './import-summary/import-course/import-course.c
 import { Course, CourseMigration } from '../../data/model/course';
 import { addCourse } from '../../data/store/courses/courses.action';
 import { UrlShortenerService, ExpandUrlResponse } from '../../services/urlshortener/url-shortener.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-import',
   templateUrl: './import.component.html',
   styleUrl: './import.component.scss'
 })
-export class ImportComponent implements OnInit {
+export class ImportComponent implements OnInit, OnDestroy {
 
   migrationData: CourseMigration[] | LessonMigration[];
   lessonsData: LessonMigration[];
@@ -32,6 +32,8 @@ export class ImportComponent implements OnInit {
   DataType = DataType;
   isImportFail: boolean = false;
 
+  private destroy$ = new Subject<void>();
+
   constructor(private codec: CodecService, private route: ActivatedRoute,
     private store: Store, private idGenerator: IdGeneratorService, private snackBar: MatSnackBar,
     private urlShortener: UrlShortenerService) {
@@ -39,7 +41,7 @@ export class ImportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const codes = params[CONFIG.IMPORT.codesParam];
       if (codes) {
         const codeList: string[] = codes.split(CONFIG.IMPORT.codeSeparator);
@@ -157,6 +159,11 @@ export class ImportComponent implements OnInit {
       verticalPosition: 'bottom',
       duration: 3 * 1000,
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   importFailed() {

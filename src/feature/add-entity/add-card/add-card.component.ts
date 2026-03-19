@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CONFIG } from '../../../app/app.properties';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
@@ -10,13 +10,14 @@ import { Lesson } from '../../../data/model/lesson';
 import { Card } from '../../../data/model/card';
 import { addCards } from '../../../data/store/cards/cards.action';
 import { TabStateService } from '../../../services/tab-state/tab-state.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-card',
   templateUrl: './add-card.component.html',
   styleUrl: './add-card.component.scss'
 })
-export class AddCardComponent implements OnInit, AfterViewInit {
+export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
   
   addCardsForm: FormGroup;
   addCardsBulkForm: FormGroup;
@@ -43,6 +44,8 @@ export class AddCardComponent implements OnInit, AfterViewInit {
     return this.addCardsBulkForm.controls["cards"] as FormControl;
   }
 
+  private destroy$ = new Subject<void>();
+
   constructor(private idGenerator: IdGeneratorService,
     private store: Store, private route: ActivatedRoute,
     private location: Location, private tabState: TabStateService) {}
@@ -56,11 +59,16 @@ export class AddCardComponent implements OnInit, AfterViewInit {
     });
     this.addEmptyCard();
 
-    this.route.params.subscribe(params => {
-      this.store.select(selectLesson(params['lessonId'])).subscribe(lesson => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.store.select(selectLesson(params['lessonId'])).pipe(takeUntil(this.destroy$)).subscribe(lesson => {
         this.lesson = lesson;
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   toggleMode(targetMode: AddMode) {

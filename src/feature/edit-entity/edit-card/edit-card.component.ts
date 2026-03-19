@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,18 +12,21 @@ import { removeCard, updateCard } from '../../../data/store/cards/cards.action';
 import { selectCard } from '../../../data/store/cards/cards.selector';
 import { selectLesson } from '../../../data/store/lessons/lessons.selector';
 import { TabStateService } from '../../../services/tab-state/tab-state.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-edit-card',
   templateUrl: './edit-card.component.html',
   styleUrl: './edit-card.component.scss'
 })
-export class EditCardComponent implements OnInit {
-  
+export class EditCardComponent implements OnInit, OnDestroy {
+
   card: Card;
   lesson: Lesson;
   editCardForm: FormGroup;
   maxLength: number = CONFIG.CARDS.phraseMaxLength;
+
+  private destroy$ = new Subject<void>();
 
   get questionFormControl() {
     return this.editCardForm.controls["question"] as FormControl;
@@ -43,18 +46,23 @@ export class EditCardComponent implements OnInit {
       answer: new FormControl('', [Validators.required])
     });
 
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const cardId = params['cardId'];
       const lessonId = params['lessonId'];
-      this.store.select(selectCard(cardId)).subscribe(card => {
+      this.store.select(selectCard(cardId)).pipe(takeUntil(this.destroy$)).subscribe(card => {
         this.card = card;
         this.questionFormControl.patchValue(card.question);
         this.answerFormControl.patchValue(card.answer);
       });
-      this.store.select(selectLesson(lessonId)).subscribe(lesson => {
+      this.store.select(selectLesson(lessonId)).pipe(takeUntil(this.destroy$)).subscribe(lesson => {
         this.lesson = lesson;
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   clearQuestion() {

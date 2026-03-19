@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,14 +14,14 @@ import { removeLessons } from '../../../data/store/lessons/lessons.action';
 import { selectCourse } from '../../../data/store/courses/courses.selector';
 import { selectCards } from '../../../data/store/cards/cards.selector';
 import { selectLessonsByCourseId } from '../../../data/store/lessons/lessons.selector';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-edit-course',
   templateUrl: './edit-course.component.html',
   styleUrl: './edit-course.component.scss'
 })
-export class EditCourseComponent implements OnInit {
+export class EditCourseComponent implements OnInit, OnDestroy {
 
   course: Course;
   editCourseForm: FormGroup;
@@ -29,6 +29,8 @@ export class EditCourseComponent implements OnInit {
   lessons: Lesson[] = [];
   cards$: Observable<{[id: number]: Card}> = this.store.select(selectCards);
   pendingDeleteLessonIds: Set<number> = new Set();
+
+  private destroy$ = new Subject<void>();
 
   get nameFormControl() {
     return this.editCourseForm.controls["name"] as FormControl;
@@ -46,16 +48,21 @@ export class EditCourseComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
     });
 
-    this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const courseId = params['courseId'];
-      this.store.select(selectCourse(courseId)).subscribe(course => {
+      this.store.select(selectCourse(courseId)).pipe(takeUntil(this.destroy$)).subscribe(course => {
         this.course = course;
         this.nameFormControl.patchValue(course.name);
       });
-      this.store.select(selectLessonsByCourseId(+courseId)).subscribe(lessons => {
+      this.store.select(selectLessonsByCourseId(+courseId)).pipe(takeUntil(this.destroy$)).subscribe(lessons => {
         this.lessons = lessons;
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getCardsForLesson(lesson: Lesson, cards: {[id: number]: Card}): Card[] {
