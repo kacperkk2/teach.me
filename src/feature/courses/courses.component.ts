@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -57,12 +57,16 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['/courses', courseId, 'lessons', lessonId, 'cards']);
   }
 
+  @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
+
   searchQuery: string = '';
   isSearchActive: boolean = false;
 
   toggleSearch(): void {
     this.isSearchActive = !this.isSearchActive;
-    if (!this.isSearchActive) {
+    if (this.isSearchActive) {
+      setTimeout(() => this.searchInput?.nativeElement.focus());
+    } else {
       this.searchQuery = '';
     }
   }
