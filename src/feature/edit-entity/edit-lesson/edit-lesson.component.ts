@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,7 +40,7 @@ export class EditLessonComponent implements OnInit, OnDestroy {
   }
 
   constructor(private store: Store, private router: Router,
-    private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {}
+    private route: ActivatedRoute, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.editLessonForm = new FormGroup({
@@ -86,10 +85,13 @@ export class EditLessonComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.store.dispatch(removeLesson({lesson: this.lesson, cardIds: this.lesson.cardIds, course: this.course}));
-          this.location.replaceState('/courses');
           this.router.navigate(['/courses', this.course.id, 'lessons']);
         }
     });
+  }
+
+  close() {
+    this.router.navigate(['/courses', this.course.id, 'lessons', this.lesson.id, 'cards']);
   }
 
   saveLesson() {
@@ -108,7 +110,7 @@ export class EditLessonComponent implements OnInit, OnDestroy {
       wrongPreviouslyCardIds: this.lesson.wrongPreviouslyCardIds.filter(id => !this.pendingDeleteCardIds.has(id)),
     }
     this.store.dispatch(updateLesson({lesson: updatedLesson}));
-    this.location.back();
+    this.router.navigate(['/courses', this.course.id, 'lessons', this.lesson.id, 'cards']);
   }
 
   headerTitle: string = CONFIG.LABELS.manageLesson;

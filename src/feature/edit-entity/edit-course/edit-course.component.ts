@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,7 +40,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
 
   constructor(private store: Store, private router: Router,
-    private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {}
+    private route: ActivatedRoute, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.editCourseForm = new FormGroup({
@@ -91,6 +90,10 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     });
   }
 
+  close() {
+    this.router.navigate(['/courses', this.course.id, 'lessons']);
+  }
+
   saveCourse() {
     const lessonsToDelete = this.lessons.filter(l => this.pendingDeleteLessonIds.has(l.id));
     if (lessonsToDelete.length > 0) {
@@ -108,7 +111,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
       wrongPreviouslyCardIds: this.course.wrongPreviouslyCardIds
     }
     this.store.dispatch(updateCourse({course: updatedCourse}));
-    this.location.back();
+    this.router.navigate(['/courses', this.course.id, 'lessons']);
   }
 
   headerTitle: string = CONFIG.LABELS.manageCourse;

@@ -1,5 +1,4 @@
-import { Location } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatMenu } from '@angular/material/menu';
 
 @Component({
@@ -9,11 +8,9 @@ import { MatMenu } from '@angular/material/menu';
 })
 export class AddHeaderComponent {
   @Input({required: true}) title: string = "karty";
-
-  constructor(private location: Location) {
-  }
+  @Output() closeClicked = new EventEmitter<void>();
 
   close() {
-    this.location.back();
+    this.closeClicked.emit();
   }
 }

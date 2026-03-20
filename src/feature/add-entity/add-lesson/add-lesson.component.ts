@@ -50,6 +50,10 @@ export class AddLessonComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => this.nameInput.nativeElement.focus());
   }
 
+  close() {
+    this.router.navigate(['/courses', this.course.id, 'lessons']);
+  }
+
   clear() {
     this.addLessonForm.controls["name"].patchValue("");
   }

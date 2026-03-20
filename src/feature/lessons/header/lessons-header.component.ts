@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONFIG } from '../../../app/app.properties';
@@ -28,7 +27,7 @@ export class LessonsHeaderComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(private location: Location, private router: Router,
+  constructor(private router: Router,
     private route: ActivatedRoute, private store: Store,
     public dialog: MatDialog, private migrationService: MigrationService,
     private urlShortener: UrlShortenerService, private codec: CodecService,
@@ -51,7 +50,7 @@ export class LessonsHeaderComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.location.back();
+    this.router.navigate(['/courses']);
   }
 
   editCourseClicked() {

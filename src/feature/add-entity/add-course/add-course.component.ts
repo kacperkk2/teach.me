@@ -31,6 +31,10 @@ export class AddCourseComponent implements OnInit, AfterViewInit {
     setTimeout(() => this.nameInput.nativeElement.focus());
   }
 
+  close() {
+    this.router.navigate(['/courses']);
+  }
+
   clear() {
     this.addCourseForm.controls["name"].patchValue("");
   }

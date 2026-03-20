@@ -1,7 +1,7 @@
 
 <div class="wrapper" fxLayout="column">
 
-    <app-add-header [title]="headerTitle"></app-add-header>
+    <app-add-header [title]="headerTitle" (closeClicked)="close()"></app-add-header>
 
     <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
         <div fxFlex="100" style="width: 90%;" fxLayout="column">
