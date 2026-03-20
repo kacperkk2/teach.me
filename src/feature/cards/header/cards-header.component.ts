@@ -13,7 +13,6 @@ import { CodecService } from '../../../services/codec/codec.service';
 import { selectCardsByLessonId } from '../../../data/store/cards/cards.selector';
 import { UrlShortenerService } from '../../../services/urlshortener/url-shortener.service';
 import { TabStateService } from '../../../services/tab-state/tab-state.service';
-import { Location } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -28,7 +27,7 @@ export class CardsHeaderComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   // todo zrobic dumb component z tego, menu klikniecia zwracane jako akcje wyzej
-  constructor(private location: Location, private router: Router,
+  constructor(private router: Router,
     private route: ActivatedRoute, private store: Store,
     public dialog: MatDialog, private migrationService: MigrationService,
     private codec: CodecService, private urlShortener: UrlShortenerService,
@@ -58,7 +57,7 @@ export class CardsHeaderComponent implements OnDestroy {
       this.tabState.pendingLessonsTab = 1;
     }
     this.tabState.cardsOrigin = null;
-    this.location.back();
+    this.router.navigate(['/courses', this.course.id, 'lessons']);
   }
 
   editLessonClicked() {

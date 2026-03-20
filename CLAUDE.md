@@ -18,7 +18,7 @@ Before every commit, ask the user whether they also want to build and deploy fil
 
 ```bash
 ng build --output-path docs --base-href /teach.me/
-cp docs/browser/* docs/
+cp -r docs/browser/* docs/
 rm -rf docs/browser
 cp docs/index.html docs/404.html
 ```

@@ -1,6 +1,6 @@
 <div class="wrapper" fxLayout="column">
 
-    <app-edit-header [title]="headerTitle" (actionClicked)="removeCourse()"></app-edit-header>
+    <app-edit-header [title]="headerTitle" (actionClicked)="removeCourse()" (closeClicked)="close()"></app-edit-header>
 
     <div class="content" fxFlex fxLayout="column">
         <div class="inner" fxLayout="column">

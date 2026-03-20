@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,6 +22,8 @@ export class EditCardComponent implements OnInit, OnDestroy {
 
   card: Card;
   lesson: Lesson;
+  courseId: string;
+  lessonId: string;
   editCardForm: FormGroup;
   maxLength: number = CONFIG.CARDS.phraseMaxLength;
 
@@ -37,7 +38,7 @@ export class EditCardComponent implements OnInit, OnDestroy {
   }
 
   constructor(private store: Store, private router: Router,
-    private route: ActivatedRoute, private location: Location,
+    private route: ActivatedRoute,
     public dialog: MatDialog, private tabState: TabStateService) {}
 
   ngOnInit(): void {
@@ -48,13 +49,14 @@ export class EditCardComponent implements OnInit, OnDestroy {
 
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const cardId = params['cardId'];
-      const lessonId = params['lessonId'];
+      this.courseId = params['courseId'];
+      this.lessonId = params['lessonId'];
       this.store.select(selectCard(cardId)).pipe(takeUntil(this.destroy$)).subscribe(card => {
         this.card = card;
         this.questionFormControl.patchValue(card.question);
         this.answerFormControl.patchValue(card.answer);
       });
-      this.store.select(selectLesson(lessonId)).pipe(takeUntil(this.destroy$)).subscribe(lesson => {
+      this.store.select(selectLesson(+this.lessonId)).pipe(takeUntil(this.destroy$)).subscribe(lesson => {
         this.lesson = lesson;
       });
     });
@@ -75,7 +77,7 @@ export class EditCardComponent implements OnInit, OnDestroy {
 
   close() {
     this.tabState.pendingCardsTab = 1;
-    this.location.back();
+    this.router.navigate(['/courses', this.courseId, 'lessons', this.lessonId, 'cards']);
   }
 
   removeCard() {
@@ -84,7 +86,7 @@ export class EditCardComponent implements OnInit, OnDestroy {
         if (result == true) {
           this.store.dispatch(removeCard({cardId: this.card.id, lesson: this.lesson}));
           this.tabState.pendingCardsTab = 1;
-          this.location.back();
+          this.router.navigate(['/courses', this.courseId, 'lessons', this.lessonId, 'cards']);
         }
     });
   }
@@ -98,7 +100,7 @@ export class EditCardComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(updateCard({card: updatedCard}));
     this.tabState.pendingCardsTab = 1;
-    this.location.back();
+    this.router.navigate(['/courses', this.courseId, 'lessons', this.lessonId, 'cards']);
   }
 
   turnCard() {

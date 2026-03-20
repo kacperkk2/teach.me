@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -11,17 +10,10 @@ export class EditHeaderComponent {
   @Output() actionClicked = new EventEmitter();
   @Output() closeClicked = new EventEmitter<void>();
 
-  constructor(private location: Location) {
+  close() {
+    this.closeClicked.emit();
   }
 
-  close() {
-    if (this.closeClicked.observed) {
-      this.closeClicked.emit();
-    } else {
-      this.location.back();
-    }
-  }
-  
   emitActionClicked() {
     this.actionClicked.emit();
   }

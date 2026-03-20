@@ -2,8 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, Vie
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CONFIG } from '../../../app/app.properties';
 import { IdGeneratorService } from '../../../services/id-generator/id-generator.service';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectLesson } from '../../../data/store/lessons/lessons.selector';
 import { Lesson } from '../../../data/model/lesson';
@@ -22,6 +21,8 @@ export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
   addCardsForm: FormGroup;
   addCardsBulkForm: FormGroup;
   lesson: Lesson;
+  courseId: string;
+  lessonId: string;
   mode: AddMode = AddMode.CARD;
   AddMode = AddMode;
   separators: string[] = CONFIG.CARDS.ADD_CARD.questionAnswerSeparators;
@@ -48,7 +49,7 @@ export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private idGenerator: IdGeneratorService,
     private store: Store, private route: ActivatedRoute,
-    private location: Location, private tabState: TabStateService) {}
+    private router: Router, private tabState: TabStateService) {}
 
   ngOnInit(): void {
     this.addCardsBulkForm = new FormGroup({
@@ -60,7 +61,9 @@ export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.addEmptyCard();
 
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.store.select(selectLesson(params['lessonId'])).pipe(takeUntil(this.destroy$)).subscribe(lesson => {
+      this.courseId = params['courseId'];
+      this.lessonId = params['lessonId'];
+      this.store.select(selectLesson(+this.lessonId)).pipe(takeUntil(this.destroy$)).subscribe(lesson => {
         this.lesson = lesson;
       });
     });
@@ -156,6 +159,10 @@ export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
     group.controls['answer'].patchValue(question);
   }
 
+  close() {
+    this.router.navigate(['/courses', this.courseId, 'lessons', this.lessonId, 'cards']);
+  }
+
   save() {
     const cards: Card[] = (this.cardsFormArray.controls as FormGroup[]).map((cardFormGroup: FormGroup) => {
       return {
@@ -167,7 +174,7 @@ export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.store.dispatch(addCards({cards: cards, lesson: this.lesson}));
     this.tabState.pendingCardsTab = 1;
-    this.location.back();
+    this.router.navigate(['/courses', this.courseId, 'lessons', this.lessonId, 'cards']);
   }
 
   private buildSingleCardForm(question: string, answer: string) {
