@@ -11,8 +11,8 @@
     <div class="content-wrapper">
         <div class="search-bar-wrapper" *ngIf="isSearchActive" @slideDown>
             <mat-form-field class="search-field" subscriptSizing="dynamic">
-                <input matInput [placeholder]="searchPlaceholder" [(ngModel)]="searchQuery">
-                <button *ngIf="searchQuery" matSuffix mat-icon-button (click)="searchQuery = ''">
+                <input #searchInput matInput [placeholder]="searchPlaceholder" [(ngModel)]="searchQuery">
+                <button [style.visibility]="searchQuery ? 'visible' : 'hidden'" matSuffix mat-icon-button (click)="searchQuery = ''">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
