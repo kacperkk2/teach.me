@@ -79,6 +79,7 @@ import { AppComponent } from './app.component';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray, CdkDragHandle, CdkDragPlaceholder} from '@angular/cdk/drag-drop';
 import { CardsReorderComponent } from '../feature/cards/cards-reorder/cards-reorder.component';
 import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -167,7 +168,13 @@ import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.co
     CdkDropList,
     CdkDrag,
     CdkDragHandle,
-    CdkDragPlaceholder
+    CdkDragPlaceholder,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     provideAnimationsAsync()

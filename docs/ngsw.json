@@ -1,0 +1,93 @@
+{
+  "configVersion": 1,
+  "timestamp": 1775156350285,
+  "index": "/teach.me/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/teach.me/chunk-3K5NQZTX.js",
+        "/teach.me/chunk-7HOQSPGJ.js",
+        "/teach.me/chunk-B6M6KJTG.js",
+        "/teach.me/chunk-CWTPBX7D.js",
+        "/teach.me/chunk-GGWDZNC3.js",
+        "/teach.me/chunk-RDH2YYBA.js",
+        "/teach.me/index.html",
+        "/teach.me/main-B3GZ2GYL.js",
+        "/teach.me/manifest.webmanifest",
+        "/teach.me/polyfills-RX4V3J3S.js",
+        "/teach.me/styles-4C7BHWWF.css",
+        "/teach.me/teach_me_icon.png"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/teach.me/assets/fonts/LiberationSans-Regular.ttf",
+        "/teach.me/assets/icons/icon-128x128.png",
+        "/teach.me/assets/icons/icon-144x144.png",
+        "/teach.me/assets/icons/icon-152x152.png",
+        "/teach.me/assets/icons/icon-192x192.png",
+        "/teach.me/assets/icons/icon-384x384.png",
+        "/teach.me/assets/icons/icon-512x512.png",
+        "/teach.me/assets/icons/icon-72x72.png",
+        "/teach.me/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/teach.me/assets/fonts/LiberationSans-Regular.ttf": "69df40f3c3f562dda15d617597c25ccd150af241",
+    "/teach.me/assets/icons/icon-128x128.png": "2415003ab28669bb3766f07d307bae96f8e799ca",
+    "/teach.me/assets/icons/icon-144x144.png": "d2a6f3bddad370d0755a74d7eb7d19ee9e3fe42c",
+    "/teach.me/assets/icons/icon-152x152.png": "089784a28225a0d4dcd8bd18ecd16c98015a2f19",
+    "/teach.me/assets/icons/icon-192x192.png": "ed5109139773806263b7e6e73eef63c3ceac4519",
+    "/teach.me/assets/icons/icon-384x384.png": "2691d380b0152367225a159273a993d866ddb30c",
+    "/teach.me/assets/icons/icon-512x512.png": "5f4f3bb6af94a3a452d2ddbbf2cdb932394f2e57",
+    "/teach.me/assets/icons/icon-72x72.png": "2898f8d882b1f2ff55dc2bc8b73e2eba9b7dcf59",
+    "/teach.me/assets/icons/icon-96x96.png": "054360a9a7e24e3703e7d054cfb58f38869da7bb",
+    "/teach.me/chunk-3K5NQZTX.js": "042423ca6d5653864694e5917745637533d5e2bd",
+    "/teach.me/chunk-7HOQSPGJ.js": "f3ea9b29d0408f3686faa0724f5d5b9d1e5668ca",
+    "/teach.me/chunk-B6M6KJTG.js": "f9ff9cfd34b6fd9765c750eb2e236b475acbff96",
+    "/teach.me/chunk-CWTPBX7D.js": "c40057a332d0341d595cc1d005fc2ab4f2573957",
+    "/teach.me/chunk-GGWDZNC3.js": "da02f727e398f0945ca5463fbaa4c1ba8817e49c",
+    "/teach.me/chunk-RDH2YYBA.js": "0ab208ca2ad604e56acd9c2e8ebe15c2a8974e9d",
+    "/teach.me/index.html": "1b98438cf3c4abb2fd78c913356fa36e0764fe40",
+    "/teach.me/main-B3GZ2GYL.js": "a2bdbbc9e542513e26becbfd864d809900cecd0b",
+    "/teach.me/manifest.webmanifest": "c467af73032ca60e969c44094383e0787ffe9ed2",
+    "/teach.me/polyfills-RX4V3J3S.js": "6b4c4ea33aa92bce0b91df442a680ed73e4303db",
+    "/teach.me/styles-4C7BHWWF.css": "afff895745d0aa48c1313f0838363514462749ae",
+    "/teach.me/teach_me_icon.png": "c42aefee7a9e1e4b1b9f1b744cd45a33b022327e"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
