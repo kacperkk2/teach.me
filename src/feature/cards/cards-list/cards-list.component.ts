@@ -14,6 +14,7 @@ export class CardsListComponent implements OnInit, AfterViewInit {
 
   @Input({required: true}) cards: Card[];
   @Input() scrollToCardId: number | null = null;
+  @Input() language?: string;
   @Output() toggleCardIsMarked = new EventEmitter<Card>();
 
   constructor(private router: Router, private route: ActivatedRoute, private store: Store,

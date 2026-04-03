@@ -14,6 +14,8 @@
                     </button>
                     <mat-hint align="end"> {{ name.value.length }}/{{ maxLength }} </mat-hint>
                 </mat-form-field>
+
+                <app-language-select style="margin-top: 12px;" [control]="languageFormControl"></app-language-select>
             </form>
 
             <span class="lessons-label">Lekcje w kursie</span>

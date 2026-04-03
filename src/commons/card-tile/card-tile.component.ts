@@ -10,6 +10,7 @@ export class CardTileComponent {
   @Input({required: true}) question: string;
   @Input({required: true}) answer: string;
   @Input() isMarked: boolean = false;
+  @Input() language?: string;
   @Output() tileClicked = new EventEmitter();
   @Output() bookmarkClicked = new EventEmitter();
 }

@@ -11,6 +11,7 @@ import { SummaryAction } from './summary/summary.component';
 export class LearnComponent implements OnInit {
   @Input({required: true}) cards: Card[];
   @Input({required: true}) label: string;
+  @Input() language?: string;
   @Output() learnEnd = new EventEmitter();
 
   cardsWrongInFirstRound: Card[];

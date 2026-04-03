@@ -6,12 +6,26 @@ export const CONFIG = {
         appRoot: "/teach.me",
         codesParam: "codes",
         courseNameParam: "name",
+        courseLanguageParam: "lang",
         codeSeparator: ","
     },
 
     COURSES: {
         nameMaxLength: 40
     },
+
+    LANGUAGES: [
+        { code: 'en-US', label: 'Angielski (USA)' },
+        { code: 'en-GB', label: 'Angielski (UK)' },
+        { code: 'de-DE', label: 'Niemiecki' },
+        { code: 'fr-FR', label: 'Francuski' },
+        { code: 'es-ES', label: 'Hiszpański' },
+        { code: 'it-IT', label: 'Włoski' },
+        { code: 'pl-PL', label: 'Polski' },
+        { code: 'hr-HR', label: 'Chorwacki' },
+        { code: 'el-GR', label: 'Grecki' },
+        { code: 'lt-LT', label: 'Litewski' },
+    ],
 
     LESSONS: {
         nameMaxLength: 40
@@ -51,6 +65,9 @@ LABELS: {
         answer: 'odpowiedź',
         lessonName: 'nazwa lekcji',
         courseName: 'nazwa kursu',
+        courseLanguage: 'język kursu',
+        courseLanguageNone: 'brak (nie czytaj)',
+        languageCourse: 'Kurs językowy',
 
         removeCourse: 'usuń kurs',
         removeLesson: 'usuń lekcję',

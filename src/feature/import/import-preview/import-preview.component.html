@@ -1,9 +1,9 @@
 
-<mat-label class="section-label">{{ lessonsLabel | titlecase }}</mat-label>
-
-<app-lesson-tile
-    *ngFor="let lesson of migrationLessons"
+<app-manage-lesson-tile
+    *ngFor="let lesson of migrationLessons; let i = index"
     [name]="lesson.name"
     [cardsCount]="lesson.cards.length"
-    [cards]="getCards(lesson)">
-</app-lesson-tile>
+    [cards]="getCards(lesson)"
+    [markedForDeletion]="isMarkedForDeletion(i)"
+    (deleteClicked)="toggleLessonDeletion(i)">
+</app-manage-lesson-tile>

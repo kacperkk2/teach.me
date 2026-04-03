@@ -26,7 +26,7 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   migrationData: CourseMigration[] | LessonMigration[];
   lessonsData: LessonMigration[];
-  summaryData: ImportSummaryData;
+  summaryData: ImportSummaryData | undefined;
   migrationType: DataType;
   importTitle: string;
   DataType = DataType;
@@ -46,6 +46,9 @@ export class ImportComponent implements OnInit, OnDestroy {
       if (codes) {
         const codeList: string[] = codes.split(CONFIG.IMPORT.codeSeparator);
         const courseName = decodeURIComponent(params[CONFIG.IMPORT.courseNameParam] || '');
+        const courseLanguage = params[CONFIG.IMPORT.courseLanguageParam]
+          ? decodeURIComponent(params[CONFIG.IMPORT.courseLanguageParam])
+          : undefined;
 
         forkJoin(codeList.map(code => this.urlShortener.expandUrl(code)))
           .subscribe(expandResults => {
@@ -63,7 +66,7 @@ export class ImportComponent implements OnInit, OnDestroy {
               return lessonData[0] as LessonMigration;
             });
 
-            const courseMigration: CourseMigration = { name: courseName, lessons: lessonMigrations };
+            const courseMigration: CourseMigration = { name: courseName, language: courseLanguage, lessons: lessonMigrations };
             this.migrationData = [courseMigration];
             this.migrationType = DataType.COURSE;
             this.summaryData = this.getSummaryData(this.migrationData, this.migrationType);
@@ -116,6 +119,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     const course: Course = {
       id: this.idGenerator.nextIdForCourses(),
       name: importCourseData.newCourseName,
+      language: importCourseData.language || undefined,
       lastLearningDate: new Date(),
       nextSuggestedLearningDate: new Date(),
       lessonIds: [],
@@ -125,7 +129,8 @@ export class ImportComponent implements OnInit, OnDestroy {
 
     let lessonToCards = new Map<Lesson, Card[]>();
 
-    migrationCourseData.lessons.forEach(migratedDataLesson => {
+    const lessonsToImport = migrationCourseData.lessons.filter(l => !importCourseData.excludedLessons.includes(l));
+    lessonsToImport.forEach(migratedDataLesson => {
       const cards: Card[] = migratedDataLesson.cards.map(card => {
         return {
           id: this.idGenerator.nextIdForCards(),
@@ -146,7 +151,7 @@ export class ImportComponent implements OnInit, OnDestroy {
       lessonToCards.set(lesson, cards);
     })
 
-    this.store.dispatch(addLessons({lessons: Array.from(lessonToCards.keys()), course: course}))
+    this.store.dispatch(addLessons({ lessons: Array.from(lessonToCards.keys()), course: course }))
     lessonToCards.forEach((value: Card[], key: Lesson) => {
       this.store.dispatch(addCards({cards: value, lesson: key})) 
     });
@@ -191,6 +196,7 @@ export class ImportComponent implements OnInit, OnDestroy {
     else if (type == DataType.COURSE) {
       return {
         entityName: migrationData[0].name,
+        language: (migrationData[0] as CourseMigration).language,
       }
     }
     throw new TypeError("Illegal data type during import")
@@ -217,5 +223,6 @@ export class ImportComponent implements OnInit, OnDestroy {
 }
 
 export interface ImportSummaryData {
-  entityName: string
+  entityName: string,
+  language?: string
 }

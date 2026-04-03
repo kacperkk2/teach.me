@@ -3,6 +3,7 @@
         <span class="tile-question">{{ question }}</span>
 <span class="tile-answer">{{ answer }}</span>
     </div>
+    <app-speak-button *ngIf="language" [text]="answer" [language]="language"></app-speak-button>
     <button mat-icon-button (click)="bookmarkClicked.emit(); $event.stopPropagation()">
         <mat-icon [ngClass]="isMarked ? 'primary-color' : 'text-light-grey'">bookmark_outline</mat-icon>
     </button>

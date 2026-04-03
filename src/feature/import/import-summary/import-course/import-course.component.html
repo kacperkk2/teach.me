@@ -10,9 +10,13 @@
                 </button>
                 <mat-hint align="end"> {{ name.value.length }}/{{ maxNameLength }} </mat-hint>
             </mat-form-field>
+
+                <app-language-select style="margin-top: 12px;" [control]="languageFormControl"></app-language-select>
         </form>
 
-        <app-import-preview [migrationLessons]="migrationLessons"></app-import-preview>
+        <span class="lessons-label">Lekcje w kursie</span>
+
+        <app-import-preview [migrationLessons]="migrationLessons" (markedLessonsChange)="excludedLessons = $event"></app-import-preview>
     </div>
 
     <button class="bottom-button" mat-flat-button color="primary" [disabled]="!importForm.valid" (click)="import()"> Importuj </button>

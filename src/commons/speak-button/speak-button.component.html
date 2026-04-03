@@ -1,0 +1,4 @@
+<mat-icon *ngIf="speakState === 'idle'" class="text-light-grey">play_arrow</mat-icon>
+<div *ngIf="speakState !== 'idle'" class="soundwave" [class.slow]="speakState === 'slow'">
+    <span></span><span></span><span></span>
+</div>

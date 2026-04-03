@@ -96,6 +96,7 @@ export enum DataType {
 export function mapCourseToCourseMigration(course: Course, lessonsMigration: LessonMigration[]): CourseMigration {
   return {
     name: course.name,
+    language: course.language,
     lessons: lessonsMigration
   }
 }

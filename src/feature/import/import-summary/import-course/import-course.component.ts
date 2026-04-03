@@ -19,9 +19,14 @@ export class ImportCourseComponent {
   @Output() importCourse = new EventEmitter<ImportCourseData>();
 
   importForm: FormGroup;
+  excludedLessons: LessonMigration[] = [];
 
   get nameFormControl() {
     return this.importForm.controls["name"] as FormControl;
+  }
+
+  get languageFormControl() {
+    return this.importForm.controls["language"] as FormControl;
   }
 
   constructor(private router: Router, private store: Store) {
@@ -30,6 +35,7 @@ export class ImportCourseComponent {
   ngOnInit(): void {
     this.importForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(this.maxNameLength)]),
+      language: new FormControl(this.summaryData.language ?? ''),
     });
     this.store.select(selectCoursesList).pipe(take(1)).subscribe(courses => {
       const nameExists = courses.some(c => c.name === this.summaryData.entityName);
@@ -40,6 +46,8 @@ export class ImportCourseComponent {
   import() {
     this.importCourse.emit({
       newCourseName: this.nameFormControl.value,
+      language: this.languageFormControl.value,
+      excludedLessons: this.excludedLessons,
     })
     this.router.navigate(['/courses']);
   }
@@ -54,4 +62,6 @@ export class ImportCourseComponent {
 
 export interface ImportCourseData {
   newCourseName: string,
+  language: string,
+  excludedLessons: LessonMigration[],
 }

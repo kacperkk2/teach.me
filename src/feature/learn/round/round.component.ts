@@ -1,22 +1,26 @@
 import { Location } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Card } from '../../../data/model/card';
 import { updateCard } from '../../../data/store/cards/cards.action';
 import { LearningPreferencesService } from '../../../services/learning-preferences/learning-preferences.service';
+import { SpeakButtonComponent } from '../../../commons/speak-button/speak-button.component';
 
 @Component({
   selector: 'app-round',
   templateUrl: './round.component.html',
   styleUrl: './round.component.scss'
 })
-export class RoundComponent {
+export class RoundComponent implements OnDestroy {
+
+  @ViewChild(SpeakButtonComponent) speakButton?: SpeakButtonComponent;
 
   @Input({required: true}) cards: Card[];
   @Input({required: true}) title: string;
+  @Input() language?: string;
   @Output() roundSummary = new EventEmitter<RoundSummary>();
-  
+
   index: number;
   cardState: CardState = CardState.QUESTION;
   CardState = CardState;
@@ -36,9 +40,17 @@ export class RoundComponent {
     this.isReversed = this.prefs.reversedMode;
   }
 
+  get currentSpokenText(): string {
+    if (!this.cards?.length || this.index < 1) return '';
+    const card = this.cards[this.index - 1];
+    return this.cardState === CardState.QUESTION
+      ? (this.isReversed ? card.answer : card.question)
+      : (this.isReversed ? card.question : card.answer);
+  }
+
   showAnswer() {
     this.cardState = CardState.ANSWER;
-    this.answerState = AnswerState.AFTER_SHOW
+    this.answerState = AnswerState.AFTER_SHOW;
   }
 
   correctAnswer() {
@@ -51,7 +63,12 @@ export class RoundComponent {
     this.goToNextCard();
   }
 
+  ngOnDestroy() {
+    window.speechSynthesis.cancel();
+  }
+
   private goToNextCard() {
+    window.speechSynthesis.cancel();
     if (this.index == this.cards.length) {
       this.endRound();
     }
@@ -80,7 +97,20 @@ export class RoundComponent {
     this.cards[this.index - 1] = updatedCard;
   }
 
+  private canDelegateToSpeak(): boolean {
+    return !!this.language && this.answerState === AnswerState.AFTER_SHOW;
+  }
+
+  onCardMouseDown() { if (this.canDelegateToSpeak()) this.speakButton?.onPressStart(); }
+  onCardMouseUp() { if (this.canDelegateToSpeak()) this.speakButton?.onPressEnd(); }
+  onCardMouseLeave() { if (this.canDelegateToSpeak()) this.speakButton?.onPressCancel(); }
+  onCardTouchStart(e: Event) { if (this.canDelegateToSpeak()) { e.preventDefault(); this.speakButton?.onPressStart(); } }
+  onCardTouchEnd() { if (this.canDelegateToSpeak()) this.speakButton?.onPressEnd(); }
+  onCardTouchCancel() { if (this.canDelegateToSpeak()) this.speakButton?.onPressCancel(); }
+  onCardTouchMove() { if (this.canDelegateToSpeak()) this.speakButton?.onPressCancel(); }
+
   abortRound() {
+    window.speechSynthesis.cancel();
     this.roundSummary.emit(new RoundSummary(RoundAction.ABORT, this.correct, this.wrong));
   }
 }

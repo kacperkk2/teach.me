@@ -2,7 +2,7 @@
 <div *ngIf="isLearning; then learnView else (isReorder ? reorderView : normalView)"></div>
 
 <ng-template #learnView>
-    <app-learn [cards]="cardsToLearn" [label]="lesson.name" (learnEnd)="learnEnd($any($event))"></app-learn>
+    <app-learn [cards]="cardsToLearn" [label]="lesson.name" [language]="(course$ | async)?.language" (learnEnd)="learnEnd($any($event))"></app-learn>
 </ng-template>
 
 <ng-template #normalView>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <app-cards-list [cards]="(cards$ | async)!" [scrollToCardId]="scrollToCardId" (toggleCardIsMarked)="toggleCardIsMarked($any($event))"></app-cards-list>
+            <app-cards-list [cards]="(cards$ | async)!" [scrollToCardId]="scrollToCardId" [language]="(course$ | async)?.language" (toggleCardIsMarked)="toggleCardIsMarked($any($event))"></app-cards-list>
         </mat-tab>
     </mat-tab-group>
     

@@ -12,6 +12,7 @@
                 [question]="card.question"
                 [answer]="card.answer"
                 [isMarked]="card.isMarked"
+                [language]="language"
                 (tileClicked)="navigateToCard(card.id)"
                 (bookmarkClicked)="toggleIsMarked(card)">
             </app-card-tile>

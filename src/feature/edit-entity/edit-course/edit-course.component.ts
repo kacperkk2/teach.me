@@ -35,6 +35,10 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     return this.editCourseForm.controls["name"] as FormControl;
   }
 
+  get languageFormControl() {
+    return this.editCourseForm.controls["language"] as FormControl;
+  }
+
   isMarkedForDeletion(lesson: Lesson): boolean {
     return this.pendingDeleteLessonIds.has(lesson.id);
   }
@@ -45,6 +49,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.editCourseForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
+      language: new FormControl('')
     });
 
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
@@ -52,6 +57,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
       this.store.select(selectCourse(courseId)).pipe(takeUntil(this.destroy$)).subscribe(course => {
         this.course = course;
         this.nameFormControl.patchValue(course.name);
+        this.languageFormControl.patchValue(course.language ?? '');
       });
       this.store.select(selectLessonsByCourseId(+courseId)).pipe(takeUntil(this.destroy$)).subscribe(lessons => {
         this.lessons = lessons;
@@ -105,6 +111,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     const updatedCourse: Course = {
       id: this.course.id,
       name: this.nameFormControl.value,
+      language: this.languageFormControl.value || undefined,
       lastLearningDate: this.course.lastLearningDate,
       nextSuggestedLearningDate: this.course.nextSuggestedLearningDate,
       lessonIds: remainingLessonIds,

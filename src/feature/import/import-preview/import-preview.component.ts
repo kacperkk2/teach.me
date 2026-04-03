@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { CONFIG } from '../../../app/app.properties';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Card } from '../../../data/model/card';
 import { LessonMigration } from '../../../data/model/lesson';
 
@@ -11,8 +10,23 @@ import { LessonMigration } from '../../../data/model/lesson';
 export class ImportPreviewComponent {
 
   @Input({required: true}) migrationLessons: LessonMigration[];
+  @Output() markedLessonsChange = new EventEmitter<LessonMigration[]>();
 
-  lessonsLabel = CONFIG.LABELS.lessonsTab;
+  private markedIndices = new Set<number>();
+
+  isMarkedForDeletion(index: number): boolean {
+    return this.markedIndices.has(index);
+  }
+
+  toggleLessonDeletion(index: number): void {
+    if (this.markedIndices.has(index)) {
+      this.markedIndices.delete(index);
+    } else {
+      this.markedIndices.add(index);
+    }
+    const marked = this.migrationLessons.filter((_, i) => this.markedIndices.has(i));
+    this.markedLessonsChange.emit(marked);
+  }
 
   getCards(lesson: LessonMigration): Card[] {
     return lesson.cards.map(c => ({ id: 0, question: c.question, answer: c.answer, isMarked: false }));

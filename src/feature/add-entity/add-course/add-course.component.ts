@@ -23,7 +23,8 @@ export class AddCourseComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.addCourseForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)])
+      name: new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)]),
+      language: new FormControl('')
     });
   }
 
@@ -43,6 +44,7 @@ export class AddCourseComponent implements OnInit, AfterViewInit {
     const course: Course = {
       id: this.idGenerator.nextIdForCourses(),
       name: this.addCourseForm.controls["name"].value.trim(),
+      language: this.addCourseForm.controls["language"].value || undefined,
       lastLearningDate: new Date(),
       nextSuggestedLearningDate: new Date(),
       lessonIds: [],
