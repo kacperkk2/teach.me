@@ -31,4 +31,9 @@
         </app-wrong-cards-tile>
 
     </div>
+
+    <div *ngIf="lockedLessonsCount > 0" class="locked-info">
+        <mat-icon class="locked-info-icon" fontSet="material-icons-outlined">lock</mat-icon>
+        <span>{{ lockedLessonsCount }} {{ lockedLessonsCount === 1 ? 'lekcja zablokowana' : 'lekcje zablokowane' }} · {{ lockedCardsCount }} kart nie jest uwzględnianych</span>
+    </div>
 </div>

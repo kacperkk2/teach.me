@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONFIG } from '../../../app/app.properties';
 import { Store } from '@ngrx/store';
@@ -23,6 +23,8 @@ import { forkJoin, Subject, takeUntil } from 'rxjs';
   styleUrl: './lessons-header.component.scss'
 })
 export class LessonsHeaderComponent implements OnInit, OnDestroy {
+  @Output() reorderLessonsClicked = new EventEmitter();
+
   course: Course;
 
   private destroy$ = new Subject<void>();
@@ -136,6 +138,7 @@ export class LessonsHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  reorderLessonsLabel: string = CONFIG.LABELS.reorderLessons;
   title: string = CONFIG.LABELS.course;
   manageCourseLabel: string = CONFIG.LABELS.manageCourse;
   exportCourseLabel: string = CONFIG.LABELS.exportCourse;

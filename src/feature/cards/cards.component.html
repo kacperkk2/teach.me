@@ -6,7 +6,7 @@
 </ng-template>
 
 <ng-template #normalView>
-    <app-cards-header></app-cards-header>
+    <app-cards-header (reorderCardsClicked)="turnOnReorder()"></app-cards-header>
 
     <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
         <mat-tab [label]="teachTabLabel | titlecase">
@@ -33,11 +33,6 @@
                         <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="removeAllMarks()">
                             <mat-icon class="action-icon">bookmark_border</mat-icon>
                             <span class="action-name">{{ removeAllCardsMarksLabel }}</span>
-                        </div>
-                        <mat-divider></mat-divider>
-                        <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="turnOnReorder()">
-                            <mat-icon class="action-icon">reorder</mat-icon>
-                            <span class="action-name">{{ reorderCardsLabel }}</span>
                         </div>
                     </div>
                 </div>

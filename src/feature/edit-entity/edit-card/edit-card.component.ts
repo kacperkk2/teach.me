@@ -77,6 +77,7 @@ export class EditCardComponent implements OnInit, OnDestroy {
 
   close() {
     this.tabState.pendingCardsTab = 1;
+    this.tabState.pendingCardId = this.card.id;
     this.router.navigate(['/courses', this.courseId, 'lessons', this.lessonId, 'cards']);
   }
 
@@ -100,6 +101,7 @@ export class EditCardComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(updateCard({card: updatedCard}));
     this.tabState.pendingCardsTab = 1;
+    this.tabState.pendingCardId = this.card.id;
     this.router.navigate(['/courses', this.courseId, 'lessons', this.lessonId, 'cards']);
   }
 

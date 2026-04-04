@@ -13,8 +13,10 @@
                     [name]="lesson.name"
                     [cardsCount]="lesson.cardIds.length"
                     [cards]="getCardsForLesson(lesson, cards)"
+                    [isLocked]="lesson.isLocked ?? false"
                     (tileClicked)="navigateToCards(lesson.id)"
-                    (cardClicked)="navigateToCardsTab(lesson.id, $event)">
+                    (cardClicked)="navigateToCardsTab(lesson.id, $event)"
+                    (lockToggled)="toggleLock(lesson)">
                 </app-lesson-tile>
             </div>
         </div>

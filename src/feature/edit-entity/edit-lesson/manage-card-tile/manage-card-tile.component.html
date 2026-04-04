@@ -1,9 +1,25 @@
-<div class="tile-wrapper" [class.tile-marked]="markedForDeletion" fxLayout="row" fxLayoutAlign="start center">
-    <div fxFlex fxLayout="column">
-        <span class="tile-question">{{ question }}</span>
-        <span class="tile-answer">{{ answer }}</span>
+<div class="tile-wrapper" [class.tile-marked]="markedForDeletion || (markedForMove && selectedMoveTargetId !== null)" fxLayout="column">
+    <div class="tile-main" fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex fxLayout="column">
+            <span class="tile-question">{{ question }}</span>
+            <span class="tile-answer">{{ answer }}</span>
+        </div>
+        <button mat-icon-button [color]="markedForMove ? 'primary' : ''" (click)="moveClicked.emit(); $event.stopPropagation()">
+            <mat-icon>drive_file_move</mat-icon>
+        </button>
+        <button mat-icon-button [color]="markedForDeletion ? 'primary' : ''" (click)="deleteClicked.emit(); $event.stopPropagation()">
+            <mat-icon>delete_outline</mat-icon>
+        </button>
     </div>
-    <button mat-icon-button [color]="markedForDeletion ? 'primary' : ''" (click)="deleteClicked.emit(); $event.stopPropagation()">
-        <mat-icon>delete_outline</mat-icon>
-    </button>
+    <div [@slideDown]="markedForMove ? 'expanded' : 'collapsed'" class="move-panel">
+        <div class="move-panel-content" fxLayout="row" fxLayoutAlign="start center">
+            <span class="move-label">Przenieś do lekcji</span>
+            <mat-select class="lesson-select" [value]="selectedMoveTargetId"
+                [hideSingleSelectionIndicator]="true"
+                (selectionChange)="moveTargetSelected.emit($event.value)"
+                (click)="$event.stopPropagation()">
+                <mat-option *ngFor="let lesson of availableLessons" [value]="lesson.id">{{ lesson.name }}</mat-option>
+            </mat-select>
+        </div>
+    </div>
 </div>

@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { AppFeatureState } from "..";
 import { CardsState } from "./cards.state";
-import { selectLesson, selectLessonsByIds } from "../lessons/lessons.selector";
+import { selectLesson, selectLessons, selectLessonsByIds } from "../lessons/lessons.selector";
 import { selectCourse } from "../courses/courses.selector";
 import { Card } from "../../model/card";
 import { Lesson } from "../../model/lesson";
@@ -53,6 +53,22 @@ export const selectCardsByLessonIds = (ids: number[]) => createSelector(
         lessons.forEach(lesson => {
             allCards = [...allCards, ...lesson.cardIds.map(id => cards[id])]
         })
+        return allCards;
+    }
+);
+
+export const selectCardsByUnlockedLessonsInCourse = (courseId: number) => createSelector(
+    selectCourse(courseId),
+    selectLessons,
+    selectCards,
+    (course, lessons: { [id: number]: Lesson }, cards) => {
+        let allCards: Card[] = [];
+        course.lessonIds.forEach(lessonId => {
+            const lesson = lessons[lessonId];
+            if (lesson && !lesson.isLocked) {
+                allCards = [...allCards, ...lesson.cardIds.map((id: number) => cards[id]).filter(Boolean)];
+            }
+        });
         return allCards;
     }
 );

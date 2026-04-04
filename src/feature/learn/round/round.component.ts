@@ -51,6 +51,11 @@ export class RoundComponent implements OnDestroy {
   showAnswer() {
     this.cardState = CardState.ANSWER;
     this.answerState = AnswerState.AFTER_SHOW;
+    if (this.language) {
+      const card = this.cards[this.index - 1];
+      const answerText = this.isReversed ? card.question : card.answer;
+      this.speakButton?.speakNow(answerText);
+    }
   }
 
   correctAnswer() {

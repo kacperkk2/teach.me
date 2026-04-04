@@ -108,7 +108,8 @@ LABELS: {
         turnCardsSnackBar: 'Karty zostały odwrócone',
         turnCardsShort: 'Odwróć',
 
-        reorderCards: 'Edytuj kolejność kart',
+        reorderCards: 'Kolejność Kart',
+        reorderLessons: 'Kolejność Lekcji',
         reorderShort: 'Kolejność',
 
         removeAllCardsMarks: 'Usuń oznaczenia kart',
@@ -119,6 +120,7 @@ LABELS: {
         bulkActions: 'Akcje na wszystkich kartach',
 
         searchPlaceholder: 'Szukaj w kartach...',
+        bulkInputPlaceholder: 'pytanie - odpowiedź\n...',
 
         generatePdf: 'Generuj PDF',
         generatePdfConfirmation: 'Czy chcesz pobrać pdf z zawartością kursu?',
