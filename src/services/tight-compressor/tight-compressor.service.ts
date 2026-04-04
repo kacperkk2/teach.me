@@ -46,16 +46,25 @@ export class TightCompressorService {
 
   compressCourses(courses: CourseMigration[]): string {
     const compressedCourses = courses.map(course => {
-      return course.name + this.courseInternalSeparator + this.compressLessons(course.lessons)
+      return course.name + this.courseInternalSeparator + (course.language || '') + this.courseInternalSeparator + this.compressLessons(course.lessons)
     })
     return compressedCourses.join(this.courseExternalSeparator);
   }
 
   decompressCourses(courses: string): CourseMigration[] {
     return courses.split(this.courseExternalSeparator).map(course => {
+      const parts = course.split(this.courseInternalSeparator);
+      if (parts.length >= 3) {
+        return {
+          name: parts[0],
+          language: parts[1] || undefined,
+          lessons: this.decompressLessons(parts[2])
+        }
+      }
+      // backward compat: old format without language
       return {
-        name: course.split(this.courseInternalSeparator)[0],
-        lessons: this.decompressLessons(course.split(this.courseInternalSeparator)[1])
+        name: parts[0],
+        lessons: this.decompressLessons(parts[1])
       }
     })
   }

@@ -1,0 +1,8 @@
+<div class="tile-main" fxLayout="row" fxLayoutAlign="start center" (click)="onToggle(!isLanguageCourse)">
+    <mat-icon class="state-icon" [class.active]="isLanguageCourse">{{ isLanguageCourse ? 'check' : 'close' }}</mat-icon>
+    <span fxFlex class="tile-label">{{ checkboxLabel }}</span>
+    <mat-select *ngIf="isLanguageCourse" [formControl]="formControl" class="language-select"
+        [hideSingleSelectionIndicator]="true" (click)="$event.stopPropagation()">
+        <mat-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</mat-option>
+    </mat-select>
+</div>

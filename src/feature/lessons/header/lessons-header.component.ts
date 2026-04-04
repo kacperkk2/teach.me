@@ -73,9 +73,13 @@ export class LessonsHeaderComponent implements OnInit, OnDestroy {
 
           if (allSucceeded) {
             const codes = responses.map(r => r!.shorturl.split('/').pop()!);
+            const languagePart = this.course.language
+              ? '&' + CONFIG.IMPORT.courseLanguageParam + '=' + encodeURIComponent(this.course.language)
+              : '';
             const codesUrl = location.origin + CONFIG.IMPORT.appRoot + CONFIG.IMPORT.importPath
               + '?' + CONFIG.IMPORT.codesParam + '=' + codes.join(CONFIG.IMPORT.codeSeparator)
-              + '&' + CONFIG.IMPORT.courseNameParam + '=' + encodeURIComponent(this.course.name);
+              + '&' + CONFIG.IMPORT.courseNameParam + '=' + encodeURIComponent(this.course.name)
+              + languagePart;
 
             this.urlShortener.getShortUrl(codesUrl).subscribe(finalResponse => {
               const finalUrl = (finalResponse != null && finalResponse.shorturl) ? finalResponse.shorturl : codesUrl;
@@ -87,13 +91,10 @@ export class LessonsHeaderComponent implements OnInit, OnDestroy {
             // Fallback: try old single-URL format
             const url = this.migrationService.courseToUrl(this.course, lessons, cards);
             this.urlShortener.getShortUrl(url).subscribe(response => {
-              if (response != null && response.shorturl) {
-                const data = new ExportDialogInput(this.course.name, response.shorturl);
-                this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false})
-                  .afterClosed().subscribe();
-              } else {
-                this.showSnackBar(this.exportCourseFailedLabel);
-              }
+              const finalUrl = (response != null && response.shorturl) ? response.shorturl : url;
+              const data = new ExportDialogInput(this.course.name, finalUrl);
+              this.dialog.open(ExportDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false})
+                .afterClosed().subscribe();
             });
           }
         });

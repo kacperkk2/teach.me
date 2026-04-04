@@ -3,7 +3,7 @@
 <div *ngIf="isLearning; then learnView else normalView"></div>
 
 <ng-template #learnView>
-    <app-learn [cards]="cardsToLearn" [label]="course.name" (learnEnd)="learnEnd($any($event))"></app-learn>
+    <app-learn [cards]="cardsToLearn" [label]="course.name" [language]="course.language" (learnEnd)="learnEnd($any($event))"></app-learn>
 </ng-template>
 
 <ng-template #normalView>

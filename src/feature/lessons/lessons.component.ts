@@ -57,6 +57,7 @@ export class LessonsComponent implements OnInit, OnDestroy {
     const updatedCourse: Course = {
       id: this.course.id,
       name: this.course.name,
+      language: this.course.language,
       lastLearningDate: this.course.lastLearningDate,
       nextSuggestedLearningDate: this.course.nextSuggestedLearningDate,
       lessonIds: this.course.lessonIds,

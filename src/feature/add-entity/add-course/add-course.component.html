@@ -8,8 +8,8 @@
     <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
         <div fxFlex="100" style="width: 90%;" fxLayout="column">
         
-            <form fxFlex="85" [formGroup]="addCourseForm">    
-                <mat-label> {{ nameLabel | titlecase }} </mat-label> 
+            <form fxFlex="85" [formGroup]="addCourseForm">
+                <mat-label> {{ nameLabel | titlecase }} </mat-label>
                 <mat-form-field>
                     <input matInput #nameInput formControlName="name" autocomplete="off">
                     <button *ngIf="nameInput.value" matSuffix mat-icon-button (click)="clear()">
@@ -17,6 +17,8 @@
                     </button>
                     <mat-hint align="end"> {{ nameInput.value.length }}/{{ maxLength }} </mat-hint>
                 </mat-form-field>
+
+                <app-language-select style="margin-top: 12px;" [control]="addCourseForm.controls['language']"></app-language-select>
             </form>
 
             <div fxFlex="15" fxLayoutAlign="center center">

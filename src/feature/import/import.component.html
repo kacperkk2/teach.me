@@ -7,8 +7,8 @@
 </ng-template>
 
 <ng-template #normalView>
-    <app-import-lesson *ngIf="migrationType == DataType.LESSON"
-            [summaryData]="summaryData" [migrationLessons]="lessonsData" (importLesson)="importLesson($any($event))"></app-import-lesson>
-    <app-import-course *ngIf="migrationType == DataType.COURSE"
-            [summaryData]="summaryData" [migrationLessons]="lessonsData" (importCourse)="importCourse($any($event))"></app-import-course>
+    <app-import-lesson *ngIf="migrationType == DataType.LESSON && summaryData"
+            [summaryData]="summaryData!" [migrationLessons]="lessonsData" (importLesson)="importLesson($any($event))"></app-import-lesson>
+    <app-import-course *ngIf="migrationType == DataType.COURSE && summaryData"
+            [summaryData]="summaryData!" [migrationLessons]="lessonsData" (importCourse)="importCourse($any($event))"></app-import-course>
 </ng-template>

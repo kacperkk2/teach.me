@@ -17,23 +17,38 @@
     tylko biezaca karte ktora trzeba pokazac
     -->
         <div fxFlex="75" fxLayout="column" fxLayoutAlign="center center">
-            <div fxFlex="100" class="card" fxLayout="column" fxLayoutAlign="center center">
+            <div fxFlex="100" class="card" fxLayout="column" fxLayoutAlign="center center"
+                [style.cursor]="language && answerState == AnswerState.AFTER_SHOW ? 'pointer' : 'default'"
+                (mousedown)="onCardMouseDown()"
+                (mouseup)="onCardMouseUp()"
+                (mouseleave)="onCardMouseLeave()"
+                (touchstart)="onCardTouchStart($event)"
+                (touchend)="onCardTouchEnd()"
+                (touchcancel)="onCardTouchCancel()"
+                (touchmove)="onCardTouchMove()">
                 <div *ngIf="cardState == CardState.ANSWER" class="question-hint">
                     {{ isReversed ? cards[index-1].answer : cards[index-1].question }}
                 </div>
-                <div fxFlex="90" class="card-content" fxLayoutAlign="center center">
+                <div fxFlex="90" class="card-content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="12px">
                     <div *ngIf="cardState == CardState.QUESTION">
                         {{ isReversed ? cards[index-1].answer : cards[index-1].question }}
                     </div>
                     <div *ngIf="cardState == CardState.ANSWER">
                         {{ isReversed ? cards[index-1].question : cards[index-1].answer }}
                     </div>
+                    <app-speak-button *ngIf="language"
+                        [text]="currentSpokenText"
+                        [language]="language"
+                        [style.visibility]="answerState == AnswerState.AFTER_SHOW ? 'visible' : 'hidden'">
+                    </app-speak-button>
                 </div>
-                <div class="swap-icon">
+                <div class="card-bottom-bar"
+                    (mousedown)="$event.stopPropagation()"
+                    (mouseup)="$event.stopPropagation()"
+                    (touchstart)="$event.stopPropagation()"
+                    (touchend)="$event.stopPropagation()">
                     <mat-icon [ngClass]="isReversed ? 'primary-color' : 'text-light-grey'" (click)="toggleReversed()">swap_horiz</mat-icon>
-                </div>
-                <div *ngIf="answerState == AnswerState.AFTER_SHOW" class="bookmark-icon">
-                    <mat-icon [ngClass]="cards[index-1].isMarked ? 'primary-color' : 'text-light-grey'" (click)="toggleMark()">bookmark_outline</mat-icon>
+                    <mat-icon *ngIf="answerState == AnswerState.AFTER_SHOW" [ngClass]="cards[index-1].isMarked ? 'primary-color' : 'text-light-grey'" (click)="toggleMark()">bookmark_outline</mat-icon>
                 </div>
             </div>
         </div>
