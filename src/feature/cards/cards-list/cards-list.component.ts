@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Card } from '../../../data/model/card';
@@ -10,7 +10,7 @@ import { ScrollService } from '../../../services/scroll/scroll.service';
   templateUrl: './cards-list.component.html',
   styleUrl: './cards-list.component.scss'
 })
-export class CardsListComponent implements OnInit, AfterViewInit {
+export class CardsListComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input({required: true}) cards: Card[];
   @Input() scrollToCardId: number | null = null;
@@ -25,7 +25,20 @@ export class CardsListComponent implements OnInit, AfterViewInit {
     this.scrollService.setScrolledDown(false);
   }
 
+  private initialized = false;
+
   ngAfterViewInit(): void {
+    this.initialized = true;
+    this.scrollToCard();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.initialized && changes['scrollToCardId'] && this.scrollToCardId !== null) {
+      setTimeout(() => this.scrollToCard());
+    }
+  }
+
+  private scrollToCard(): void {
     if (this.scrollToCardId === null) return;
     setTimeout(() => {
       document.getElementById(`card-${this.scrollToCardId}`)?.scrollIntoView({ block: 'center' });

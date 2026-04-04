@@ -73,6 +73,48 @@ export const selectCardsByUnlockedLessonsInCourse = (courseId: number) => create
     }
 );
 
+export const selectCardSearchResultsByLessonId = (query: string, lessonId: number) => createSelector(
+    stateSelector,
+    (state: AppFeatureState): CardSearchResult[] => {
+        const q = query.toLowerCase();
+        const results: CardSearchResult[] = [];
+        const lesson = state.lessons.lessons[lessonId];
+        if (!lesson) return results;
+        const course = Object.values(state.courses.courses).find(c => c.lessonIds.includes(lessonId));
+        if (!course) return results;
+        lesson.cardIds.forEach(cardId => {
+            const card = state.cards.cards[cardId];
+            if (!card) return;
+            if (card.question.toLowerCase().includes(q) || card.answer.toLowerCase().includes(q)) {
+                results.push({ card, lesson, course });
+            }
+        });
+        return results;
+    }
+);
+
+export const selectCardSearchResultsByCourseId = (query: string, courseId: number) => createSelector(
+    stateSelector,
+    (state: AppFeatureState): CardSearchResult[] => {
+        const q = query.toLowerCase();
+        const results: CardSearchResult[] = [];
+        const course = state.courses.courses[courseId];
+        if (!course) return results;
+        course.lessonIds.forEach(lessonId => {
+            const lesson = state.lessons.lessons[lessonId];
+            if (!lesson) return;
+            lesson.cardIds.forEach(cardId => {
+                const card = state.cards.cards[cardId];
+                if (!card) return;
+                if (card.question.toLowerCase().includes(q) || card.answer.toLowerCase().includes(q)) {
+                    results.push({ card, lesson, course });
+                }
+            });
+        });
+        return results;
+    }
+);
+
 export const selectCardSearchResults = (query: string) => createSelector(
     stateSelector,
     (state: AppFeatureState): CardSearchResult[] => {

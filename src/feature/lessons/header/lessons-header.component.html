@@ -9,6 +9,10 @@
     </div>
 
     <div>
+        <button mat-icon-button [color]="isSearchActive ? 'primary' : ''" (click)="searchToggled.emit()">
+            <mat-icon>search</mat-icon>
+        </button>
+
         <button mat-icon-button [matMenuTriggerFor]="lessonsMenu">
             <mat-icon> more_vert </mat-icon>
         </button>

@@ -11,14 +11,37 @@
 </ng-template>
 
 <ng-template #normalView>
-    <app-lessons-header (reorderLessonsClicked)="isReorder = true"></app-lessons-header>
+    <app-lessons-header
+        [isSearchActive]="isSearchActive"
+        (searchToggled)="toggleSearch()"
+        (reorderLessonsClicked)="isReorder = true">
+    </app-lessons-header>
 
-    <mat-tab-group dynamicHeight [selectedIndex]="selectedTab">
+    <mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
         <mat-tab [label]="teachTabLabel | titlecase">
             <app-lessons-learn [course]="course" (learnClicked)="learnClicked($any($event))"></app-lessons-learn>
         </mat-tab>
         <mat-tab [label]="(lessonsTabLabel | titlecase) + ' (' + (lessons$ | async)?.length + ')'">
-            <app-lessons-list [lessons]="(lessons$ | async)!"></app-lessons-list>
+            <div class="search-bar-wrapper" *ngIf="isSearchActive" @slideDown>
+                <mat-form-field class="search-field" subscriptSizing="dynamic">
+                    <input #searchInput matInput [placeholder]="searchPlaceholder" [(ngModel)]="searchQuery">
+                    <button [style.visibility]="searchQuery ? 'visible' : 'hidden'" matSuffix mat-icon-button (click)="searchQuery = ''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+
+            <ng-container *ngIf="isSearchActive && searchQuery.length >= 2; else lessonsView">
+                <app-search-results
+                    [query]="searchQuery"
+                    [courseId]="courseId"
+                    (cardClicked)="navigateToCard($event.courseId, $event.lessonId, $event.cardId)">
+                </app-search-results>
+            </ng-container>
+
+            <ng-template #lessonsView>
+                <app-lessons-list [lessons]="(lessons$ | async)!"></app-lessons-list>
+            </ng-template>
         </mat-tab>
     </mat-tab-group>
 
