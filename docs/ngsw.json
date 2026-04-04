@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1775329245815,
+  "timestamp": 1775329830706,
   "index": "/teach.me/index.html",
   "assetGroups": [
     {
@@ -18,7 +18,7 @@
         "/teach.me/chunk-QJ23KXCI.js",
         "/teach.me/chunk-RDH2YYBA.js",
         "/teach.me/index.html",
-        "/teach.me/main-3JTQOLWE.js",
+        "/teach.me/main-3PSKOCTY.js",
         "/teach.me/manifest.webmanifest",
         "/teach.me/polyfills-RX4V3J3S.js",
         "/teach.me/styles-4C7BHWWF.css",
@@ -88,8 +88,8 @@
     "/teach.me/chunk-GGWDZNC3.js": "da02f727e398f0945ca5463fbaa4c1ba8817e49c",
     "/teach.me/chunk-QJ23KXCI.js": "1c776fc4566d414077122a3368137556148e3259",
     "/teach.me/chunk-RDH2YYBA.js": "0ab208ca2ad604e56acd9c2e8ebe15c2a8974e9d",
-    "/teach.me/index.html": "448ae1c56054523cac4e531b6aad313a9b78baae",
-    "/teach.me/main-3JTQOLWE.js": "82fcf8c14896c8b7c03bebab6abc95079ad76f47",
+    "/teach.me/index.html": "8a34a771b3c5b1062c911ea5281431fe5528af1e",
+    "/teach.me/main-3PSKOCTY.js": "cdf4dca7296eadfa5560f6a5dea3b68b9db54097",
     "/teach.me/manifest.webmanifest": "c467af73032ca60e969c44094383e0787ffe9ed2",
     "/teach.me/polyfills-RX4V3J3S.js": "6b4c4ea33aa92bce0b91df442a680ed73e4303db",
     "/teach.me/styles-4C7BHWWF.css": "afff895745d0aa48c1313f0838363514462749ae",

@@ -98,7 +98,7 @@ export class LessonsComponent implements OnInit, OnDestroy {
 
   learnEnd(learnEndData: LearnEndData) {
     this.isLearning = false;
-    if (learnEndData.state == LearnEndState.ABORT) {
+    if (learnEndData.state == LearnEndState.ABORT && learnEndData.wrong.length === 0) {
       return;
     }
     const updatedCourse: Course = {

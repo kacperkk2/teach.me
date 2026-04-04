@@ -72,7 +72,7 @@ export class LearnComponent implements OnInit {
   }
 
   abortLearn() {
-    this.learnEnd.emit(new LearnEndData(LearnEndState.ABORT, []))
+    this.learnEnd.emit(new LearnEndData(LearnEndState.ABORT, this.cardsWrongInFirstRound ?? []))
   }
 
   finishLearn() {
