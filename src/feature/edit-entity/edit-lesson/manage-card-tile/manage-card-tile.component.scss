@@ -5,12 +5,15 @@
     border-radius: 15px;
     overflow: hidden;
     background-color: var(--mdc-elevated-card-container-color);
-    padding: 4px 8px 4px 20px;
     transition: background-color 200ms ease;
 
     &.tile-marked {
         background-color: rgba(211, 47, 47, 0.2);
     }
+}
+
+.tile-main {
+    padding: 4px 8px 4px 20px;
 }
 
 .tile-question {
@@ -23,4 +26,30 @@
     color: $light-grey;
     line-height: 1.4;
     padding-top: 2px;
+}
+
+.move-panel {
+    overflow: hidden;
+}
+
+.move-panel-content {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 8px 12px 10px 20px;
+    gap: 12px;
+}
+
+.move-label {
+    font-size: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.lesson-select {
+    flex: 1;
+    font-size: 14px;
+
+    ::ng-deep .mat-mdc-select-value {
+        text-align: right;
+        padding-right: 6px;
+    }
 }

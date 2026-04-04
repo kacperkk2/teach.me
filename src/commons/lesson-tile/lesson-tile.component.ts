@@ -19,8 +19,10 @@ export class LessonTileComponent {
   @Input({required: true}) name: string;
   @Input({required: true}) cardsCount: number;
   @Input() cards: Card[] = [];
+  @Input() isLocked: boolean = false;
   @Output() tileClicked = new EventEmitter();
   @Output() cardClicked = new EventEmitter<number>();
+  @Output() lockToggled = new EventEmitter<void>();
 
   isExpanded = false;
 

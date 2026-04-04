@@ -95,7 +95,6 @@ export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
   private switchToCardMode() {
     this.fillCardsFromText();
     this.mode = AddMode.CARD;
-    setTimeout(() => this.questionInputs.first?.nativeElement.focus());
   }
 
   private getTextFromCards() {
@@ -189,6 +188,7 @@ export class AddCardComponent implements OnInit, AfterViewInit, OnDestroy {
   questionLabel: string = CONFIG.LABELS.question;
   answerLabel: string = CONFIG.LABELS.answer;
   cardsLabel: string = CONFIG.LABELS.cards;
+  bulkPlaceholder: string = CONFIG.LABELS.bulkInputPlaceholder;
 }
 
 export enum AddMode {

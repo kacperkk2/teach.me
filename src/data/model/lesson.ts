@@ -7,7 +7,8 @@ export interface Lesson {
     nextSuggestedLearningDate: Date,
     noMistakeInARow: number,
     cardIds: number[],
-    wrongPreviouslyCardIds: number[]
+    wrongPreviouslyCardIds: number[],
+    isLocked?: boolean
 }
 
 export interface LessonMigration {

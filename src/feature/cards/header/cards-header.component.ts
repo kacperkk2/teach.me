@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CONFIG } from '../../../app/app.properties';
@@ -21,6 +21,8 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './cards-header.component.scss'
 })
 export class CardsHeaderComponent implements OnDestroy {
+  @Output() reorderCardsClicked = new EventEmitter<void>();
+
   lesson: Lesson;
   course: Course;
 
@@ -84,4 +86,5 @@ export class CardsHeaderComponent implements OnDestroy {
 
   manageLessonLabel: string = CONFIG.LABELS.manageLesson;
   exportLessonLabel: string = CONFIG.LABELS.exportLesson;
+  reorderCardsLabel: string = CONFIG.LABELS.reorderCards;
 }

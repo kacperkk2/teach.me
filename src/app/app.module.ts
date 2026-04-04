@@ -78,6 +78,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray, CdkDragHandle, CdkDragPlaceholder} from '@angular/cdk/drag-drop';
 import { CardsReorderComponent } from '../feature/cards/cards-reorder/cards-reorder.component';
+import { LessonsReorderComponent } from '../feature/lessons/lessons-reorder/lessons-reorder.component';
 import { CombinedIconComponent } from '../commons/combined-icon/combined-icon.component';
 import { SpeakButtonComponent } from '../commons/speak-button/speak-button.component';
 import { LanguageSelectComponent } from '../commons/language-select/language-select.component';
@@ -128,6 +129,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     NewCourseDialog,
     CardIconComponent,
     CardsReorderComponent,
+    LessonsReorderComponent,
     CombinedIconComponent,
     SpeakButtonComponent,
     LanguageSelectComponent,

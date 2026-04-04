@@ -89,7 +89,7 @@
                 <form class="main-list" [formGroup]="addCardsBulkForm">    
                     <mat-form-field class="bulk-area">
                         <!-- todo naprawic zeby bylo scrolowalne -->
-                        <textarea #bulkInput matInput cdkTextareaAutosize cdkAutosizeMinRows="1" formControlName="cards"></textarea>
+                        <textarea #bulkInput matInput [placeholder]="bulkPlaceholder" formControlName="cards"></textarea>
                     </mat-form-field>
                 </form>
                 

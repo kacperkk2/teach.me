@@ -4,6 +4,11 @@
             <div class="tile-name">{{ name }}</div>
             <div class="tile-stats">{{ cardsCount }} kart</div>
         </div>
+        <button mat-icon-button class="lock-btn" [class.locked]="isLocked"
+            (click)="lockToggled.emit(); $event.stopPropagation()">
+            <mat-icon *ngIf="!isLocked" class="text-light-grey">lock_open</mat-icon>
+            <mat-icon *ngIf="isLocked" fontSet="material-icons-outlined">lock</mat-icon>
+        </button>
         <button *ngIf="cards.length > 0" mat-icon-button class="expand-btn"
             (click)="toggleExpanded(); $event.stopPropagation()">
             <mat-icon [class.rotated]="isExpanded">expand_more</mat-icon>

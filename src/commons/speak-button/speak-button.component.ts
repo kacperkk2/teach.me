@@ -61,9 +61,14 @@ export class SpeakButtonComponent implements OnDestroy {
     }
   }
 
-  private speak(rate: number) {
+  speakNow(text?: string) {
+    this.speak(1, text);
+  }
+
+  private speak(rate: number, textOverride?: string) {
     if (!('speechSynthesis' in window)) return;
-    const cleanText = this.text.replace(/\(.*?\)/g, '').replace(/\[.*?\]/g, '').trim();
+    const rawText = textOverride ?? this.text;
+    const cleanText = rawText.replace(/\(.*?\)/g, '').replace(/\[.*?\]/g, '').trim();
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = this.language;

@@ -29,6 +29,12 @@
     margin-top: 4px;
 }
 
+.lock-btn {
+    &.locked {
+        color: $primary-color;
+    }
+}
+
 .expand-btn {
     mat-icon {
         transition: transform 250ms ease-in-out;

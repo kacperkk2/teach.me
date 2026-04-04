@@ -20,6 +20,9 @@
             <button mat-menu-item (click)="exportLessonClicked()">
                 <span> {{ exportLessonLabel | titlecase }} </span>
             </button>
+            <button mat-menu-item (click)="reorderCardsClicked.emit()">
+                <span> {{ reorderCardsLabel }} </span>
+            </button>
         </mat-menu>
     </div>
 

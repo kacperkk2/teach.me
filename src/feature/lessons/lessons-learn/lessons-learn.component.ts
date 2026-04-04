@@ -5,10 +5,11 @@ import { CONFIG } from '../../../app/app.properties';
 import { shuffle } from '../../../commons/utils';
 import { Card } from '../../../data/model/card';
 import { Course } from '../../../data/model/course';
-import { selectCardsByIds, selectCardsByLessonIds } from '../../../data/store/cards/cards.selector';
+import { selectCardsByIds, selectCardsByUnlockedLessonsInCourse } from '../../../data/store/cards/cards.selector';
+import { selectLessonsByCourseId } from '../../../data/store/lessons/lessons.selector';
 import { LearnData } from '../../cards/cards-learn/cards-learn.component';
 import { LearningPreferencesService } from '../../../services/learning-preferences/learning-preferences.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, combineLatest, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-lessons-learn',
@@ -22,6 +23,8 @@ export class LessonsLearnComponent implements OnInit, OnDestroy {
   cards: Card[];
   markedCards: Card[];
   wrongPreviouslyCards: Card[];
+  lockedLessonsCount: number = 0;
+  lockedCardsCount: number = 0;
 
   private destroy$ = new Subject<void>();
 
@@ -29,12 +32,19 @@ export class LessonsLearnComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.select(selectCardsByLessonIds(this.course.lessonIds)).pipe(takeUntil(this.destroy$)).subscribe(courseCards => {
+    combineLatest([
+      this.store.select(selectCardsByUnlockedLessonsInCourse(this.course.id)),
+      this.store.select(selectCardsByIds(this.course.wrongPreviouslyCardIds))
+    ]).pipe(takeUntil(this.destroy$)).subscribe(([courseCards, wrongCards]) => {
       this.cards = courseCards;
       this.markedCards = courseCards.filter(card => card.isMarked);
+      const unlockedIds = new Set(courseCards.map(c => c.id));
+      this.wrongPreviouslyCards = wrongCards.filter(c => unlockedIds.has(c.id));
     });
-    this.store.select(selectCardsByIds(this.course.wrongPreviouslyCardIds)).pipe(takeUntil(this.destroy$)).subscribe(wrongCards => {
-      this.wrongPreviouslyCards = wrongCards
+    this.store.select(selectLessonsByCourseId(this.course.id)).pipe(takeUntil(this.destroy$)).subscribe(lessons => {
+      const locked = lessons.filter(l => l.isLocked);
+      this.lockedLessonsCount = locked.length;
+      this.lockedCardsCount = locked.reduce((sum, l) => sum + l.cardIds.length, 0);
     });
   }
 

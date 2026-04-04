@@ -23,6 +23,9 @@
             <button mat-menu-item (click)="generatePdfClicked()">
                 <span> {{ generatePdfLabel }} </span>
             </button>
+            <button mat-menu-item (click)="reorderLessonsClicked.emit()">
+                <span> {{ reorderLessonsLabel }} </span>
+            </button>
             <!-- <button mat-menu-item (click)="turnCourseCards()">
                 <span> {{ turnCourseCardsLabel | titlecase }} </span>
             </button> -->

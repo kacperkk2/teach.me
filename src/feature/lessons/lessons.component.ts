@@ -21,6 +21,7 @@ import { updateCourse } from '../../data/store/courses/courses.action';
 export class LessonsComponent implements OnInit, OnDestroy {
 
   isLearning: boolean = false;
+  isReorder: boolean = false;
   cardsToLearn: Card[];
 
   course: Course;

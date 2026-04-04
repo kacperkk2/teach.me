@@ -7,6 +7,7 @@ import { selectCards } from '../../../data/store/cards/cards.selector';
 import { CONFIG } from '../../../app/app.properties';
 import { ScrollService } from '../../../services/scroll/scroll.service';
 import { TabStateService } from '../../../services/tab-state/tab-state.service';
+import { updateLesson } from '../../../data/store/lessons/lessons.action';
 
 @Component({
   selector: 'app-lessons-list',
@@ -36,6 +37,10 @@ export class LessonsListComponent implements OnInit {
   navigateToCards(lessonId: number): void {
     this.tabState.cardsOrigin = 'lessons';
     this.router.navigate([lessonId, 'cards'], { relativeTo: this.route });
+  }
+
+  toggleLock(lesson: Lesson): void {
+    this.store.dispatch(updateLesson({ lesson: { ...lesson, isLocked: !lesson.isLocked } }));
   }
 
   navigateToCardsTab(lessonId: number, cardId: number): void {

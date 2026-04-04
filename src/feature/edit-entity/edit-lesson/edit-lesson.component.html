@@ -24,7 +24,12 @@
                     [question]="card.question"
                     [answer]="card.answer"
                     [markedForDeletion]="isMarkedForDeletion(card)"
-                    (deleteClicked)="toggleCardDeletion(card)">
+                    [markedForMove]="isMarkedForMove(card)"
+                    [availableLessons]="otherLessons"
+                    [selectedMoveTargetId]="getMoveTarget(card)"
+                    (deleteClicked)="toggleCardDeletion(card)"
+                    (moveClicked)="toggleCardMove(card)"
+                    (moveTargetSelected)="setMoveTarget(card, $event)">
                 </app-manage-card-tile>
             </div>
 
