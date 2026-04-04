@@ -1,0 +1,208 @@
+<app-add-header title="instrukcja" (closeClicked)="navigateBack()"></app-add-header>
+
+<div class="slides-wrapper">
+
+    <!-- 0: Intro -->
+    <div class="slide" [hidden]="currentSlide !== 0">
+        <div class="slide-body centered">
+            <mat-icon class="intro-icon">school</mat-icon>
+            <h2 class="intro-title">Witaj w TeachMe!</h2>
+            <p class="intro-text">
+                Ten tutorial przeprowadzi Cię przez najważniejsze funkcje aplikacji.
+            </p>
+        </div>
+    </div>
+
+    <!-- 1: Wszystkie karty -->
+    <div class="slide" [hidden]="currentSlide !== 1">
+        <div class="slide-body">
+            <span class="slide-section">Tryby nauki</span>
+            <h3 class="slide-title">Wszystkie karty</h3>
+            <img class="slide-image" src="assets/instructions/learn-all-cards.png" alt="Kafelek Wszystkie karty">
+            <p class="slide-text">
+                Obejmuje wszystkie karty w lekcji lub kursie (z wyłączeniem zablokowanych lekcji).
+                Możesz uczyć się <strong>Po kolei</strong> — w stałej kolejności —
+                lub <strong>Losowo</strong> — w losowej kolejności.
+            </p>
+        </div>
+    </div>
+
+    <!-- 2: Tylko oznaczone -->
+    <div class="slide" [hidden]="currentSlide !== 2">
+        <div class="slide-body">
+            <span class="slide-section">Tryby nauki</span>
+            <h3 class="slide-title">Tylko oznaczone</h3>
+            <img class="slide-image" src="assets/instructions/learn-marked-cards.png" alt="Kafelek Tylko oznaczone">
+            <p class="slide-text">
+                Obejmuje wyłącznie karty oznaczone zakładką.
+                Przydatne do szybkiego powtarzania wybranych materiałów.
+                Dostępne w trybie po kolei i losowym.
+            </p>
+        </div>
+    </div>
+
+    <!-- 3: Szybka nauka -->
+    <div class="slide" [hidden]="currentSlide !== 3">
+        <div class="slide-body">
+            <span class="slide-section">Tryby nauki</span>
+            <h3 class="slide-title">Szybka nauka</h3>
+            <img class="slide-image" src="assets/instructions/learn-quick.png" alt="Kafelek Szybka nauka">
+            <p class="slide-text">
+                Losuje ok. 20% kart do krótkiej sesji.
+                Idealna gdy masz mało czasu, ale chcesz coś powtórzyć.
+                Pojawia się tylko gdy lekcja ma wystarczająco dużo kart.
+            </p>
+        </div>
+    </div>
+
+    <!-- 4: Błędne poprzednim razem -->
+    <div class="slide" [hidden]="currentSlide !== 4">
+        <div class="slide-body">
+            <span class="slide-section">Tryby nauki</span>
+            <h3 class="slide-title">Błędne poprzednim razem</h3>
+            <img class="slide-image" src="assets/instructions/learn-wrong.png" alt="Kafelek Błędne poprzednim razem">
+            <p class="slide-text">
+                Zawiera karty, przy których popełniłeś błąd podczas ostatniej sesji.
+                Kafelek pojawia się wyłącznie wtedy, gdy takie karty istnieją.
+            </p>
+        </div>
+    </div>
+
+    <!-- 5: Awers karty -->
+    <div class="slide" [hidden]="currentSlide !== 5">
+        <div class="slide-body">
+            <span class="slide-section">Przebieg nauki</span>
+            <h3 class="slide-title">Awers karty</h3>
+            <img class="slide-image" src="assets/instructions/learn-round-question.png" alt="Karta z pytaniem">
+            <p class="slide-text">
+                Na ekranie nauki widzisz <strong>awers karty</strong>.
+                Zastanów się nad odpowiedzią, a następnie kliknij kartę, aby ją odkryć.
+            </p>
+        </div>
+    </div>
+
+    <!-- 6: Rewers karty -->
+    <div class="slide" [hidden]="currentSlide !== 6">
+        <div class="slide-body">
+            <span class="slide-section">Przebieg nauki</span>
+            <h3 class="slide-title">Rewers karty</h3>
+            <img class="slide-image" src="assets/instructions/learn-round-answer.png" alt="Karta z odkrytą odpowiedzią">
+            <p class="slide-text">
+                Po odkryciu odpowiedzi oceń się.
+                <strong>Dobrze</strong> — karta znika z kolejki.
+                <strong>Źle</strong> — karta wraca na koniec i pojawi się ponownie.
+                Sesja kończy się gdy poprawnie odpowiesz na wszystkie karty.
+            </p>
+        </div>
+    </div>
+
+    <!-- 7: Podsumowanie -->
+    <div class="slide" [hidden]="currentSlide !== 7">
+        <div class="slide-body">
+            <span class="slide-section">Przebieg nauki</span>
+            <h3 class="slide-title">Podsumowanie</h3>
+            <img class="slide-image" src="assets/instructions/learn-summary.png" alt="Ekran podsumowania">
+            <p class="slide-text">
+                Po przejściu przez wszystkie karty widzisz <strong>podsumowanie</strong> z wynikami.
+                Możesz od razu zacząć kolejną sesję lub wrócić do listy lekcji.
+            </p>
+        </div>
+    </div>
+
+    <!-- 8: Audio -->
+    <div class="slide" [hidden]="currentSlide !== 8">
+        <div class="slide-body">
+            <span class="slide-section">Wymowa audio</span>
+            <h3 class="slide-title">Ustawienie języka</h3>
+            <img class="slide-image" src="assets/instructions/audio-language.png" alt="Ustawienie języka kursu">
+            <p class="slide-text">
+                Aby włączyć wymowę, ustaw <strong>język kursu</strong> w ustawieniach kursu.
+                Podczas nauki pojawi się ikona głośnika — kliknij ją, aby usłyszeć wymowę odpowiedzi.
+            </p>
+        </div>
+    </div>
+
+    <!-- 9: Blokowanie — ikona -->
+    <div class="slide" [hidden]="currentSlide !== 9">
+        <div class="slide-body">
+            <span class="slide-section">Blokowanie lekcji</span>
+            <h3 class="slide-title">Ikona kłódki</h3>
+            <img class="slide-image" src="assets/instructions/lesson-lock-icon.png" alt="Ikona kłódki na kafelku lekcji">
+            <p class="slide-text">
+                Na liście lekcji każdy kafelek ma ikonę <strong>kłódki</strong> po prawej stronie.
+                Kliknięcie jej blokuje lub odblokowuje lekcję.
+                Otwarta kłódka — lekcja aktywna, zamknięta — zablokowana.
+                Karty z zablokowanych lekcji będą omijane podczas nauki na poziomie kursu. 
+                Ciągle jednak możesz wchodzić w lekcję i przeglądać karty i uczyć się ich na poziomie lekcji.
+            </p>
+        </div>
+    </div>
+
+    <!-- 10: Blokowanie — efekt -->
+    <div class="slide" [hidden]="currentSlide !== 10">
+        <div class="slide-body">
+            <span class="slide-section">Blokowanie lekcji</span>
+            <h3 class="slide-title">Efekt blokowania</h3>
+            <img class="slide-image" src="assets/instructions/lesson-lock-effect.png" alt="Informacja o zablokowanych lekcjach">
+            <p class="slide-text">
+                Zablokowane lekcje są <strong>wykluczone z nauki na poziomie kursu</strong>.
+                W zakładce Nauka zobaczysz informację o liczbie zablokowanych lekcji
+                i kart, które nie są uwzględniane.
+            </p>
+        </div>
+    </div>
+
+    <!-- 11: Oznaczanie kart -->
+    <div class="slide" [hidden]="currentSlide !== 11">
+        <div class="slide-body">
+            <span class="slide-section">Oznaczanie kart</span>
+            <h3 class="slide-title">Ikona oznaczenia</h3>
+            <img class="slide-image" src="assets/instructions/card-mark.png" alt="Ikona oznaczenia na kafelku karty">
+            <p class="slide-text">
+                Na każdej karcie jest ikona <strong>oznaczenia</strong>.
+                Oznaczone karty trafiają do trybu <strong>Tylko oznaczone</strong>.
+                Możesz też oznaczyć kartę bezpośrednio podczas sesji nauki.
+            </p>
+        </div>
+    </div>
+
+    <!-- 12: Eksport i import -->
+    <div class="slide" [hidden]="currentSlide !== 12">
+        <div class="slide-body">
+            <span class="slide-section">Udostępnianie</span>
+            <h3 class="slide-title">Eksport i import</h3>
+            <img class="slide-image" src="assets/instructions/share.png" alt="Eksport lekcji lub kursu">
+            <p class="slide-text">
+                W menu lekcji lub kursu znajdziesz opcję <strong>Eksportuj</strong> — generuje ona
+                link, który możesz przesłać dowolnej osobie. Po otwarciu linku na jej urządzeniu
+                cały zestaw kart zostanie wczytany do jej aplikacji.
+            </p>
+        </div>
+    </div>
+
+    <!-- 13: Koniec -->
+    <div class="slide" [hidden]="currentSlide !== 13">
+        <div class="slide-body centered">
+            <mat-icon class="intro-icon">check_circle_outline</mat-icon>
+            <h2 class="intro-title">To już wszystko!</h2>
+            <p class="intro-text">
+                Znasz już najważniejsze funkcje TeachMe. Miłej nauki!
+            </p>
+            <button mat-stroked-button color="primary" (click)="openDetails()">
+                <mat-icon>info_outline</mat-icon>
+                Szczegółowe informacje
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div class="slide-nav">
+    <button mat-icon-button (click)="prev()" [disabled]="currentSlide === 0">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span class="slide-counter">{{ currentSlide + 1 }}/{{ totalSlides }}</span>
+    <button mat-icon-button (click)="next()" [disabled]="currentSlide === totalSlides - 1">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+</div>

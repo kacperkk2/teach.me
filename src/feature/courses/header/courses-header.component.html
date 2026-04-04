@@ -15,6 +15,9 @@
         </button>
 
         <mat-menu #coursesMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="showHelp()">
+                <span> {{ helpLabel | titlecase }} </span>
+            </button>
             <button mat-menu-item (click)="removeAppData()">
                 <span> {{ removeAppDataLabel | titlecase }} </span>
             </button>

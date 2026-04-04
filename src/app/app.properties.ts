@@ -124,5 +124,7 @@ LABELS: {
 
         generatePdf: 'Generuj PDF',
         generatePdfConfirmation: 'Czy chcesz pobrać pdf z zawartością kursu?',
+
+        appHelp: 'instrukcja',
     }
 }

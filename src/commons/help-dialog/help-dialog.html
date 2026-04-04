@@ -1,0 +1,132 @@
+
+<h2 mat-dialog-title fxLayout="row" fxLayoutAlign="center center"> Jak korzystać z TeachMe </h2>
+
+<mat-dialog-content>
+    <mat-accordion>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">account_tree</mat-icon>
+                    Struktura aplikacji
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>TeachMe organizuje materiał hierarchicznie:</p>
+            <p class="hierarchy"> Kursy &rarr; Lekcje &rarr; Karty </p>
+            <p>Kurs to zbiór tematycznie powiązanych lekcji. Każda lekcja zawiera karty składające się z pytania i odpowiedzi.</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">school</mat-icon>
+                    Kursy
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                <li>Utwórz kurs przyciskiem <strong>+</strong> na dole ekranu głównego</li>
+                <li>Ustaw <strong>język kursu</strong>, aby włączyć wymowę audio podczas nauki</li>
+                <li>Eksportuj kurs jako <strong>link do udostępnienia</strong> innym osobom</li>
+                <li>Generuj <strong>PDF</strong> z całą zawartością kursu</li>
+                <li><strong>Odwróć wszystkie karty</strong> — zamień pytanie i odpowiedź miejscami</li>
+            </ul>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">menu_book</mat-icon>
+                    Lekcje
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                <li>Dodaj lekcję w widoku kursu, zakładka <strong>Lekcje</strong></li>
+                <li>Zmieniaj <strong>kolejność lekcji</strong> przeciągając je za uchwyt</li>
+                <li>Eksportuj pojedynczą lekcję jako link</li>
+                <li>Zarządzaj lekcją: zmień nazwę, przenieś karty do innej lekcji, usuń</li>
+            </ul>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">style</mat-icon>
+                    Karty
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                <li><strong>Tryb pojedynczy</strong> — dodaj jedną kartę (pytanie + odpowiedź)</li>
+                <li><strong>Tryb masowy</strong> — wklej wiele kart naraz w formacie:</li>
+            </ul>
+            <p class="code-example">pytanie - odpowiedź<br>kolejne pytanie - kolejna odpowiedź</p>
+            <ul>
+                <li>Oznaczaj karty <strong>gwiazdką</strong>, aby filtrować je podczas nauki</li>
+                <li>Zmieniaj <strong>kolejność kart</strong> przez przeciągnij-i-upuść</li>
+                <li>Akcje masowe: <strong>zaznacz wszystkie</strong>, <strong>odznacz wszystkie</strong>, <strong>odwróć wszystkie</strong></li>
+            </ul>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">psychology</mat-icon>
+                    Nauka
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Otwórz naukę z zakładki <strong>Nauka</strong> w lekcji lub kursie. Dostępne tryby:</p>
+            <ul>
+                <li><strong>Wszystkie karty</strong> — po kolei lub losowo</li>
+                <li><strong>Tylko oznaczone</strong> — karty z gwiazdką, po kolei lub losowo</li>
+                <li><strong>Karty z błędami</strong> — karty, przy których popełniono błąd w ostatniej sesji</li>
+                <li><strong>Szybka nauka</strong> — 10 losowych kart</li>
+            </ul>
+            <p>Karty z błędami wracają do kolejki aż do udzielenia poprawnej odpowiedzi. Po każdej rundzie wyświetla się podsumowanie. Możesz oznaczyć kartę gwiazdką <strong>podczas nauki</strong> bez przerywania sesji.</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">volume_up</mat-icon>
+                    Audio (wymowa)
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                <li>Ustaw <strong>język kursu</strong> w ustawieniach kursu, aby włączyć audio</li>
+                <li><strong>Przytrzymaj kartę</strong>, aby odtworzyć wymowę</li>
+                <li>Włącz <strong>automatyczne odczytywanie</strong> odpowiedzi po jej odkryciu</li>
+            </ul>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">share</mat-icon>
+                    Import i eksport
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                <li><strong>Eksport</strong>: w menu lekcji lub kursu kliknij „Eksportuj" i skopiuj wygenerowany link</li>
+                <li><strong>Import</strong>: otwórz link otrzymany od innej osoby lub przejdź do sekcji importu</li>
+                <li>Przy imporcie kursu możesz wybrać <strong>które lekcje zaimportować</strong> i do jakiego kursu je dodać</li>
+            </ul>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon class="section-icon">search</mat-icon>
+                    Wyszukiwanie
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul>
+                <li>Kliknij <strong>ikonę lupy</strong> w nagłówku, aby włączyć wyszukiwanie</li>
+                <li>Wyszukiwarka przeszukuje kursy, lekcje oraz karty (pytania i odpowiedzi)</li>
+            </ul>
+        </mat-expansion-panel>
+
+    </mat-accordion>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-flat-button color="primary" [mat-dialog-close]> Zamknij </button>
+</mat-dialog-actions>
