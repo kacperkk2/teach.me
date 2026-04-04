@@ -6,41 +6,64 @@
 </ng-template>
 
 <ng-template #normalView>
-    <app-cards-header (reorderCardsClicked)="turnOnReorder()"></app-cards-header>
+    <app-cards-header
+        [isSearchActive]="isSearchActive"
+        (searchToggled)="toggleSearch()"
+        (reorderCardsClicked)="turnOnReorder()">
+    </app-cards-header>
 
-    <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab">
+    <mat-tab-group dynamicHeight [selectedIndex]="selectedTab" (selectedIndexChange)="onTabChange($event)">
         <mat-tab [label]="teachTabLabel | titlecase">
             <app-cards-learn [lesson]="lesson" [course]="(course$ | async)!" (learnClicked)="learnClicked($any($event))"></app-cards-learn>
         </mat-tab>
         <mat-tab [label]="(cardsTabLabel | titlecase) + ' (' + (cards$ | async)?.length + ')'">
-            <div class="bulk-actions-tile">
-                <div class="bulk-actions-header" fxLayout="row" fxLayoutAlign="start end" (click)="toggleActionsExpanded()">
-                    <span fxFlex class="bulk-actions-label">{{ bulkActionsLabel }}</span>
-                    <mat-icon class="expand-icon" [class.rotated]="isActionsExpanded">expand_more</mat-icon>
-                </div>
-                <div [@slideDown]="isActionsExpanded ? 'expanded' : 'collapsed'" class="bulk-actions-content">
-                    <div class="actions-list">
-                        <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="turnLessonCards()">
-                            <mat-icon class="action-icon">compare_arrows</mat-icon>
-                            <span class="action-name">{{ turnLessonCardsLabel }}</span>
-                        </div>
-                        <mat-divider></mat-divider>
-                        <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="markAllCards()">
-                            <mat-icon class="action-icon">bookmark</mat-icon>
-                            <span class="action-name">{{ markAllCardsLabel }}</span>
-                        </div>
-                        <mat-divider></mat-divider>
-                        <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="removeAllMarks()">
-                            <mat-icon class="action-icon">bookmark_border</mat-icon>
-                            <span class="action-name">{{ removeAllCardsMarksLabel }}</span>
+            <div class="search-bar-wrapper" *ngIf="isSearchActive" @slideDownSearch>
+                <mat-form-field class="search-field" subscriptSizing="dynamic">
+                    <input #searchInput matInput [placeholder]="searchPlaceholder" [(ngModel)]="searchQuery">
+                    <button [style.visibility]="searchQuery ? 'visible' : 'hidden'" matSuffix mat-icon-button (click)="searchQuery = ''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+
+            <ng-container *ngIf="isSearchActive && searchQuery.length >= 2; else cardsView">
+                <app-search-results
+                    [query]="searchQuery"
+                    [lessonId]="lessonId"
+                    (cardClicked)="scrollToCard($event.cardId)">
+                </app-search-results>
+            </ng-container>
+
+            <ng-template #cardsView>
+                <div class="bulk-actions-tile" *ngIf="showBulkActions">
+                    <div class="bulk-actions-header" fxLayout="row" fxLayoutAlign="start end" (click)="toggleActionsExpanded()">
+                        <span fxFlex class="bulk-actions-label">{{ bulkActionsLabel }}</span>
+                        <mat-icon class="expand-icon" [class.rotated]="isActionsExpanded">expand_more</mat-icon>
+                    </div>
+                    <div [@slideDown]="isActionsExpanded ? 'expanded' : 'collapsed'" class="bulk-actions-content">
+                        <div class="actions-list">
+                            <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="turnLessonCards()">
+                                <mat-icon class="action-icon">compare_arrows</mat-icon>
+                                <span class="action-name">{{ turnLessonCardsLabel }}</span>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="markAllCards()">
+                                <mat-icon class="action-icon">bookmark</mat-icon>
+                                <span class="action-name">{{ markAllCardsLabel }}</span>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="action-item" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px" (click)="removeAllMarks()">
+                                <mat-icon class="action-icon">bookmark_border</mat-icon>
+                                <span class="action-name">{{ removeAllCardsMarksLabel }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <app-cards-list [cards]="(cards$ | async)!" [scrollToCardId]="scrollToCardId" [language]="(course$ | async)?.language" (toggleCardIsMarked)="toggleCardIsMarked($any($event))"></app-cards-list>
+                <app-cards-list [cards]="(cards$ | async)!" [scrollToCardId]="scrollToCardId" [language]="(course$ | async)?.language" (toggleCardIsMarked)="toggleCardIsMarked($any($event))"></app-cards-list>
+            </ng-template>
         </mat-tab>
     </mat-tab-group>
-    
+
     <app-add-round-button redirectTo="new" [label]="cardsLabel"></app-add-round-button>
 </ng-template>
 

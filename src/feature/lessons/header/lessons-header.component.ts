@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONFIG } from '../../../app/app.properties';
 import { Store } from '@ngrx/store';
@@ -24,6 +24,8 @@ import { forkJoin, Subject, takeUntil } from 'rxjs';
 })
 export class LessonsHeaderComponent implements OnInit, OnDestroy {
   @Output() reorderLessonsClicked = new EventEmitter();
+  @Input() isSearchActive: boolean = false;
+  @Output() searchToggled = new EventEmitter<void>();
 
   course: Course;
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CONFIG } from '../../../app/app.properties';
@@ -22,6 +22,8 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class CardsHeaderComponent implements OnDestroy {
   @Output() reorderCardsClicked = new EventEmitter<void>();
+  @Input() isSearchActive: boolean = false;
+  @Output() searchToggled = new EventEmitter<void>();
 
   lesson: Lesson;
   course: Course;

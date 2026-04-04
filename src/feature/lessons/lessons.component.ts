@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TabStateService } from '../../services/tab-state/tab-state.service';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -16,7 +17,19 @@ import { updateCourse } from '../../data/store/courses/courses.action';
 @Component({
   selector: 'app-lessons',
   templateUrl: './lessons.component.html',
-  styleUrl: './lessons.component.scss'
+  styleUrl: './lessons.component.scss',
+  animations: [
+    trigger('slideDown', [
+      transition(':enter', [
+        style({ height: '0px', overflow: 'hidden' }),
+        animate('200ms ease-out', style({ height: '*' }))
+      ]),
+      transition(':leave', [
+        style({ overflow: 'hidden' }),
+        animate('200ms ease-in', style({ height: '0px' }))
+      ])
+    ])
+  ]
 })
 export class LessonsComponent implements OnInit, OnDestroy {
 
@@ -25,13 +38,19 @@ export class LessonsComponent implements OnInit, OnDestroy {
   cardsToLearn: Card[];
 
   course: Course;
+  courseId: number;
   lessons$: Observable<Lesson[]>;
 
   selectedTab: number = 0;
 
+  isSearchActive: boolean = false;
+  searchQuery: string = '';
+
+  @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
+
   private destroy$ = new Subject<void>();
 
-  constructor(private route: ActivatedRoute, private store: Store,
+  constructor(private route: ActivatedRoute, private router: Router, private store: Store,
     private tabState: TabStateService) {
   }
 
@@ -39,10 +58,37 @@ export class LessonsComponent implements OnInit, OnDestroy {
     this.selectedTab = this.tabState.pendingLessonsTab ?? 0;
     this.tabState.pendingLessonsTab = null;
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      const courseId = params['courseId'];
-      this.store.select(selectCourse(courseId)).pipe(takeUntil(this.destroy$)).subscribe(course => this.course = course);
-      this.lessons$ = this.store.select(selectLessonsByCourseId(courseId));
+      this.courseId = +params['courseId'];
+      this.store.select(selectCourse(this.courseId)).pipe(takeUntil(this.destroy$)).subscribe(course => this.course = course);
+      this.lessons$ = this.store.select(selectLessonsByCourseId(this.courseId));
    });
+  }
+
+  onTabChange(index: number): void {
+    this.selectedTab = index;
+    if (index !== 1) {
+      this.isSearchActive = false;
+      this.searchQuery = '';
+    }
+  }
+
+  toggleSearch(): void {
+    if (!this.isSearchActive) {
+      const needsTabSwitch = this.selectedTab !== 1;
+      this.selectedTab = 1;
+      this.isSearchActive = true;
+      setTimeout(() => this.searchInput?.nativeElement.focus(), needsTabSwitch ? 300 : 0);
+    } else {
+      this.isSearchActive = false;
+      this.searchQuery = '';
+    }
+  }
+
+  navigateToCard(courseId: number, lessonId: number, cardId: number): void {
+    this.tabState.cardsOrigin = 'lessons';
+    this.tabState.pendingCardsTab = 1;
+    this.tabState.pendingCardId = cardId;
+    this.router.navigate(['/courses', courseId, 'lessons', lessonId, 'cards']);
   }
 
   ngOnDestroy(): void {
@@ -75,4 +121,5 @@ export class LessonsComponent implements OnInit, OnDestroy {
   teachTabLabel: string = CONFIG.LABELS.teachTab;
   lessonsTabLabel: string = CONFIG.LABELS.lessonsTab;
   lessonLabel: string = CONFIG.LABELS.lesson;
+  searchPlaceholder: string = CONFIG.LABELS.searchPlaceholder;
 }
