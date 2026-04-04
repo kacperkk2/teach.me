@@ -35,6 +35,8 @@ import { ConfirmDeleteDialog } from '../commons/confirm-delete-dialog/confirm-de
 import { ConfirmDialog } from '../commons/confirm-dialog/confirm-dialog';
 import { EmptyViewComponent } from '../commons/empty-view/empty-view.component';
 import { ExportDialog } from '../commons/export-dialog/export-dialog';
+import { HelpDialog } from '../commons/help-dialog/help-dialog';
+import { InstructionsComponent } from '../feature/instructions/instructions.component';
 import { LearnTypeTileComponent } from '../commons/learn-type-tile/learn-type-tile.component';
 import { QuickLearnTileComponent } from '../commons/quick-learn-tile/quick-learn-tile.component';
 import { WrongCardsTileComponent } from '../commons/wrong-cards-tile/wrong-cards-tile.component';
@@ -121,6 +123,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ManageCardTileComponent,
     EmptyViewComponent,
     ExportDialog,
+    HelpDialog,
+    InstructionsComponent,
     ImportComponent,
     ImportHeaderComponent,
     ImportPreviewComponent,

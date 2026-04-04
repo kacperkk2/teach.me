@@ -30,7 +30,12 @@ export class CoursesHeaderComponent {
     });
   }
 
+  showHelp() {
+    this.router.navigate(['/instructions']);
+  }
+
   title: string = CONFIG.LABELS.appTitle;
   removeAppDataText: string = CONFIG.LABELS.deleteAppDataConfirmation;
   removeAppDataLabel: string = CONFIG.LABELS.removeAppData;
+  helpLabel: string = CONFIG.LABELS.appHelp;
 }

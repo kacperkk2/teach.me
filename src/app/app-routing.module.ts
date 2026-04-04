@@ -9,6 +9,7 @@ import { EditCardComponent } from '../feature/edit-entity/edit-card/edit-card.co
 import { EditCourseComponent } from '../feature/edit-entity/edit-course/edit-course.component';
 import { EditLessonComponent } from '../feature/edit-entity/edit-lesson/edit-lesson.component';
 import { ImportComponent } from '../feature/import/import.component';
+import { InstructionsComponent } from '../feature/instructions/instructions.component';
 import { LessonsComponent } from '../feature/lessons/lessons.component';
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'courses/:courseId/lessons/:lessonId/cards/new', component: AddCardComponent },
   { path: 'courses/:courseId/lessons/:lessonId/cards/:cardId', component: EditCardComponent },
   { path: 'import', component: ImportComponent },
+  { path: 'instructions', component: InstructionsComponent },
   { path: '**', redirectTo: 'courses', pathMatch: 'full' },
 ];
 
